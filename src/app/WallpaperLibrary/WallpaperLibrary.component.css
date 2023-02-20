@@ -1,0 +1,208 @@
+/* Wallpaper field */
+.homecontent-wrapper {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    background-color: white;
+    background-image: url('../../assets/bgs/wppbg.jpg');
+    background-size: cover;
+
+}
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap');
+.wallpapers-title {
+    font-family: 'Teko', sans-serif;
+    font-size: 36px;
+    text-transform: uppercase;
+}
+#wallpapers {
+    position: relative;
+}
+.page-pagination-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.page-pagination {
+    display: flex;
+    border: 1px solid #000000;
+    border-radius: 0.5rem;
+    padding: 5px 15px;
+    width: fit-content;
+    background-color: rgb(227, 227, 255);
+    box-shadow: 0px 5px 10px #888888;
+}
+.page-pagination-number,.page-pagination-special {
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    display: flex;
+    background-color: rgb(238, 238, 246);
+    border-radius: 0.2rem;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+.page-pagination-number:hover {
+    transform: scale(1.2);
+    background-color: yellow!important;
+    color: black!important;
+}
+.page-pagination-number.active {
+    background-color: black;
+    color: white;
+}
+.page-pagination-special:hover {
+    transform: scale(1.2);
+    background-color: yellow!important;
+}
+.pp-icon {
+    width: 12px;
+    height: 12px;
+}
+.user-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.user-card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.75;
+    background-color: white;
+    border-radius: 0.5rem;
+}
+.user-avt-holder {
+    position: relative;
+    border: 2px solid black;
+    margin: 40px 10px 40px 40px;
+    padding: 5px;
+    border-radius: 1rem;
+    float: left;
+    width: 35%;
+}
+.user-avt {
+    border-radius: 0.75rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.user-text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 65%;
+    padding: 0px 10px 0px 40px;
+}
+.user-info-holder {
+    margin-top: 65px;
+}
+.user-detail-holder {
+    margin-bottom: 65px;
+}
+.user-name {
+    font-family: MontserratBold, sans-serif;
+    font-size: 35px;
+    letter-spacing: -3px;
+    margin-bottom: 0;
+}
+.user-usn {
+    font-family: Sanchez, sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    opacity: 0.75;
+}
+.user-detail {
+    font-family: MontserratMedium, sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+.user-album-title {
+    font-family: MontserratBold, sans-serif;
+    font-size: 30px;
+}
+.album-holder {
+    position: relative;
+    padding: 65px 50px 10px 50px;
+    width: 100%;
+    height: auto;
+}
+.user-center {
+    position: relative;
+    padding: 20px 50px;
+}
+.wpp-storage-detail {
+    font-family: MontserratMedium, sans-serif;
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+.album-avt-holder {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 80px;
+    margin-bottom: 0.5rem;
+    border-radius: 0.6rem;
+}
+.album-avt {
+    filter: brightness(0.7);
+}
+.album-avt.ver1 {
+    max-width: 100%;
+    height: auto;
+}
+.album-avt.ver2 {
+    max-height: 100%;
+    width: auto;
+}
+.album-name {
+    font-family: League_Spartan, sans-serif;
+    font-size: 18px;
+    text-shadow: 5px 4px 15px #000000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    z-index: 999;
+    pointer-events: none;
+}
+.album-btn-emu {
+    padding: 0;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+.album-btn-emu:hover {
+    filter: brightness(1.2);
+    transform: scale(1.2);
+}
+.viewall-album-btn-wrapper {
+    filter: drop-shadow(4px 4px 1px #303030);
+    /* box-shadow: 4px 4px 2px #303030; */
+    transition: all 0.3s ease-in-out;
+}
+.viewall-album-btn-wrapper:hover {
+    filter: drop-shadow(0px 0px 0px #303030);
+    transform: translate(4px, 4px);
+}
+  
+.viewall-album-btn {
+    font-family: League_Spartan, sans-serif;
+    color: black;
+    background-color: #f7d763;
+    border: 2px solid black;
+    outline: none;
+    border-radius: 0.4rem;
+    text-decoration: none;
+    padding: 5px 20px 3px 20px;
+    transition: all 0.3s ease-in-out;
+}

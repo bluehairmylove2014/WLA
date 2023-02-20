@@ -1,0 +1,110 @@
+<div #home>
+  <div class="header-wrapper">
+    <nav class="home-navbar row">
+      <div class="col-1 h-100 animate-fadeindown">
+        <img 
+          src=".././../assets/logos/swallpapers.png"
+          class="home-navlogo"
+        />
+      </div>
+
+      <div class="col-6 m-auto animate-fadeindown">
+        <p
+          class="calendar-notify-text"  
+        >
+          23 October 2019  •  9:00 pm
+        <br>
+          Beautiful weather with dreamy clouds
+        </p>
+      </div>
+      
+      <div class="col-5 p-0">
+      </div>
+    </nav>
+    <div class="home-nav-content row">
+      <div class="col-1 h-100"></div>
+      <div class="col-6 m-auto animate-fadein-toright">
+        <div class="intro">
+          <p class="intro-text">
+            LET US
+            <br>
+            SAVE YOUR
+            <br>
+            MEMORY
+          </p>
+        </div>
+      </div>
+      <div class="col-5 login-btn-wrapper">
+        <div class="login-btn-holder mb-3 animate-fadein-toleft">
+          <button
+            class="login-btn ver2"
+            type="button"
+          >
+            <img 
+              src="../../assets/graphics/facebook.png"
+              class="login-btn-icon"
+            >
+            Continue with Facebook
+          </button>
+        </div>
+        <div class="login-btn-holder mb-3 animate-fadein-toleft">
+          <button
+            class="login-btn ver3"
+            type="button"
+          >
+            <img 
+              src="../../assets/graphics/google.png"
+              class="login-btn-icon"
+            >
+            Continue with google
+          </button>
+        </div>
+        <div 
+          class="login-btn-holder mb-3 animate-fadein-toleft" 
+          #saloginholder
+        >
+          <div class="btn-wrapper">
+            <button
+              class="login-btn ver1"
+              type="button"
+              (click)="loginSunriseAccount()"
+            >
+              Continue with Sunrise Account
+            </button>
+            <form class="login-form">
+              <div class='usn-input-holder'>
+                <input 
+                  class='usn-input' 
+                  (focus)="loginFocus('usn')"
+                  (blur)="loginBlur('usn')"
+                >
+                <p class='usn-label'>Username</p>
+              </div>
+              <div class='psw-input-holder'>
+              <input 
+                class='psw-input' 
+                (focus)="loginFocus('psw')"
+                (blur)="loginBlur('psw')"
+              >
+                <p class='psw-label'>Password</p>
+              </div>
+              <div class='text-center pt-3'>
+                <button type='button' class="commit-login-btn">LOGIN</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="login-btn-holder animate-fadeinup">
+          <p class="register-now-text">
+            Or
+            <a href="" class="register-now-link">Register now!</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="header-copyright">
+      <p class="animate-fadeinup">Powered by Sunrise Continent Company</p>
+    </div>
+  </div>
+  <app-WallpaperLibrary [user_account]="user_account"></app-WallpaperLibrary>
+</div>

@@ -1,1 +1,112 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Else */
+.empty-btn {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+/* Font */
+
+/* Font config */
+@font-face {
+    /* font-family: Kollektif, sans-serif; */
+    font-family: Kollektif;
+    src: url('./assets/fonts/kollektif/Kollektif.ttf');
+}
+@font-face {
+    /* font-family: BebasNeue, sans-serif; */
+    font-family: BebasNeue;
+    src: url('./assets/fonts/bebas_neue/BebasNeue-Regular.otf');
+}
+@font-face {
+    /* font-family: PlaylistScript, sans-serif; */
+    font-family: PlaylistScript;
+    src: url('./assets/fonts/PlaylistFF/PlaylistScript.otf');
+}
+@font-face {
+    /* font-family: Roboto_Mono, sans-serif; */
+    font-family: Roboto_Mono;
+    src: url('./assets/fonts/Roboto_Mono/RobotoMono-Medium.ttf');
+}
+@font-face {
+    /* font-family: League_Spartan, sans-serif; */
+    font-family: League_Spartan;
+    src: url('./assets/fonts/League_Spartan/LeagueSpartan-Medium.ttf');
+}
+@font-face {
+    /* font-family: MontserratBold, sans-serif; */
+    font-family: MontserratBold;
+    src: url('./assets/fonts/Montserrat/static/Montserrat-Bold.ttf');
+}
+@font-face {
+    /* font-family: MontserratMedium, sans-serif; */
+    font-family: MontserratMedium;
+    src: url('./assets/fonts/Montserrat/static/Montserrat-Medium.ttf');
+}
+@font-face {
+    /* font-family: Sanchez, sans-serif; */
+    font-family: Sanchez;
+    src: url('./assets/fonts/Sanchez/Sanchez-Regular.ttf');
+}
+
+/* Animation */
+.animate-fadeindown {
+    animation: fade-in-down 1s ease-in-out;
+}
+.animate-fadeinup {
+    animation: fade-in-up 1s ease-in-out;
+}
+.animate-fadein-toright {
+    animation: fade-in-to-right 1s ease-in-out;
+}
+.animate-fadein-toleft {
+    animation: fade-in-to-left 1s ease-in-out;
+}
+@keyframes fade-in-down {
+    from {
+        opacity: 0;
+        transform: translateY(-3em);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(3em);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes fade-in-to-right {
+    from {
+        opacity: 0;
+        transform: translateX(-3em);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fade-in-to-left {
+    from {
+        opacity: 0;
+        transform: translateX(3em);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+/* Scrollbar config */
+    

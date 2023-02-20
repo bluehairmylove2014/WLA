@@ -1,0 +1,132 @@
+<div class="homecontent-wrapper">
+  <div class="container">
+    <div class="user-center row">
+      <div class="col-8">
+        <div class="row">
+          <div class="user-card">
+            <div class="user-card-bg"></div>
+            <div class="user-avt-holder">
+              <img
+                src="../../assets/user/avt/bluegirl2014.png" 
+                class="user-avt"
+              >
+            </div>
+            <div class="user-text">
+              <div class="user-info-holder">
+                <p class="user-name">{{user_account.name}}</p>
+                <p class="user-usn">@{{user_account.usn}}</p>
+              </div>  
+              <div class="user-detail-holder">
+                <p class="user-detail">
+                  <i class="fa-solid fa-clock opacity-75"></i>
+                  Joined {{convertDate(user_account.createat)}}
+                </p>
+                <p class="user-detail">
+                  <i class="fa-solid fa-location-dot opacity-75"></i>
+                  &nbsp;Lives in {{user_account.location.City}}, {{user_account.location.Country}}
+                </p>
+                <p class="user-detail">
+                  <i class="fa-solid fa-heart opacity-75"></i>
+                  Followed by {{user_account.follower.length}} people
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="user-card">
+            <div class="user-card-bg"></div>
+            <div class="user-center">
+              <p class="wpp-storage-detail">
+                <i class="fa-solid fa-image"></i>
+                &nbsp;&nbsp;49 picture wallpapers
+              </p>
+              <p class="wpp-storage-detail">
+                <i class="fa-solid fa-video"></i>
+                &nbsp;&nbsp;2 video wallpapers
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="user-card">
+          <div class="user-card-bg"></div>
+          <div class="album-holder" #album_holder>
+            <p class="user-album-title mb-3">ALBUM</p>
+            <div
+              class="album-avt-holder"
+              *ngFor="let el of albums"
+            >
+              <button
+                type="button"
+                class="album-btn-emu"
+              >
+                <img 
+                  class="album-avt ver1"
+                  id={{el.id}}
+                  *ngIf="compareRatio(el.id), else scaleVertical"
+                  src={{el.avt}}
+                >
+                <ng-template #scaleVertical>
+                  <img 
+                    class="album-avt ver2"
+                    src={{el.avt}}
+                  >
+                </ng-template>
+                
+              </button>
+              <p class="album-name">{{el.name}}</p>
+            </div>
+            <div class="text-center mt-3 mb-3">
+              <div class="viewall-album-btn-wrapper">
+                <button class="viewall-album-btn">
+                  View All
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="text-center">
+        <p
+          class="wallpapers-title"
+        >
+          Wallpaper Library
+        </p>
+      </div>
+      <!-- List of wallpaper -->
+      <div class="row" id="wallpapers" #wallpapers>
+      </div>
+      <!-- Page number dot -->
+      <div class="row page-pagination-wrapper">
+        <div class="page-pagination">
+          <button 
+            (click)="moveToPage(currentPage - 1)"
+            type="button" 
+            class='page-pagination-special' 
+          >
+            <img class="pp-icon" src="../../assets/graphics/arrow-left.png">
+          </button>
+          <ng-container *ngFor="let page of countArray(availablePages)">
+            <button type="button" class='page-pagination-number' 
+              [ngClass]="{'active': (page === currentPage)}"
+              (click)="moveToPage(page)"
+              >
+              {{page}}
+            </button>
+          </ng-container>
+          <button 
+            (click)="moveToPage(currentPage + 1)"
+            type="button" 
+            class='page-pagination-special' 
+          >
+            <img class="pp-icon" src="../../assets/graphics/arrow-right.png">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
