@@ -136,6 +136,7 @@
 .user-center {
     position: relative;
     padding: 20px 50px;
+    width: 100%;
 }
 .wpp-storage-detail {
     font-family: MontserratMedium, sans-serif;
@@ -205,4 +206,52 @@
     text-decoration: none;
     padding: 5px 20px 3px 20px;
     transition: all 0.3s ease-in-out;
+}
+
+.wpps-manage-btn {
+    font-family: League_Spartan, sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    border-radius: 0.4rem;
+    border: none;
+    outline: none;
+    padding: 8px 12px;
+}
+.wpps-manage-btn.add {
+    background-color: #f7d763;
+}
+.wpps-manage-btn.follow {
+    background-color: #05A081;
+    color: white;
+}
+.wpps-manage-btn.message,.donate  {
+    border: 2px solid black;
+    background-color: #ffffff;
+}
+.profile-detail {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+.profile-detail-holder {
+    margin-right: 1.4rem;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.profile-detail-holder.ranking {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.profile-detail-holder.view {
+    text-align: center;
+}
+.profile-detail-icon {
+    height: 60px;
+    width: 60px;
+}
+.profile-detail-left {
+    float: left;
 }

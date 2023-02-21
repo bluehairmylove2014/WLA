@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
     const lbl = this.saloginholder.nativeElement.querySelector(`.${target}-label`);
     if(lbl) {
       this.renderer.setStyle(lbl, 'opacity', '1');
-      this.renderer.setStyle(lbl, 'left', '20px');
+      this.renderer.setStyle(lbl, 'left', '10%');
     }
   }
   hideLoginForm(holder: any, loginForm: any): void {

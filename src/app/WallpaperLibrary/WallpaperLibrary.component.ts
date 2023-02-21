@@ -36,8 +36,29 @@ export class WallpaperLibraryComponent implements OnInit {
   let wallpapers = wallpaper_list.slice(start, end).map((w: any) => {
     return (
       `
-        <div class='wpp animate-fadein-toleft col-4 mb-4'>
-          <img src=${w.img_path} class='img-fluid'>
+        <div class='animate-fadein-toleft col-4 mb-4'>
+          <div class='wpp'>
+            <div class='wpp-hover-bg'></div>
+            <img src=${w.img_path} class='img-fluid wpp-img'>
+            <button
+              type='button'
+              class='wpp-interact-btn download'
+            >
+              <i class="fi fi-rr-download"></i>
+            </button>
+            <button
+              type='button'
+              class='wpp-interact-btn love'
+            >
+              <i class="fi fi-rr-heart"></i>
+            </button>
+            <button
+              type='button'
+              class='wpp-interact-btn save'
+            >
+              <i class="fi fi-rr-bookmark"></i>
+            </button>
+          </div>
         </div>
       `
     )
