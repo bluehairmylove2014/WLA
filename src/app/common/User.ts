@@ -1,15 +1,15 @@
 import { UserLocation } from './UserLocation'
 
 export interface User {
-    id: number | null,
-    email: string | null,
-    avt: string | null,
-    usn: string | null,
-    psw: string | null,
-    name: string | null,
+    id: string,
+    email: string,
+    avt: string,
+    usn: string,
+    psw: string,
+    name: string,
     type: string,
-    status: string | null,
-    createat: string | null,
-    location: UserLocation | null,
-    follower: number[] | null
+    status: string,
+    createat: string,
+    location: UserLocation,
+    follower: number[]
 }

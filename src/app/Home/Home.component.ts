@@ -8,6 +8,8 @@ import {
   ElementRef,  
   Input
 } from '@angular/core';
+import { Router } from '@angular/router';
+import { User } from '../common/User';
 
 @Component({
   selector: 'app-Home',
@@ -15,23 +17,43 @@ import {
   styleUrls: ['./Home.component.css']
 })
 export class HomeComponent implements OnInit {
-  @Input() user_account: any;
   @ViewChild('home') home_holder!: ElementRef;
   @ViewChild('saloginholder') saloginholder!: ElementRef;
 
   listener: () => void;
+  user_account: User = {} as User;
 
   constructor(
     private cd: ChangeDetectorRef, 
     private renderer: Renderer2, 
     private ngZone: NgZone,
+    private router: Router
   ) { 
-    this.listener = () => {
-      
-    }
+    // initialize listener
+    this.listener = () => {}
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user_account = {
+      id: 'user@1',
+      email: 'baphuong2014@gmail.com',
+      avt: '../../assets/user/avt/bluegirl2014.png',
+      usn: 'bluegirl2014',
+      psw: '123456',
+      name: 'Nguyễn Ba Phương',
+      type: 'user',
+      status: 'normal',
+      createat: '5/1/2014',
+      location: {
+        Street: '',
+        District: '',
+        Province: '',
+        City: 'Hanoi',
+        Country: 'Vietnam'
+      },
+      follower: []
+    };
+  }
   // Methods
   loginFocus(target: string):void {
     const lbl = this.saloginholder.nativeElement.querySelector(`.${target}-label`);
@@ -85,16 +107,12 @@ export class HomeComponent implements OnInit {
         if(mustTarget) {
           this.listener = this.renderer.listen(clickField, 'click', (event) => {
             if (event.target && !mustTarget.contains(event.target)) {
-              console.log('outsite')
               // Click outsite!
               this.hideLoginForm(holder, loginForm)
               // Stop listener
               if(this.listener) {
                 this.listener();
               }
-            }
-            else {
-              console.log('insite')
             }
           });
         }
@@ -108,6 +126,11 @@ export class HomeComponent implements OnInit {
     this.ngZone.run(() => {
       this.showLoginForm(btn, loginForm)
     })
+  }
+
+  // Login with google handle
+  loginWithGoogle(): void {
+    this.router.navigate(['/profile', this.user_account.id]);
   }
 
   ngAfterViewInit(): void {

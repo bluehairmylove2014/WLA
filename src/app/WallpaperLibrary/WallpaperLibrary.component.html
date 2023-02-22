@@ -1,184 +1,63 @@
-<div class="homecontent-wrapper">
-  <div class="container">
-    <div class="user-center row">
-      <div class="col-8">
-        <div class="row">
-          <div class="user-card">
-            <div class="user-card-bg"></div>
-            <div class="user-avt-holder">
-              <img
-                src="../../assets/user/avt/bluegirl2014.png" 
-                class="user-avt"
-              >
-            </div>
-            <div class="user-text">
-              <div class="user-info-holder">
-                <p class="user-name">{{user_account.name}}</p>
-                <p class="user-usn">@{{user_account.usn}}</p>
-              </div>  
-              <div class="user-detail-holder">
-                <p class="user-detail">
-                  <i class="fa-solid fa-clock opacity-75"></i>
-                  Joined {{convertDate(user_account.createat)}}
-                </p>
-                <p class="user-detail">
-                  <i class="fa-solid fa-location-dot opacity-75"></i>
-                  &nbsp;Lives in {{user_account.location.City}}, {{user_account.location.Country}}
-                </p>
-                <p class="user-detail">
-                  <i class="fa-solid fa-heart opacity-75"></i>
-                  Followed by {{user_account.follower.length}} people
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="user-card">
-            <div class="user-card-bg"></div>
-            <div class="user-center">
-              <div class="profile-detail">
-                <div class="profile-detail-holder">
-                  <p class="wpp-storage-detail">
-                    <i class="fa-solid fa-image"></i>
-                    &nbsp;&nbsp;49 picture wallpapers
-                  </p>
-                  <p class="wpp-storage-detail">
-                    <i class="fa-brands fa-youtube"></i>
-                    &nbsp;&nbsp;2 video wallpapers
-                  </p>
-                </div>
-                <div class="profile-detail-holder view">
-                  <p class="wpp-storage-detail">
-                    Total views
-                  </p>
-                  <p class="wpp-storage-detail">
-                    124.3K
-                  </p>
-                </div>
-                <div class="profile-detail-holder ranking">
-                  <div class="profile-detail-left">
-                    <p class="wpp-storage-detail">
-                      Ranking
-                    </p>
-                    <p class="wpp-storage-detail">
-                      1<small>st</small>
-                    </p>
-                  </div>
-                  <!-- <img src="../../assets/graphics/ranking.png" class="profile-detail-icon"> -->
-                </div>
-              </div>
-              <hr>
-              <div class="row mt-4">
-                <div class="profile-detail">
-                  <!-- <button
-                    type="button"
-                    class="wpps-manage-btn add"
-                  >
-                    Add new wallpaper
-                  </button> -->
-                  <button
-                    type="button"
-                    class="wpps-manage-btn follow"
-                  >
-                    Follow
-                  </button>
-                  <button
-                    type="button"
-                    class="wpps-manage-btn message"
-                  >
-                    Message
-                  </button>
-                  <button
-                    type="button"
-                    class="wpps-manage-btn donate"
-                  >
-                    Donate
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="user-card">
-          <div class="user-card-bg"></div>
-          <div class="album-holder" #album_holder>
-            <p class="user-album-title mb-3">ALBUM</p>
-            <div
-              class="album-avt-holder"
-              *ngFor="let el of albums"
-            >
-              <button
-                type="button"
-                class="album-btn-emu"
-              >
-                <img 
-                  class="album-avt ver1"
-                  id={{el.id}}
-                  *ngIf="compareRatio(el.id), else scaleVertical"
-                  src={{el.avt}}
-                >
-                <ng-template #scaleVertical>
-                  <img 
-                    class="album-avt ver2"
-                    src={{el.avt}}
-                  >
-                </ng-template>
-                
-              </button>
-              <p class="album-name">{{el.name}}</p>
-            </div>
-            <div class="text-center mt-3 mb-3">
-              <div class="viewall-album-btn-wrapper">
-                <button class="viewall-album-btn">
-                  View All
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+<div class="container">
+  <div class="text-center mt-5 pt-2">
+    <p class="wpp-main-title">A picture is worth a thousand words</p>
+  </div>
+  <!-- List of wallpaper -->
+  <div class="wpp-center">
+    <div class="category">
+      <button type="button" class="category-btn active">
+        Gallery
+      </button>
+      <button type="button" class="category-btn">
+        Collection
+      </button>
+      <button type="button" class="category-btn">
+        Statistics
+      </button>
+      <button type="button" class="category-btn">
+        Followers
+      </button>
+      <button type="button" class="category-btn">
+        Following
+      </button>
     </div>
-    <div>
-      <div class="text-center">
-        <p
-          class="wallpapers-title"
-        >
-          Wallpaper Library
-        </p>
-      </div>
-      <!-- List of wallpaper -->
-      <div class="row" id="wallpapers" #wallpapers>
-      </div>
-      <!-- Page number dot -->
-      <div class="row page-pagination-wrapper">
-        <div class="page-pagination">
-          <button 
-            (click)="moveToPage(currentPage - 1)"
-            type="button" 
-            class='page-pagination-special' 
-          >
-            <img class="pp-icon" src="../../assets/graphics/arrow-left.png">
-          </button>
-          <ng-container *ngFor="let page of countArray(availablePages)">
-            <button type="button" class='page-pagination-number' 
-              [ngClass]="{'active': (page === currentPage)}"
-              (click)="moveToPage(page)"
-              >
-              {{page}}
-            </button>
-          </ng-container>
-          <button 
-            (click)="moveToPage(currentPage + 1)"
-            type="button" 
-            class='page-pagination-special' 
-          >
-            <img class="pp-icon" src="../../assets/graphics/arrow-right.png">
-          </button>
-        </div>
-      </div>
+    <div class="filter">
+      <select class="wpp-filter-select">
+        <option value="pav">Photos and videos</option>
+        <option value="photos">Photos</option>
+        <option value="videos">Videos</option>
+      </select>
+      <select class="wpp-filter-select">
+        <option value="recency">Recency</option>
+        <option value="popularity">Popularity</option>
+      </select>
     </div>
   </div>
+  <ngx-masonry [options]="masonryOptions" class="row">
+    <div ngxMasonryItem *ngFor="let item of wallpapers_data" class="grid-item">
+      <div class='wpp'>
+        <div class='wpp-hover-bg'></div>
+        <img src={{item.img_path}} class='img-fluid wpp-img'>
+        <button
+          type='button'
+          class='wpp-interact-btn download'
+        >
+          <i class="fi fi-rr-download"></i>
+        </button>
+        <button
+          type='button'
+          class='wpp-interact-btn love'
+        >
+          <i class="fi fi-rr-heart"></i>
+        </button>
+        <button
+          type='button'
+          class='wpp-interact-btn save'
+        >
+          <i class="fi fi-rr-bookmark"></i>
+        </button>
+      </div>
+    </div>
+  </ngx-masonry>
 </div>

@@ -54,8 +54,26 @@ body {
     font-family: Sanchez;
     src: url('./assets/fonts/Sanchez/Sanchez-Regular.ttf');
 }
+@font-face {
+    /* font-family: miracles, sans-serif; */
+    font-family: miracles;
+    src: url('./assets/fonts/miracles-autumn-font/MiraclesAutumn-Rpx1A.otf');
+}
+@font-face {
+    /* font-family: 'InterBold', sans-serif; */
+    font-family: InterBold;
+    src: url('./assets/fonts/Inter/Inter-Bold.ttf'); 
+}
+@font-face {
+    /* font-family: 'OpenSans', sans-serif; */
+    font-family: OpenSans;
+    src: url('./assets/fonts/Open_Sans/OpenSans.ttf'); 
+}
 
 /* Animation */
+.animate-fadein {
+    animation: fadein 1.2s ease-in-out;
+}
 .animate-fadeindown {
     animation: fade-in-down 1s ease-in-out;
 }
@@ -65,68 +83,12 @@ body {
 .animate-fadein-toright {
     animation: fade-in-to-right 1s ease-in-out;
 }
+.animate-fadein-toright-more {
+    animation: fade-in-to-right-s 1s ease-in-out;
+}
 .animate-fadein-toleft {
     animation: fade-in-to-left 1s ease-in-out;
 }
-
-/* Wallpaper interact btn */
-.wpp {
-    position: relative;
-    overflow: hidden;
-}
-.wpp:hover .wpp-hover-bg {
-    visibility: visible;
-    opacity: 1;
-}
-.wpp:hover .wpp-interact-btn {
-    visibility: visible;
-    opacity: 1;
-}
-.wpp:hover .wpp-img {
-    transform: scale(1.1);
-}
-.wpp-img {
-    transition: transform 0.3s ease-in-out;
-}
-.wpp-interact-btn {
-    visibility: hidden;
-    opacity: 0;
-    border-radius: 0.4rem;
-    border: none;
-    outline: none;
-    font-size: 18px;
-    padding: 6px 12px 4px 12px;
-    background-color: white;
-    position: absolute;
-    transition: all 0.3s ease-in-out;
-    z-index: 10;
-    box-shadow: -2px 2px 5px #000000;
-}
-.wpp-interact-btn.download {
-    bottom: 10px;
-    right: 20px;
-}
-.wpp-interact-btn.love {
-    top: 10px;
-    right: 20px;
-}
-.wpp-interact-btn.save {
-    top: 10px;
-    right: 70px;
-}
-.wpp-hover-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.3);
-    z-index: 9;
-    visibility: hidden;
-    opacity: 0;
-    transition: all 0.3s ease-in-out;
-}
-
 @keyframes fade-in-down {
     from {
         opacity: 0;
@@ -157,6 +119,16 @@ body {
         transform: translateX(0);
     }
 }
+@keyframes fade-in-to-right-s {
+    from {
+        opacity: 0;
+        transform: translateX(-12em);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
 @keyframes fade-in-to-left {
     from {
         opacity: 0;
@@ -165,6 +137,14 @@ body {
     to {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
 /* Scrollbar config */

@@ -1,7 +1,7 @@
 export interface UserLocation {
-    Street: string | null,
-    District: string | null,
-    Province: string | null,
-    City: string | null,
-    Country: string | null,
+    Street: string,
+    District: string,
+    Province: string,
+    City: string,
+    Country: string,
 }
