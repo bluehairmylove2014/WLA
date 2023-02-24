@@ -1,0 +1,167 @@
+<div class="homecontent-wrapper" #profile>
+  <div class="header-bg">
+  </div>
+  <div class="container">
+    <nav class="home-navbar row">
+      <div class="col-1 h-100 animate-fadeindown">
+        <a routerLink="">
+          <img src=".././../assets/logos/swallpapers.png" class="home-navlogo" />
+        </a>
+      </div>
+
+      <div class="col-6 animate-fadeindown search-box-holder">
+        <input class="search-box" placeholder="Search for free wallpaper">
+        <button type="button" class="search-box-btn">
+          <i class="fi fi-rr-search"></i>
+        </button>
+      </div>
+
+      <div class="col-5 m-auto animate-fadeindown">
+        <p class="calendar-notify-text">
+          23 October 2019  •  9:00 pm
+          <br>
+          Beautiful weather with dreamy clouds
+        </p>
+      </div>
+    </nav>
+  </div>
+  <div class="d-flex justify-content-center">
+    <hr class="header-separate-line">
+  </div>
+  <div class="container mt-5">
+    <div class="user-center">
+      <div class="row">
+        <div class="col-8">
+          <div>
+            <div class="user-card">
+              <div class="user-card-bg"></div>
+              <div class="user-avt-holder">
+                <img [src]="user_account.avatar" class="user-avt">
+              </div>
+              <div class="user-text animate-fadein-toright-more">
+                <div class="user-info-holder">
+                  <p class="user-name">{{user_account.display_name}}</p>
+                  <p class="user-usn">@{{user_account.username}}</p>
+                </div>
+                <div class="user-detail-holder">
+                  <p class="user-detail">
+                    <i class="fa-solid fa-clock opacity-75"></i>
+                    Joined {{convertDate(user_account.createat)}}
+                  </p>
+                  <p class="user-detail" *ngIf="user_account.location.city || user_account.location.country">
+                    <i class="fa-solid fa-location-dot opacity-75"></i>
+                    &nbsp;Lives in 
+                    <span 
+                      *ngIf="user_account.location.city"
+                    >
+                      {{user_account.location.city}}
+                      
+                      <span 
+                        *ngIf="user_account.location.country"
+                      >
+                      ,
+                      </span>
+                    </span> 
+                    <span *ngIf="user_account.location.country">{{user_account.location.country}}</span>
+                  </p>
+                  
+                  <p class="user-detail" *ngIf="user_account.follower.length > 0">
+                    <i class="fa-solid fa-heart opacity-75"></i>
+                    Followed by {{user_account.follower.length}} people
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="user-card">
+              <div class="user-card-bg"></div>
+              <div class="user-center">
+                <div class="profile-detail animate-fadein">
+                  <div class="profile-detail-holder">
+                    <p class="wpp-storage-detail">
+                      <i class="fa-solid fa-image"></i>
+                      &nbsp;&nbsp;{{img_wallpapers.length}} picture wallpapers
+                    </p>
+                    <p class="wpp-storage-detail">
+                      <i class="fa-brands fa-youtube"></i>
+                      &nbsp;&nbsp;{{video_wallpapers.length}} video wallpapers
+                    </p>
+                  </div>
+                  <div class="profile-detail-holder view">
+                    <p class="wpp-storage-detail">
+                      Total views
+                    </p>
+                    <p class="wpp-storage-detail">
+                      {{total_views | ShortNumber}}
+                    </p>
+                  </div>
+                  <div class="profile-detail-holder ranking">
+                    <div class="profile-detail-left">
+                      <p class="wpp-storage-detail">
+                        Ranking
+                      </p>
+                      <p class="wpp-storage-detail">
+                        1<small>st</small>
+                      </p>
+                    </div>
+                    <!-- <img src="../../assets/graphics/ranking.png" class="profile-detail-icon"> -->
+                  </div>
+                </div>
+                <hr>
+                <div class="row mt-4">
+                  <div class="profile-detail">
+                    <!-- <button
+                      type="button"
+                      class="wpps-manage-btn add"
+                    >
+                      Add new wallpaper
+                    </button> -->
+                    <button type="button" class="wpps-manage-btn follow">
+                      Follow
+                    </button>
+                    <button type="button" class="wpps-manage-btn message">
+                      Message
+                    </button>
+                    <button type="button" class="wpps-manage-btn donate">
+                      Donate
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="user-card">
+            <div class="user-card-bg"></div>
+            <div class="album-holder" #album_holder>
+              <p class="user-album-title mb-3">ALBUM</p>
+              <div class="album-items-wrapper">
+                <div class="album-avt-holder animate-fadeindown" *ngFor="let el of preview_albums">
+                  <button type="button" class="album-btn-emu">
+                    <img class="album-avt ver1" id={{el.album_id}} *ngIf="compareRatio(el.album_id), else scaleVertical"
+                      src={{el.album_avt}}>
+                    <ng-template #scaleVertical>
+                      <img class="album-avt ver2" src={{el.album_avt}}>
+                    </ng-template>
+                  </button>
+                  <p class="album-name">{{el.album_name}}</p>
+                </div>
+              </div>
+              <div class="album-btn-wrapper">
+                <div class="viewall-album-btn-holder">
+                  <button class="viewall-album-btn">
+                    View All
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-WallpaperLibrary [wallpapers_data]="cur_wallpaper"></app-WallpaperLibrary>
+</div>
+<app-Footer></app-Footer>
