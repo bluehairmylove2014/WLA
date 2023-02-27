@@ -12,7 +12,9 @@ body {
 }
 
 /* Font */
-
+.text-blue {
+    color: rgb(34, 34, 231);
+}
 /* Font config */
 @font-face {
     /* font-family: Kollektif, sans-serif; */

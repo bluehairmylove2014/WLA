@@ -1,0 +1,87 @@
+<div class="black-down-screen active" #main>
+  <div class="upload-main-wrapper">
+    <div class="upload-main" #uploadMain>
+      <p>Upload to Swallpapers</p>
+      <div 
+        class="drag-drop-field"
+        (dragenter)="onDragEnter($event)"
+        (dragleave)="onDragLeave($event)"  
+        (drop)="onDrop($event)"
+        #dragdropfield
+      >
+        <div class="drag-drop-img">
+          <label for="fileInput" class="drag-drop-label">
+            <img 
+              class="add-img"
+              src="../../assets/graphics/add_img.png"
+            >
+            <p class="add-img-title">
+              Drag and drop images<br>or <span class="text-blue">browse</span> to choose a file
+            </p>
+          </label>
+          <input 
+            id="fileInput"
+            type="file"
+            accept="image/*"
+            (change)="previewWallpaper()"
+            class="drag-drop-input"
+          />
+        </div>
+      </div>
+      <div *ngIf="imageUrl" class="preview-img-holder" #previewImg>
+        <img [src]="imageUrl" class="preview-img">
+      </div>
+      <div class="provide-infor-holder" #inforHolder>
+        <div class="provide-infor-inner">
+          <p class="provide-infor-title">One more step!</p>
+          <input 
+            type="text" 
+            class="provide-infor-input"
+            placeholder="Wallpaper name"
+          >
+          <input 
+            type="text" 
+            class="provide-infor-input"
+            placeholder="Add a tag"
+          >
+          <input 
+            type="text" 
+            class="provide-infor-input des"
+            placeholder="Add a description (Optional)"
+          >
+          <button type="button" class="submit-btn">Submit</button>
+        </div>
+      </div>
+      <div class="upload-onbottom">
+        <hr class="separate-line">
+        <div class="btn-wrapper" #btn_wrapper>
+          <button
+            type="button"
+            class="browse-btn"
+            (click)="browseWallpaper()"
+            #browse_btn
+          >
+            Browse Another!
+          </button>
+          <div class="btn-holder right">
+            <button
+              type="button"
+              class="cancel-btn"
+              (click)="onCancelUpload()"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="upload-btn"
+              (click)="onClickUpload()"
+              #upload_btn
+            >
+              Upload Now!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,29 +3,20 @@
 const db = require("../db");
 
 // Retrieve all Account from the database.
-exports.getAll = function(req, res, next) {
-    try {
-        db.query(`SELECT * FROM accounts`, (err, dbres) => {
-            if (err) {
-                console.log(err.stack);
-            } else {
-                res.status(200).json(dbres.rows);
-            }
-        })
-    }
-    catch(err) {
-        res.status(500).json({ error: err });
-    }
-}
 exports.getUser = function(req, res, next) {
+    const query = `
+        SELECT user_id, username, avatar, display_name, account_type, account_status, createat, following, follower, location
+        FROM get_accounts_by_username('${req.query.username}');
+    `
     try {
-        db.query(`SELECT * FROM get_accounts_by_username('${req.query.username}')`, (err, dbres) => {
-            if (err) {
-                console.log(err.stack);
-            } else {
-                res.status(200).json(dbres.rows);
+        db.query(query, (err, dbres) => {
+                if (err) {
+                    console.log(err.stack);
+                } else {
+                    res.status(200).json(dbres.rows);
+                }
             }
-        })
+        )
     }
     catch(err) {
         res.status(500).json({ error: err });
@@ -81,37 +72,34 @@ exports.increaseDownloadWallpaper = function(req, res, next) {
         res.status(500).json({ error: err });
     }
 };
-exports.increaseLoveWallpaper = function(req, res, next) {
+exports.updateLoveWallpaper = function(req, res, next) {
     const wpp_id = req.body.wpp_id;
+    const user_id = req.body.user_id;
     try {
-        db.query(`UPDATE wallpapers SET total_love = total_love + 1 WHERE wpp_id = '${wpp_id}'`, 
-            (err, dbres) => {
-                if (err) {
-                    console.log(err.stack);
+        if(req.body.type === 'love') {
+            db.query(`UPDATE wallpapers SET lover = array_append(lover, '${user_id}') WHERE wpp_id = '${wpp_id}'`, 
+                (err, dbres) => {
+                    if (err) {
+                        console.log(err.stack);
+                    }
+                    else {
+                        res.status(200).json(dbres.rows);
+                    }
                 }
-                else {
-                    res.status(200).json(dbres.rows);
+            )  
+        }
+        else if(req.body.type === 'unlove') {
+            db.query(`UPDATE wallpapers SET lover = array_remove(lover, '${user_id}') WHERE wpp_id = '${wpp_id}'`, 
+                (err, dbres) => {
+                    if (err) {
+                        console.log(err.stack);
+                    }
+                    else {
+                        res.status(200).json(dbres.rows);
+                    }
                 }
-            }
-        )
-    }
-    catch(err) {
-        res.status(500).json({ error: err });
-    }
-};
-exports.decreaseLoveWallpaper = function(req, res, next) {
-    const wpp_id = req.body.wpp_id;
-    try {
-        db.query(`UPDATE wallpapers SET total_love = total_love - 1 WHERE wpp_id = '${wpp_id}'`, 
-            (err, dbres) => {
-                if (err) {
-                    console.log(err.stack);
-                }
-                else {
-                    res.status(200).json(dbres.rows);
-                }
-            }
-        )
+            ) 
+        }
     }
     catch(err) {
         res.status(500).json({ error: err });

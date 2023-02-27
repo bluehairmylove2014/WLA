@@ -2,16 +2,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// Component
+// Guard
+import { AuthGuard } from './auth.guard';
 import { HomeComponent } from './Home/Home.component';
+
+// Component
+import { LoginComponent } from './Login/Login.component';
 import { PageNotFoundComponent } from './PageNotFound/PageNotFound.component';
 import { ProfileComponent } from './Profile/Profile.component';
-import { ShortNumberPipe } from './ShortNumber.pipe';
+import { UploadWallpaperComponent } from './UploadWallpaper/UploadWallpaper.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'profile/:userId', component: ProfileComponent},
-  {path: 'profile', component: ProfileComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'profile/:username', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: '**', component: PageNotFoundComponent}
 ];
 

@@ -1,34 +1,9 @@
-<div class="homecontent-wrapper" #profile>
-  <div class="header-bg">
-  </div>
+<div class="homecontent-wrapper" #main>
+  <app-Header
+    [user_avatar]="user_account.avatar"
+    [username]="user_account.username"
+  ></app-Header>
   <div class="container">
-    <nav class="home-navbar row">
-      <div class="col-1 h-100 animate-fadeindown">
-        <a routerLink="">
-          <img src=".././../assets/logos/swallpapers.png" class="home-navlogo" />
-        </a>
-      </div>
-
-      <div class="col-6 animate-fadeindown search-box-holder">
-        <input class="search-box" placeholder="Search for free wallpaper">
-        <button type="button" class="search-box-btn">
-          <i class="fi fi-rr-search"></i>
-        </button>
-      </div>
-
-      <div class="col-5 m-auto animate-fadeindown">
-        <p class="calendar-notify-text">
-          23 October 2019  •  9:00 pm
-          <br>
-          Beautiful weather with dreamy clouds
-        </p>
-      </div>
-    </nav>
-  </div>
-  <div class="d-flex justify-content-center">
-    <hr class="header-separate-line">
-  </div>
-  <div class="container mt-5">
     <div class="user-center">
       <div class="row">
         <div class="col-8">
@@ -46,7 +21,7 @@
                 <div class="user-detail-holder">
                   <p class="user-detail">
                     <i class="fa-solid fa-clock opacity-75"></i>
-                    Joined {{convertDate(user_account.createat)}}
+                    Joined {{date_service.convertDate(user_account.createat, 'MMMM, yyyy')}}
                   </p>
                   <p class="user-detail" *ngIf="user_account.location.city || user_account.location.country">
                     <i class="fa-solid fa-location-dot opacity-75"></i>
@@ -90,33 +65,26 @@
                   </div>
                   <div class="profile-detail-holder view">
                     <p class="wpp-storage-detail">
-                      Total views
+                      Love Count
                     </p>
                     <p class="wpp-storage-detail">
-                      {{total_views | ShortNumber}}
+                      {{total_love| ShortNumber}}
                     </p>
                   </div>
                   <div class="profile-detail-holder ranking">
                     <div class="profile-detail-left">
                       <p class="wpp-storage-detail">
-                        Ranking
+                        Total Downloads
                       </p>
                       <p class="wpp-storage-detail">
-                        1<small>st</small>
+                        {{total_download | ShortNumber}}
                       </p>
                     </div>
-                    <!-- <img src="../../assets/graphics/ranking.png" class="profile-detail-icon"> -->
                   </div>
                 </div>
                 <hr>
                 <div class="row mt-4">
                   <div class="profile-detail">
-                    <!-- <button
-                      type="button"
-                      class="wpps-manage-btn add"
-                    >
-                      Add new wallpaper
-                    </button> -->
                     <button type="button" class="wpps-manage-btn follow">
                       Follow
                     </button>
@@ -136,32 +104,57 @@
           <div class="user-card">
             <div class="user-card-bg"></div>
             <div class="album-holder" #album_holder>
-              <p class="user-album-title mb-3">ALBUM</p>
-              <div class="album-items-wrapper">
-                <div class="album-avt-holder animate-fadeindown" *ngFor="let el of preview_albums">
-                  <button type="button" class="album-btn-emu">
-                    <img class="album-avt ver1" id={{el.album_id}} *ngIf="compareRatio(el.album_id), else scaleVertical"
-                      src={{el.album_avt}}>
-                    <ng-template #scaleVertical>
-                      <img class="album-avt ver2" src={{el.album_avt}}>
-                    </ng-template>
-                  </button>
-                  <p class="album-name">{{el.album_name}}</p>
+              <p class="user-album-title mb-4">ALBUM</p>
+              <div *ngIf="preview_albums.length > 0, else emptyAlbum">
+                <div class="album-items-wrapper">
+                  <div class="album-avt-holder animate-fadeindown" *ngFor="let el of sliceArray(preview_albums, 0, 3)">
+                    <button type="button" class="album-btn-emu">
+                      <img 
+                        class="album-avt ver1" 
+                        [id]="'album_' + el.album_id"
+                        *ngIf="compareRatio(el.album_id), else scaleVertical"
+                        src={{el.album_avt}}
+                      >
+                      <ng-template #scaleVertical>
+                        <img class="album-avt ver2" src={{el.album_avt}}>
+                      </ng-template>
+                    </button>
+                    <p class="album-name">{{el.album_name}}</p>
+                  </div>
+                </div>
+                <div class="album-btn-wrapper">
+                  <div class="viewall-album-btn-holder">
+                    <button class="viewall-album-btn">
+                      View All
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div class="album-btn-wrapper">
-                <div class="viewall-album-btn-holder">
-                  <button class="viewall-album-btn">
-                    View All
-                  </button>
+              <ng-template #emptyAlbum>
+                <div class="album-empty-wrapper">
+                  <img src="../../assets/graphics/empty.png" class="empty-graphic">
                 </div>
-              </div>
+                <div class="album-btn-wrapper">
+                  <div class="viewall-album-btn-holder">
+                    <button class="create-album-btn">
+                      Create new album
+                    </button>
+                  </div>
+                </div>
+              </ng-template>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <app-WallpaperLibrary [wallpapers_data]="cur_wallpaper"></app-WallpaperLibrary>
+  <app-ProfileGallery 
+    [wallpapers_data]="cur_wallpaper"
+    [user_id]="user_account.user_id"
+    [download_count]="total_download"
+    (loveManagement)="updateLove($event)"
+    (downloadManagement)="updateDownload($event)"
+  >
+  </app-ProfileGallery>
 </div>
 <app-Footer></app-Footer>
