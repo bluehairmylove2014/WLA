@@ -74,22 +74,22 @@ body {
 
 /* Animation */
 .animate-fadein {
-    animation: fadein 1.2s ease-in-out;
+    animation: fadein 0.5s ease-in-out;
 }
 .animate-fadeindown {
-    animation: fade-in-down 1s ease-in-out;
+    animation: fade-in-down 0.5s ease-in-out;
 }
 .animate-fadeinup {
-    animation: fade-in-up 1s ease-in-out;
+    animation: fade-in-up 0.5s ease-in-out;
 }
 .animate-fadein-toright {
-    animation: fade-in-to-right 1s ease-in-out;
+    animation: fade-in-to-right 0.5s ease-in-out;
 }
 .animate-fadein-toright-more {
-    animation: fade-in-to-right-s 1s ease-in-out;
+    animation: fade-in-to-right-s 0.5s ease-in-out;
 }
 .animate-fadein-toleft {
-    animation: fade-in-to-left 1s ease-in-out;
+    animation: fade-in-to-left 0.5s ease-in-out;
 }
 @keyframes fade-in-down {
     from {

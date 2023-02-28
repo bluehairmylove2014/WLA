@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver, ElementRef, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../Service/auth.service';
-// Component
+// Sub component
 import { UploadWallpaperComponent } from '../UploadWallpaper/UploadWallpaper.component';
 
 @Component({
@@ -12,7 +12,7 @@ import { UploadWallpaperComponent } from '../UploadWallpaper/UploadWallpaper.com
 export class HeaderComponent implements OnInit {
   @Input() user_avatar: string = '../../assets/user/avt/default_avt.png'
   @Input() username: string = '../../assets/user/avt/default_avt.png'
-  @ViewChild('main', {static : false, read : ViewContainerRef}) mainRef: ViewContainerRef;
+  @ViewChild('uploadContainer', {read: ViewContainerRef}) uploadContainerRef!: ViewContainerRef;
 
   // Listener
   avtdropdown_listener: () => void;
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private router: Router,
     private renderer: Renderer2,
-    private auth_service: AuthService
+    private auth_service: AuthService,
   ) { 
     this.avtdropdown_listener = () => {}
   }
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['login'])
   }
   uploadWallpaper() {
-    this.mainRef.createComponent(UploadWallpaperComponent);
+    this.uploadContainerRef.createComponent(UploadWallpaperComponent);
   }
   showAvtDropdown(event: any) {
     const dropdown_content = event.target.parentElement.querySelector('.nav-dropdown-content');

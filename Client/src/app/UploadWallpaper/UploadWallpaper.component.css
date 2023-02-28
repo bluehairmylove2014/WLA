@@ -123,7 +123,7 @@
     transform: translate(-50%, -20%);
     overflow: hidden;
     width: 50%;
-    height: 45%;
+    height: 50%;
     flex-wrap: wrap;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.8);
@@ -142,6 +142,7 @@
 .provide-infor-inner {
     position: relative;
     height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -155,6 +156,7 @@
     border-bottom: none!important;
     font-size: small;
     height: 40px;
+    width: 100%;
     outline: none;
 }
 .provide-infor-input.des {
@@ -162,20 +164,34 @@
     height: 100px;
 }
 .provide-infor-title {
-    position: absolute;
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
     font-family: MontserratBold, sans-serif;
     text-transform: uppercase;
     text-align: center;
     font-size: 20px;
 }
-.submit-btn {
+.pii-holder {
+    position: relative;
+    width: 100%;
+}
+.provide-infor-error {
+    font-family: League_Spartan, sans-serif!important;
+    font-size: 14px;
     position: absolute;
-    bottom: 0px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-family: MontserratMedium, sans-serif;
+    color: red;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: all 0.2s ease-in-out;
+}
+.provide-infor-error.active {
+    visibility: visible;
+    opacity: 1;
+}
+.submit-btn {
     font-family: MontserratBold, sans-serif;
     text-transform: uppercase;
     text-align: center;
