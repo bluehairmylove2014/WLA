@@ -15,19 +15,37 @@ export class UploadWallpaperComponent implements OnInit {
 
   // Var
   imageUrl: string | null = null;
-  listener = () => {}
+  listener = () => { }
+  pi_name: string = '';
+  pi_tags: string = '';
+  pi_des: string = '';
 
   constructor(
     private renderer: Renderer2
   ) { }
 
   // Methods
+  isNameValid():boolean {
+    let valid = true;
+    !this.pi_name.trim().length && (valid = false);
+    return valid;
+  }
+  isTagValid():boolean {
+    let valid = true;
+    !this.pi_tags.trim().length && (valid = false);
+    return valid;
+  }
+  onClickSubmit():void {
+    if(this.isNameValid() && this.isTagValid()) {
+      
+    }
+  }
   onClickUpload() {
     this.previewImgRef.nativeElement.style.filter = 'blur(5px) brightness(0.6)';
     this.renderer.addClass(this.inforHolderRef.nativeElement, 'active');
     setTimeout(() => {
       this.listener = this.renderer.listen(this.uploadMainRef.nativeElement, 'click', (event) => {
-        if(event.target && !this.inforHolderRef.nativeElement.contains(event.target)) {
+        if (event.target && !this.inforHolderRef.nativeElement.contains(event.target)) {
           this.renderer.removeClass(this.inforHolderRef.nativeElement, 'active');
           this.previewImgRef.nativeElement.style.filter = 'none';
           this.listener && this.listener();
