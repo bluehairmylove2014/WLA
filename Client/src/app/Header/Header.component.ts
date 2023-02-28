@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, ElementRef, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../Service/auth.service';
 // Component
@@ -12,7 +12,7 @@ import { UploadWallpaperComponent } from '../UploadWallpaper/UploadWallpaper.com
 export class HeaderComponent implements OnInit {
   @Input() user_avatar: string = '../../assets/user/avt/default_avt.png'
   @Input() username: string = '../../assets/user/avt/default_avt.png'
-  @ViewChild('main') mainRef!: ElementRef;
+  @ViewChild('main', {static : false, read : ViewContainerRef}) mainRef: ViewContainerRef;
 
   // Listener
   avtdropdown_listener: () => void;
