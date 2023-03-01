@@ -73,12 +73,8 @@
     opacity: 1;
 }
 
-.wpp:hover .wpp-img {
-    transform: scale(1.1);
-}
-
 .wpp-img {
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.2s ease-in-out;
 }
 
 .wpp-interact-btn {

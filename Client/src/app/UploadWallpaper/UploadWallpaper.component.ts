@@ -1,4 +1,6 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { WallpaperService } from '../Service/wallpaper.service';
+import { AuthService } from '../Service/auth.service'
 
 @Component({
   selector: 'app-UploadWallpaper',
@@ -6,22 +8,28 @@ import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } fro
   styleUrls: ['./UploadWallpaper.component.css']
 })
 export class UploadWallpaperComponent implements OnInit {
+  @Input() username: string = '';
+
   @ViewChild('dragdropfield') ddfRef!: ElementRef;
   @ViewChild('btn_wrapper') btnWrapperRef!: ElementRef;
   @ViewChild('previewImg') previewImgRef!: ElementRef;
   @ViewChild('inforHolder') inforHolderRef!: ElementRef;
+  @ViewChild('notiHolder') notiHolderRef!: ElementRef;
   @ViewChild('uploadMain') uploadMainRef!: ElementRef;
   @ViewChild('main') componentBodyRef!: ElementRef;
 
   // Var
   imageUrl: string | null = null;
+  fileUpload: any;
   listener = () => { }
   pi_name: string = '';
   pi_tags: string = '';
   pi_des: string = '';
 
   constructor(
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private wpp_service: WallpaperService,
+    private cd: ChangeDetectorRef
   ) { }
 
   // Methods
@@ -35,9 +43,33 @@ export class UploadWallpaperComponent implements OnInit {
     !this.pi_tags.trim().length && (valid = false);
     return valid;
   }
+  onClickContinue(): void {
+    location.reload();
+  }
   onClickSubmit():void {
     if(this.isNameValid() && this.isTagValid()) {
-      
+      this.wpp_service.upload(
+        this.username,
+        this.pi_name,
+        this.pi_tags,
+        this.pi_des,
+        this.fileUpload
+      );
+
+      // Hide provide infor
+      this.renderer.removeClass(this.inforHolderRef.nativeElement, 'active');
+      this.listener && this.listener();
+      // Show success notification
+      this.renderer.addClass(this.notiHolderRef.nativeElement, 'active');
+      setTimeout(() => {
+        this.listener = this.renderer.listen(this.uploadMainRef.nativeElement, 'click', (event) => {
+          if (event.target && !this.notiHolderRef.nativeElement.contains(event.target)) {
+            this.renderer.removeClass(this.notiHolderRef.nativeElement, 'active');
+            this.previewImgRef.nativeElement.style.filter = 'none';
+            this.listener && this.listener();
+          }
+        })
+      }, 300);
     }
   }
   onClickUpload() {
@@ -61,24 +93,24 @@ export class UploadWallpaperComponent implements OnInit {
     input.type = 'file';
     input.onchange = _ => {
       // // you can use this method to get file and perform respective operations
-      let file = input.files && input.files[0];
+      this.fileUpload = input.files && input.files[0];
       const reader = new FileReader();
       reader.onload = () => {
         this.imageUrl = reader.result as string;
       };
-      file && reader.readAsDataURL(file);
+      this.fileUpload && reader.readAsDataURL(this.fileUpload);
     };
     input.click();
   }
   previewWallpaper() {
     const input = this.ddfRef.nativeElement.querySelector('.drag-drop-input');
-    const file = input.files && input.files[0];
-
+    this.fileUpload = input.files && input.files[0];
+    
     const reader = new FileReader();
     reader.onload = () => {
       this.imageUrl = reader.result as string;
     };
-    file && reader.readAsDataURL(file);
+    this.fileUpload && reader.readAsDataURL(this.fileUpload);
 
     this.ddfRef.nativeElement.style.display = 'none';
 

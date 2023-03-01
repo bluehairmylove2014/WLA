@@ -13,6 +13,8 @@ export class AuthService {
   private idtoken_keyword = 'id_token';
   private expires_keyword = 'expires_at';
   private username_keyword = 'username';
+  private decode_package: any;
+  private username: string = '';
 
   constructor(
     private api: ApiService,
@@ -27,10 +29,10 @@ export class AuthService {
         localStorage.setItem(this.expires_keyword, JSON.stringify(expiresAt.valueOf()));
 
         // Decode to get username
-        let username: any;
-        res.idToken && (username = jwt_decode(res.idToken));
-
-        this.router.navigate(['/profile/' + username.sub]);
+        res.idToken && (this.decode_package = jwt_decode(res.idToken));
+        this.decode_package.sub && (this.username = this.decode_package.sub);
+        
+        this.router.navigate(['/profile/' + this.username]);
         return true;
       }
     )

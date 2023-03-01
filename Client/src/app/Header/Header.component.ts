@@ -29,7 +29,8 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['login'])
   }
   uploadWallpaper() {
-    this.uploadContainerRef.createComponent(UploadWallpaperComponent);
+    let sub_component = this.uploadContainerRef.createComponent(UploadWallpaperComponent);
+    sub_component.instance.username = this.username;
   }
   showAvtDropdown(event: any) {
     const dropdown_content = event.target.parentElement.querySelector('.nav-dropdown-content');

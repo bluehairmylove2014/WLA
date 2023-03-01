@@ -19,8 +19,8 @@
       </div>
       <div class="provide-infor-holder" #inforHolder>
         <div class="provide-infor-inner">
-          <p class="provide-infor-title">One more step!</p>
-          <div class="pii-holder">
+          <p class="provide-infor-title mb-2">One more step!</p>
+          <div class="pii-holder mt-auto">
             <input 
               type="text" 
               class="provide-infor-input" 
@@ -41,17 +41,30 @@
             <p class="provide-infor-error" [ngClass]="{'active': !isTagValid()}">Please fill</p>
           </div>
           <div class="pii-holder">
-            <input 
-              type="text" 
+            <textarea 
               class="provide-infor-input des" 
-              id="des" 
+              id="des"
+              rows="3" 
               placeholder="Add a description (Optional)"
               [(ngModel)]="pi_des"
-            >
+            ></textarea>
           </div>
           <div class="text-center mt-2">
             <button type="button" class="submit-btn" (click)="onClickSubmit()">
               Submit
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="noti-holder" #notiHolder>
+        <div class="provide-infor-inner">
+          <div class="text-center">
+            <img src="../../assets/graphics/checked.png" class="check-icon">
+          </div>
+          <p class="provide-infor-title mt-2">Upload wallpaper<br>successfully</p>
+          <div class="text-center mt-2">
+            <button type="button" class="submit-btn" (click)="onClickContinue()">
+              Continue
             </button>
           </div>
         </div>

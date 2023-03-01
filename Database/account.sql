@@ -47,6 +47,61 @@ CREATE TABLE albums (
   wpps INT[]
 );
 
+-- Thêm nội dung giả
+INSERT INTO accounts (user_id, username, password, email, avatar, display_name, account_type, account_status)
+VALUES ('user@1', 'dm410', '123456', 'dm410@gmail.com', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'Dương Minh', 'user', 'normal'),
+       ('user@2', 'datchodien', '123456', 'pd2808@gmail.com', 'https://aldortio.sirv.com/swallpapers/user/avt/datchodien.png', 'Phúc Đạt', 'admin', 'normal'),
+       ('user@3', 'bluegirl2014', '123456', 'bluegirl2014@gmail.com', 'https://aldortio.sirv.com/swallpapers/user/avt/bluegirl2014.png', 'Nguyễn Ba Phương', 'user', 'normal');
+
+-- Thêm dữ liệu giả vào bảng user_detail
+INSERT INTO user_detail (user_id, following, follower, location) VALUES
+  ('user@1', ARRAY['user@2', 'user@3'], ARRAY['user@3'], '{"city": "", "country": "Viet Nam"}'::JSONB),
+  ('user@2', ARRAY['user@3'], ARRAY['user@1', 'user@3'], '{"city": "Ho Chi Minh", "country": "Viet Nam"}'::JSONB),
+  ('user@3', ARRAY[]::TEXT[], ARRAY['user@1', 'user@2'], '{"city": "Hanoi", "country": "Viet Nam"}'::JSONB);
+-- Thêm nội dung giả
+INSERT INTO wallpapers (user_id, artist_name, artist_img, wpp_path, total_views, lover, total_download, wpp_type)
+VALUES ('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/phoenix_ayaka.png', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(1).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(2).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(3).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(4).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(5).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(6).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(7).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(8).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(9).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(10).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(11).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(12).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(13).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(14).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(15).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(16).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/wpp(17).jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-tan-danh-1329711.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-simon-berger-1323550.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-roberto-nickson-2559941.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-roberto-nickson-2478248.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-rakicevic-nenad-769525.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-pixabay-461940.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-og-mpango-3041110.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-maxime-francis-2246476.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-luis-del-río-15286.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@3', 'Nguyễn Ba Phương', 'https://aldortio.sirv.com/swallpapers/user/avt/bluegirl2014.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-irina-iriser-1408221.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@3', 'Nguyễn Ba Phương', 'https://aldortio.sirv.com/swallpapers/user/avt/bluegirl2014.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-luis-del-río-15286.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@3', 'Nguyễn Ba Phương', 'https://aldortio.sirv.com/swallpapers/user/avt/bluegirl2014.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-maxime-francis-2246476.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@3', 'Nguyễn Ba Phương', 'https://aldortio.sirv.com/swallpapers/user/avt/bluegirl2014.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-og-mpango-3041110.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@3', 'Nguyễn Ba Phương', 'https://aldortio.sirv.com/swallpapers/user/avt/bluegirl2014.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-pixabay-461940.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@3', 'Nguyễn Ba Phương', 'https://aldortio.sirv.com/swallpapers/user/avt/bluegirl2014.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-rakicevic-nenad-769525.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@3', 'Nguyễn Ba Phương', 'https://aldortio.sirv.com/swallpapers/user/avt/bluegirl2014.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-roberto-nickson-2478248.jpg', 0, ARRAY[]::INT[], 0, 'image'),
+('user@3', 'Nguyễn Ba Phương', 'https://aldortio.sirv.com/swallpapers/user/avt/bluegirl2014.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-roberto-nickson-2559941.jpg', 0, ARRAY[]::INT[], 0, 'image');
+
+-- Thêm dữ liệu giả vào bảng albums
+INSERT INTO albums (user_id, album_name, album_avt, wpps) VALUES
+  ('user@1', 'Genshin Impact', 'https://aldortio.sirv.com/swallpapers/albums/avt/wpp(4).jpg', ARRAY[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]),
+  ('user@1', 'Soul of the wind', 'https://aldortio.sirv.com/swallpapers/albums/avt/wpp(16).jpg', ARRAY[19, 20, 21, 22, 23, 24, 25, 26, 27]),
+  ('user@1', 'Gaming 4K', 'https://aldortio.sirv.com/swallpapers/albums/avt/wpp(15).jpg', ARRAY[]::INT[]);
+
 -- Viết function
 DROP FUNCTION get_accounts_by_username(username_in VARCHAR(16));
 -- Create
@@ -91,61 +146,6 @@ $$
 LANGUAGE plpgsql;
 
 
--- Thêm nội dung giả
-INSERT INTO accounts (user_id, username, password, email, avatar, display_name, account_type, account_status)
-VALUES ('user@1', 'dm410', '123456', 'dm410@gmail.com', '../../assets/user/avt/dm410.png', 'Dương Minh', 'user', 'normal'),
-       ('user@2', 'datchodien', '123456', 'pd2808@gmail.com', '../../assets/user/avt/datchodien.png', 'Phúc Đạt', 'admin', 'normal'),
-       ('user@3', 'bluegirl2014', '123456', 'bluegirl2014@gmail.com', '../../assets/user/avt/bluegirl2014.png', 'Nguyễn Ba Phương', 'user', 'normal');
-
--- Thêm dữ liệu giả vào bảng user_detail
-INSERT INTO user_detail (user_id, following, follower, location) VALUES
-  ('user@1', ARRAY['user@2', 'user@3'], ARRAY['user@3'], '{"city": "", "country": "Viet Nam"}'::JSONB),
-  ('user@2', ARRAY['user@3'], ARRAY['user@1', 'user@3'], '{"city": "Ho Chi Minh", "country": "Viet Nam"}'::JSONB),
-  ('user@3', ARRAY[]::TEXT[], ARRAY['user@1', 'user@2'], '{"city": "Hanoi", "country": "Viet Nam"}'::JSONB);
--- Thêm nội dung giả
-INSERT INTO wallpapers (user_id, artist_name, artist_img, wpp_path, total_views, lover, total_download, wpp_type)
-VALUES ('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/phoenix_ayaka.png', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(1).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(2).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(3).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(4).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(5).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(6).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(7).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(8).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(9).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(10).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(11).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(12).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(13).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(14).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(15).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(16).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/wpp(17).jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/pexels-tan-danh-1329711.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/pexels-simon-berger-1323550.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/pexels-roberto-nickson-2559941.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/pexels-roberto-nickson-2478248.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/pexels-rakicevic-nenad-769525.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/pexels-pixabay-461940.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/pexels-og-mpango-3041110.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/pexels-maxime-francis-2246476.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', '../../assets/user/avt/dm410.png', '../../assets/wallpapers/pexels-luis-del-río-15286.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@3', 'Nguyễn Ba Phương', '../../assets/user/avt/bluegirl2014.png', '../../assets/wallpapers/pexels-irina-iriser-1408221.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@3', 'Nguyễn Ba Phương', '../../assets/user/avt/bluegirl2014.png', '../../assets/wallpapers/pexels-luis-del-río-15286.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@3', 'Nguyễn Ba Phương', '../../assets/user/avt/bluegirl2014.png', '../../assets/wallpapers/pexels-maxime-francis-2246476.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@3', 'Nguyễn Ba Phương', '../../assets/user/avt/bluegirl2014.png', '../../assets/wallpapers/pexels-og-mpango-3041110.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@3', 'Nguyễn Ba Phương', '../../assets/user/avt/bluegirl2014.png', '../../assets/wallpapers/pexels-pixabay-461940.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@3', 'Nguyễn Ba Phương', '../../assets/user/avt/bluegirl2014.png', '../../assets/wallpapers/pexels-rakicevic-nenad-769525.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@3', 'Nguyễn Ba Phương', '../../assets/user/avt/bluegirl2014.png', '../../assets/wallpapers/pexels-roberto-nickson-2478248.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@3', 'Nguyễn Ba Phương', '../../assets/user/avt/bluegirl2014.png', '../../assets/wallpapers/pexels-roberto-nickson-2559941.jpg', 0, ARRAY[]::INT[], 0, 'image');
-
--- Thêm dữ liệu giả vào bảng albums
-INSERT INTO albums (user_id, album_name, album_avt, wpps) VALUES
-  ('user@1', 'Genshin Impact', '../../assets/albums/avt/wpp(4).jpg', ARRAY[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]),
-  ('user@1', 'Soul of the wind', '../../assets/albums/avt/wpp(16).jpg', ARRAY[19, 20, 21, 22, 23, 24, 25, 26, 27]),
-  ('user@1', 'Gaming 4K', '../../assets/albums/avt/wpp(15).jpg', ARRAY[]::INT[]);
-
 -- Xem bảng đã được tạo
 SELECT * FROM accounts;
 -- Call
@@ -156,3 +156,4 @@ SELECT * FROM user_detail;
 SELECT * FROM albums;
 -- Xem bảng đã được tạo
 SELECT * FROM wallpapers ORDER BY wpp_id ASC;
+DELETE FROM wallpapers WHERE wpp_id = 36
