@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ElementRef, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../Service/auth.service';
 // Sub component
@@ -21,12 +21,19 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private renderer: Renderer2,
     private auth_service: AuthService,
+    private cd: ChangeDetectorRef
   ) { 
     this.avtdropdown_listener = () => {}
   }
   logOut() {
     this.auth_service.logout();
     this.router.navigate(['login'])
+  }
+  goProfile() {
+    this.router.navigate(['profile', this.username])
+  }
+  goCollection() {
+    this.router.navigate(['profile', this.username, 'collection'])
   }
   uploadWallpaper() {
     let sub_component = this.uploadContainerRef.createComponent(UploadWallpaperComponent);

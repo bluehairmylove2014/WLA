@@ -1,6 +1,6 @@
 
 const http = require('https');
-var request = require("request");
+let request = require("request");
 
 class Sirv {
     options = {
@@ -46,10 +46,12 @@ class Sirv {
     }
     upload = (file, fileBuffer, path) => {
         // Check if the token has expired
-        if (Math.floor(Date.now() / 1000) >= this.tokenExpirationTimestamp) {
-            // Refresh the token here
-            this.connect();
-            console.log('refresh');
+        while (Math.floor(Date.now() / 1000) >= this.tokenExpirationTimestamp) {
+            setTimeout(() => {
+                // Refresh the token here
+                this.connect();
+                console.log('refresh');
+            }, 300)
         }
         let upload_options = {
             method: 'POST',
@@ -70,6 +72,44 @@ class Sirv {
             path: `https://aldortio.sirv.com${path}`,
             type: file.mimetype.split('/')[1]
         };
+    }
+    download = (filename) => {
+        return new Promise((resolve, reject) => {
+            let file = null;
+            // Check if the token has expired
+            while (Math.floor(Date.now() / 1000) >= this.tokenExpirationTimestamp) {
+                setTimeout(() => {
+                    // Refresh the token here
+                    this.connect();
+                    console.log('refresh');
+                }, 300)
+            }
+
+            let options = {
+                "method": "GET",
+                "hostname": "api.sirv.com",
+                "port": null,
+                "path": `/v2/files/download?filename=${filename}`,
+                "headers": {
+                    "content-type": "application/json",
+                    "authorization": `Bearer ${this.access_token}`
+                }
+            };
+
+            let req = http.request(options, function (res) {
+                let chunks = [];
+
+                res.on("data", function (chunk) {
+                    chunks.push(chunk);
+                });
+
+                res.on("end", function () {
+                    let body = Buffer.concat(chunks);
+                    resolve(body);
+                });
+            });
+            req.end();
+        });
     }
 }
 

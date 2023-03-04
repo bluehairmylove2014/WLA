@@ -1,6 +1,5 @@
 
-<div class="header-bg">
-</div>
+
 <div class="container">
   <nav class="home-navbar row">
     <div class="col-1 h-100 animate-fadeindown">
@@ -23,10 +22,10 @@
           <img src="../../assets/graphics/chevron.png" class="nav-avt-chevron">
         </button>
         <div class="nav-dropdown-content">
-          <button class="nav-btn-title">
+          <button class="nav-btn-title" (click)="goProfile()">
             Your profile
           </button>
-          <button class="nav-btn-title">
+          <button class="nav-btn-title" (click)="goCollection()">
             Your collection
           </button>
           <button class="nav-btn-title" (click)="logOut()">
@@ -54,8 +53,5 @@
       </div>
     </div>
   </nav>
-</div>
-<div class="d-flex justify-content-center mb-5">
-  <hr class="header-separate-line">
 </div>
 <ng-container #uploadContainer></ng-container>

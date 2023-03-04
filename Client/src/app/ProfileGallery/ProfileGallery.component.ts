@@ -8,6 +8,7 @@ import {
   Input,
   OnInit,
   Output,
+  Renderer2,
   ViewChild
 } from '@angular/core';
 import { NgxMasonryComponent } from 'ngx-masonry';
@@ -15,6 +16,7 @@ import { NgxMasonryComponent } from 'ngx-masonry';
 import { Wallpaper } from '../common/Wallpaper';
 // API
 import { ApiService } from '../Service/api.service';
+import { WallpaperService } from '../Service/wallpaper.service';
 
 @Component({
   selector: 'app-ProfileGallery',
@@ -23,10 +25,13 @@ import { ApiService } from '../Service/api.service';
 })
 export class ProfileGalleryComponent implements OnInit {
   @Input() wallpapers_data: Wallpaper[] = [] as Wallpaper[];
+  @Input() collection_data: Wallpaper[] = [] as Wallpaper[];
   @Input() download_count: number = 0;
   @Input() user_id: string = '';
+
   @Output() loveManagement = new EventEmitter<object>();
   @Output() downloadManagement = new EventEmitter<number>();
+  @Output() saveManagement = new EventEmitter<object>();
   // Referrences
   @ViewChild('wppholder') wallpaperHolder!: ElementRef;
   @ViewChild(NgxMasonryComponent) masonry!: NgxMasonryComponent;
@@ -41,7 +46,9 @@ export class ProfileGalleryComponent implements OnInit {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private api_service: ApiService
+    private api_service: ApiService,
+    private wpp_service: WallpaperService,
+    private renderer: Renderer2
   ) { }
   // Methods
   reloadLayout():void {
@@ -50,8 +57,18 @@ export class ProfileGalleryComponent implements OnInit {
   }
   isLoved(wpp_id:number):boolean {
     let result = false;
-    this.wallpapers_data.forEach(wpp => {
+    this.wallpapers_data && this.wallpapers_data.forEach((wpp: Wallpaper) => {
       if(wpp.wpp_id === wpp_id && wpp.lover.includes(this.user_id)) {
+        result = true;
+      }
+    })
+    return result;
+  }
+  isSaved(wpp_id:number):boolean {
+    let result = false;
+    
+    this.collection_data && this.collection_data.forEach((wpp: Wallpaper) => {
+      if(wpp.wpp_id === wpp_id) {
         result = true;
       }
     })
@@ -60,19 +77,9 @@ export class ProfileGalleryComponent implements OnInit {
   downloadWallpaper(event: any):void {
     const img_element = event.target.parentElement.querySelector('img');
     if(img_element) {
-      const imageSource = img_element.src; // replace with your image source
-      const fileName = 'swallpapers_image.png';
-      const a = document.createElement('a');
-      a.href = imageSource;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
+      this.wpp_service.download(img_element.getAttribute('data-wppid'), img_element.src);
       // Update total download in Profile component (parent)
       this.downloadManagement.emit(this.download_count + 1)
-      // Call api to update download in server
-      this.api_service.increaseDownloadWallpaper(img_element.getAttribute('data-wppid'));
     }
   }
   loveWallpaper(event:any):void {
@@ -100,17 +107,33 @@ export class ProfileGalleryComponent implements OnInit {
     }
   }
   saveWallpaper(event:any):void {
-    const img_element = event.target.parentElement.querySelector('img');
-    const icon_element = event.target.querySelector('i');;
-    const wpp_id = img_element.getAttribute('data-wppid');
+    const wpp_element = this.renderer.parentNode(event.target);
+    const icon_element = event.target.querySelector('i');
+    const wppid = Number.parseInt(wpp_element.getAttribute('data-wppid'));
     
     if(icon_element.classList.contains('fi-rr-bookmark')) {
-      icon_element.classList.replace('fi-rr-bookmark', 'fi-sr-bookmark')
-      icon_element.classList.add('bookmarkactive')
+      icon_element.classList.replace('fi-rr-bookmark', 'fi-sr-bookmark');
+      icon_element.classList.add('bookmarkactive');
+
+      // Call api set to collection
+      this.api_service.updateSaveWallpaper(wppid, this.user_id, 'save');
+      // Set wpp to local collection variable
+      this.saveManagement.emit({
+        wpp_id: wppid,
+        type: 'save'
+      });
     }
     else if(icon_element.classList.contains('fi-sr-bookmark')) {
-      icon_element.classList.replace('fi-sr-bookmark', 'fi-rr-bookmark')
-      icon_element.classList.remove('bookmarkactive')
+      icon_element.classList.replace('fi-sr-bookmark', 'fi-rr-bookmark');
+      icon_element.classList.remove('bookmarkactive');
+
+      // Call api remove from collection
+      this.api_service.updateSaveWallpaper(wppid, this.user_id, 'unsave');
+      // Set wpp to local collection variable
+      this.saveManagement.emit({
+        wpp_id: wppid,
+        type: 'unsave'
+      });
     }
   }
   

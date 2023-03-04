@@ -1,3 +1,50 @@
-<p>
-  ProfileCollection works!
-</p>
+
+<div class="container">
+  <!-- List of wallpaper -->
+  <div class="row" *ngIf="collection_data.length === 0, else wppholder">
+    <img src="../../assets/graphics/nowallpaper.png" alt="nowallpaper">
+  </div>
+  <ng-template #wppholder>
+    <ngx-masonry [options]="masonryOptions" class="row">
+      <div ngxMasonryItem *ngFor="let item of collection_data" class="grid-item">
+        <div class='wpp'>
+          <div class='wpp-hover-bg'></div>
+          <img 
+            crossorigin="anonymous"
+            src={{item.wpp_path}} 
+            class='img-fluid wpp-img'
+            [attr.data-wppid]="item.wpp_id"
+          >
+          <button
+            type='button'
+            class='wpp-interact-btn download'
+            (click)="downloadWallpaper($event)"
+          >
+            <i class="fi fi-rr-download wpp-interact-icon"></i>
+          </button>
+          <button
+            type='button'
+            class='wpp-interact-btn love'
+            (click)="loveWallpaper($event)"
+          >
+            <i class="fi fi-rr-heart wpp-interact-icon" *ngIf="!isLoved(item.wpp_id), else loved"></i>
+            <ng-template #loved>
+              <i class="fi fi-sr-heart wpp-interact-icon loveactive"></i>
+            </ng-template>
+            
+          </button>
+          <button
+            type='button'
+            class='wpp-interact-btn save'
+            (click)="saveWallpaper($event)"
+          >
+            <i class="fi fi-rr-bookmark wpp-interact-icon" *ngIf="!isSaved(item.wpp_id), else saved"></i>
+            <ng-template #saved>
+              <i class="fi fi-sr-bookmark wpp-interact-icon bookmarkactive"></i>
+            </ng-template>
+          </button>
+        </div>
+      </div>
+    </ngx-masonry>
+  </ng-template>
+</div>

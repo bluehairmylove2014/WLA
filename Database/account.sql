@@ -1,4 +1,5 @@
 -- Xóa bảng user_detail nếu đã tồn tại
+DROP TABLE IF EXISTS collection;
 DROP TABLE IF EXISTS albums;
 DROP TABLE IF EXISTS user_detail;
 DROP TABLE IF EXISTS wallpapers;
@@ -36,6 +37,12 @@ CREATE TABLE wallpapers (
   lover TEXT[] NOT NULL,
   total_download int NOT NULL,
   wpp_type VARCHAR(10) NOT NULL
+);
+
+-- Tạo bảng collection
+CREATE TABLE collection (
+  user_id TEXT PRIMARY KEY REFERENCES accounts(user_id),
+  wpp_list INT[]
 );
 
 -- Tạo bảng albums
@@ -102,6 +109,12 @@ INSERT INTO albums (user_id, album_name, album_avt, wpps) VALUES
   ('user@1', 'Soul of the wind', 'https://aldortio.sirv.com/swallpapers/albums/avt/wpp(16).jpg', ARRAY[19, 20, 21, 22, 23, 24, 25, 26, 27]),
   ('user@1', 'Gaming 4K', 'https://aldortio.sirv.com/swallpapers/albums/avt/wpp(15).jpg', ARRAY[]::INT[]);
 
+-- Thêm dữ liệu giả vào bảng collection
+INSERT INTO collection (user_id, wpp_list) VALUES
+  ('user@1', ARRAY[]::INT[]),
+  ('user@2', ARRAY[]::INT[]),
+  ('user@3', ARRAY[]::INT[]);
+
 -- Viết function
 DROP FUNCTION get_accounts_by_username(username_in VARCHAR(16));
 -- Create
@@ -154,6 +167,7 @@ FROM get_accounts_by_username('dm410');
 -- Xem bảng đã được tạo
 SELECT * FROM user_detail;
 SELECT * FROM albums;
--- Xem bảng đã được tạo
+-- Xem bảng đã được tạo;
+DELETE FROM wallpapers WHERE wpp_id >= 36;
 SELECT * FROM wallpapers ORDER BY wpp_id ASC;
-DELETE FROM wallpapers WHERE wpp_id = 36
+SELECT * FROM collection;

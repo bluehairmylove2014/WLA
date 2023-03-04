@@ -2,8 +2,8 @@
   <div class="upload-main-wrapper">
     <div class="upload-main" #uploadMain>
       <p>Upload to Swallpapers</p>
-      <div class="drag-drop-field" (dragenter)="onDragEnter($event)" (dragleave)="onDragLeave($event)"
-        (drop)="onDrop($event)" #dragdropfield>
+      <div *ngIf="!imageUrl" class="drag-drop-field" (dragenter)="onDragEnter($event)" (dragleave)="onDragLeave($event)"
+        (dragover)="onDragOver($event)" (drop)="onDrop($event)" #dragdropfield>
         <div class="drag-drop-img">
           <label for="fileInput" class="drag-drop-label">
             <img class="add-img" src="../../assets/graphics/add_img.png">
@@ -11,7 +11,7 @@
               Drag and drop images<br>or <span class="text-blue">browse</span> to choose a file
             </p>
           </label>
-          <input id="fileInput" type="file" accept="image/*" (change)="previewWallpaper()" class="drag-drop-input" />
+          <input id="fileInput" type="file" accept="image/jpeg, image/png" (change)="previewWallpaper()" class="drag-drop-input" />
         </div>
       </div>
       <div *ngIf="imageUrl" class="preview-img-holder" #previewImg>

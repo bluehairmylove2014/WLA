@@ -1,88 +1,52 @@
+<app-Header [user_avatar]="user_account.avatar" [username]="user_account.username"></app-Header>
 <div class="homecontent-wrapper" #main>
-  <app-Header
-    [user_avatar]="user_account.avatar"
-    [username]="user_account.username"
-  ></app-Header>
-  <div class="container">
-    <div class="user-center">
-      <div class="row">
-        <div class="col-8">
-          <div>
-            <div class="user-card">
-              <div class="user-card-bg"></div>
-              <div class="user-avt-holder">
-                <img [src]="user_account.avatar" class="user-avt">
-              </div>
-              <div class="user-text animate-fadein-toright-more">
-                <div class="user-info-holder">
-                  <p class="user-name">{{user_account.display_name}}</p>
-                  <p class="user-usn">@{{user_account.username}}</p>
+  <div class="profile">
+    <div class="container">
+      <div class="user-center">
+        <div class="row">
+          <div class="col-9">
+            <div>
+              <div class="user-card">
+                <div class="user-avt-holder">
+                  <img crossorigin="anonymous" [src]="user_account.avatar" class="user-avt">
                 </div>
-                <div class="user-detail-holder">
-                  <p class="user-detail">
-                    <i class="fa-solid fa-clock opacity-75"></i>
-                    Joined {{date_service.convertDate(user_account.createat, 'MMMM, yyyy')}}
-                  </p>
-                  <p class="user-detail" *ngIf="user_account.location.city || user_account.location.country">
-                    <i class="fa-solid fa-location-dot opacity-75"></i>
-                    &nbsp;Lives in 
-                    <span 
-                      *ngIf="user_account.location.city"
-                    >
-                      {{user_account.location.city}}
-                      
-                      <span 
-                        *ngIf="user_account.location.country"
-                      >
-                      ,
+                <div class="user-text animate-fadein-toright-more">
+                  <div class="user-info-holder">
+                    <p class="user-name">{{user_account.display_name}}</p>
+                    <p class="user-usn">@{{user_account.username}}</p>
+                  </div>
+                  <div class="user-detail-holder">
+                    <p class="user-detail">
+                      <i class="fa-solid fa-clock opacity-75"></i>
+                      Joined {{date_service.convertDate(user_account.createat, 'MMMM, yyyy')}}
+                    </p>
+                    <p class="user-detail" *ngIf="user_account.location.city || user_account.location.country">
+                      <i class="fa-solid fa-location-dot opacity-75"></i>
+                      &nbsp;Lives in
+                      <span *ngIf="user_account.location.city">
+                        {{user_account.location.city}}
+
+                        <span *ngIf="user_account.location.country">
+                          ,
+                        </span>
                       </span>
-                    </span> 
-                    <span *ngIf="user_account.location.country">{{user_account.location.country}}</span>
-                  </p>
-                  
-                  <p class="user-detail" *ngIf="user_account.follower.length > 0">
-                    <i class="fa-solid fa-heart opacity-75"></i>
-                    Followed by {{user_account.follower.length}} people
-                  </p>
+                      <span *ngIf="user_account.location.country">{{user_account.location.country}}</span>
+                    </p>
+
+                    <p class="user-detail" *ngIf="user_account.follower.length > 0">
+                      <i class="fa-solid fa-heart opacity-75"></i>
+                      Followed by {{user_account.follower.length}} people
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="mt-3">
-            <div class="user-card">
-              <div class="user-card-bg"></div>
+            <div>
               <div class="user-center">
                 <div class="profile-detail animate-fadein">
-                  <div class="profile-detail-holder">
-                    <p class="wpp-storage-detail">
-                      <i class="fa-solid fa-image"></i>
-                      &nbsp;&nbsp;{{img_wallpapers.length}} picture wallpapers
-                    </p>
-                    <p class="wpp-storage-detail">
-                      <i class="fa-brands fa-youtube"></i>
-                      &nbsp;&nbsp;{{video_wallpapers.length}} video wallpapers
-                    </p>
-                  </div>
-                  <div class="profile-detail-holder view">
-                    <p class="wpp-storage-detail">
-                      Love Count
-                    </p>
-                    <p class="wpp-storage-detail">
-                      {{total_love| ShortNumber}}
-                    </p>
-                  </div>
-                  <div class="profile-detail-holder ranking">
-                    <div class="profile-detail-left">
-                      <p class="wpp-storage-detail">
-                        Total Downloads
-                      </p>
-                      <p class="wpp-storage-detail">
-                        {{total_download | ShortNumber}}
-                      </p>
-                    </div>
-                  </div>
+                  <p class="wpp-main-title opacity-75">A picture is worth a thousand words</p>
                 </div>
-                <hr>
+                <hr class="text-white opacity-100">
                 <div class="row mt-4">
                   <div class="profile-detail">
                     <button type="button" class="wpps-manage-btn follow">
@@ -99,62 +63,109 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-4">
-          <div class="user-card">
-            <div class="user-card-bg"></div>
+          <div class="col-3 d-flex align-items-end">
             <div class="album-holder" #album_holder>
-              <p class="user-album-title mb-4">ALBUM</p>
-              <div *ngIf="preview_albums.length > 0, else emptyAlbum">
-                <div class="album-items-wrapper">
-                  <div class="album-avt-holder animate-fadeindown" *ngFor="let el of sliceArray(preview_albums, 0, 3)">
-                    <button type="button" class="album-btn-emu">
-                      <img 
-                        class="album-avt ver1" 
-                        [id]="'album_' + el.album_id"
-                        *ngIf="compareRatio(el.album_id), else scaleVertical"
-                        src={{el.album_avt}}
-                      >
-                      <ng-template #scaleVertical>
-                        <img class="album-avt ver2" src={{el.album_avt}}>
-                      </ng-template>
-                    </button>
-                    <p class="album-name">{{el.album_name}}</p>
+              <div class="statistic">
+                <div class="statistic-key">
+                  <div class="statistic-line">
+                    <p class="wpp-storage-detail">picture wallpapers</p>
+                    <span></span>
+                  </div>
+                  <div class="statistic-line">
+                    <p class="wpp-storage-detail">video wallpapers</p>
+                    <span></span>
+                  </div>
+                  <div class="statistic-line">
+                    <p class="wpp-storage-detail">Love Count</p>
+                    <span></span>
+                  </div>
+                  <div class="statistic-line">
+                    <p class="wpp-storage-detail">Total Downloads</p>
+                    <span></span>
                   </div>
                 </div>
-                <div class="album-btn-wrapper">
-                  <div class="viewall-album-btn-holder">
-                    <button class="viewall-album-btn">
-                      View All
-                    </button>
-                  </div>
+                <div class="statistic-val">
+                  <p class="wpp-storage-detail">{{img_wallpapers.length}}</p>
+                  <p class="wpp-storage-detail">{{video_wallpapers.length}}</p>
+                  <p class="wpp-storage-detail">{{total_love| ShortNumber}}</p>
+                  <p class="wpp-storage-detail">{{total_download | ShortNumber}}</p>
                 </div>
               </div>
-              <ng-template #emptyAlbum>
-                <div class="album-empty-wrapper">
-                  <img src="../../assets/graphics/empty.png" class="empty-graphic">
-                </div>
-                <div class="album-btn-wrapper">
-                  <div class="viewall-album-btn-holder">
-                    <button class="create-album-btn">
-                      Create new album
-                    </button>
-                  </div>
-                </div>
-              </ng-template>
+              <div>
+                <p class="user-album-title mb-4">STAT&nbsp;
+                  <img src="../../assets/graphics/statistic.png" class="stat-icon" alt="stat">
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <app-ProfileGallery 
-    [wallpapers_data]="cur_wallpaper"
-    [user_id]="user_account.user_id"
-    [download_count]="total_download"
-    (loveManagement)="updateLove($event)"
-    (downloadManagement)="updateDownload($event)"
-  >
-  </app-ProfileGallery>
+  <div class="container">
+    <!-- Tab button -->
+    <div class="wpp-center">
+      <div class="category">
+        <button 
+          type="button" 
+          id="gallery" 
+          class="category-btn" 
+          [ngClass]="{'active': isCurrentTab(galleryBtn.id)}"
+          (click)="changeTab($event)"
+          #galleryBtn
+        >
+          Gallery
+        </button>
+        <button 
+          type="button" 
+          id="collection" 
+          class="category-btn" 
+          [ngClass]="{'active': isCurrentTab(collectionBtn.id)}"
+          #collectionBtn
+          (click)="changeTab($event)"
+        >
+          Collection
+        </button>
+      </div>
+      <div class="filter">
+        <select class="wpp-filter-select">
+          <option value="pav">Photos and videos</option>
+          <option value="photos">Photos</option>
+          <option value="videos">Videos</option>
+        </select>
+        <select class="wpp-filter-select">
+          <option value="recency">Recency</option>
+          <option value="popularity">Popularity</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <ng-container [ngSwitch]="cur_tab">
+    <!-- GALLERY -->
+    <app-ProfileGallery
+      *ngSwitchCase="'gallery'"
+    
+      [wallpapers_data]="cur_wallpaper" 
+      [collection_data]="collection" 
+      [user_id]="user_account.user_id"
+      [download_count]="total_download" 
+      (loveManagement)="updateLove($event)"
+      (downloadManagement)="updateDownload($event)"
+      (saveManagement)="updateSave($event)">
+    </app-ProfileGallery>
+
+    <!-- COLLECTION -->
+    <app-ProfileCollection
+      *ngSwitchCase="'collection'"
+      [collection_data]="collection" 
+      [user_id]="user_account.user_id"
+      [download_count]="total_download" 
+      (loveManagement)="updateLove($event)"
+      (downloadManagement)="updateDownload($event)"
+    >
+
+    </app-ProfileCollection>
+
+  </ng-container>
 </div>
 <app-Footer></app-Footer>

@@ -10,12 +10,12 @@ import { HomeComponent } from './Home/Home.component';
 import { LoginComponent } from './Login/Login.component';
 import { PageNotFoundComponent } from './PageNotFound/PageNotFound.component';
 import { ProfileComponent } from './Profile/Profile.component';
-import { UploadWallpaperComponent } from './UploadWallpaper/UploadWallpaper.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'profile/:username', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'profile/:username', redirectTo: 'profile/:username/gallery', pathMatch: 'full'},
+  {path: 'profile/:username/:tab', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: '**', component: PageNotFoundComponent}
 ];
 

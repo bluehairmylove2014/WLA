@@ -33,12 +33,12 @@ export class UploadWallpaperComponent implements OnInit {
   ) { }
 
   // Methods
-  isNameValid():boolean {
+  isNameValid(): boolean {
     let valid = true;
     !this.pi_name.trim().length && (valid = false);
     return valid;
   }
-  isTagValid():boolean {
+  isTagValid(): boolean {
     let valid = true;
     !this.pi_tags.trim().length && (valid = false);
     return valid;
@@ -46,8 +46,8 @@ export class UploadWallpaperComponent implements OnInit {
   onClickContinue(): void {
     location.reload();
   }
-  onClickSubmit():void {
-    if(this.isNameValid() && this.isTagValid()) {
+  onClickSubmit(): void {
+    if (this.isNameValid() && this.isTagValid()) {
       this.wpp_service.upload(
         this.username,
         this.pi_name,
@@ -89,8 +89,10 @@ export class UploadWallpaperComponent implements OnInit {
     this.renderer.removeClass(this.componentBodyRef.nativeElement, 'active');
   }
   browseWallpaper() {
+
     let input = document.createElement('input');
     input.type = 'file';
+    input.accept = "image/jpeg, image/png";
     input.onchange = _ => {
       // // you can use this method to get file and perform respective operations
       this.fileUpload = input.files && input.files[0];
@@ -105,43 +107,51 @@ export class UploadWallpaperComponent implements OnInit {
   previewWallpaper() {
     const input = this.ddfRef.nativeElement.querySelector('.drag-drop-input');
     this.fileUpload = input.files && input.files[0];
-    
+
     const reader = new FileReader();
     reader.onload = () => {
       this.imageUrl = reader.result as string;
+
+      const browse_btn = this.btnWrapperRef.nativeElement.querySelector('.browse-btn');
+      browse_btn && (browse_btn.style.display = 'block');
+
+      const upload_btn = this.btnWrapperRef.nativeElement.querySelector('.upload-btn');
+      upload_btn && (upload_btn.style.cursor = 'pointer');
     };
     this.fileUpload && reader.readAsDataURL(this.fileUpload);
-
-    this.ddfRef.nativeElement.style.display = 'none';
-
-    const browse_btn = this.btnWrapperRef.nativeElement.querySelector('.browse-btn');
-    browse_btn && (browse_btn.style.display = 'block');
-
-    const upload_btn = this.btnWrapperRef.nativeElement.querySelector('.upload-btn');
-    upload_btn && (upload_btn.style.cursor = 'pointer');
+  }
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
   }
   onDrop(event: DragEvent) {
-    console.log("go");
-
     event.preventDefault();
-    event.stopPropagation();
+    let cur_target = event.target as HTMLElement;
     const files = event.dataTransfer?.files;
-    if (files && files.length > 0) {
-      const file = files[0];
-      if (file.type.match(/image\/*/) == null) {
-        console.log('Only images are supported.');
+    if (files && files.length) {
+      this.fileUpload = files[0];
+      if (!this.fileUpload.type.match(/(png|jpg)$/)) {
+        if (cur_target) {
+          cur_target.style.backgroundColor = 'transparent';
+          const browse_btn = cur_target.querySelector('.drag-drop-img');
+          browse_btn && this.renderer.removeClass(browse_btn, 'unactive');
+          alert('Only PNG and JPG images are supported.');
+        }
         return;
       }
       const reader = new FileReader();
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.fileUpload);
       reader.onload = (event) => {
         this.imageUrl = event.target?.result as string;
+
+        const browse_btn = this.btnWrapperRef.nativeElement.querySelector('.browse-btn');
+        browse_btn && (browse_btn.style.display = 'block');
+
+        const upload_btn = this.btnWrapperRef.nativeElement.querySelector('.upload-btn');
+        upload_btn && (upload_btn.style.cursor = 'pointer');
       };
     }
   }
   onDragEnter(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
     let curTarget = event.target as HTMLElement;
     if (curTarget) {
       if (curTarget.tagName === 'BUTTON') {
@@ -153,8 +163,6 @@ export class UploadWallpaperComponent implements OnInit {
     }
   }
   onDragLeave(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
     let cur_target = event.target as HTMLElement;
     // event target tagname is on uppercase 
     if (cur_target) {

@@ -32,7 +32,7 @@ export class AuthService {
         res.idToken && (this.decode_package = jwt_decode(res.idToken));
         this.decode_package.sub && (this.username = this.decode_package.sub);
         
-        this.router.navigate(['/profile/' + this.username]);
+        this.router.navigate(['profile', this.username]);
         return true;
       }
     )

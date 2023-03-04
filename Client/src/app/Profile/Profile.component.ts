@@ -11,6 +11,7 @@ import { DateService } from '../Service/date.service';
 
 import { ShortNumberPipe } from '../Pipe/ShortNumber.pipe';
 import { ApiService } from '../Service/api.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-Profile',
@@ -19,6 +20,7 @@ import { ApiService } from '../Service/api.service';
   providers: [ShortNumberPipe]
 })
 export class ProfileComponent implements OnInit {
+  private sub!: Subscription;
   // Variable
   user_account: User = {
     user_id: '',
@@ -34,15 +36,23 @@ export class ProfileComponent implements OnInit {
     follower: [],
     following: []
   };
+
   albums: Album[] = [];
   preview_albums: Album[] = [];
+
   total_wallpapers: Wallpaper[] = [] as Wallpaper[];
   img_wallpapers: Wallpaper[] = [] as Wallpaper[];
   video_wallpapers: Wallpaper[] = [] as Wallpaper[];
   cur_wallpaper: Wallpaper[] = [] as Wallpaper[];
+
+  collection: Wallpaper[] = [] as Wallpaper[];
+  cur_collection: Wallpaper[] = [] as Wallpaper[];
+
   total_views: number = 0;
   total_love: number = 0;
   total_download: number = 0;
+
+  cur_tab = 'gallery';
 
   constructor(
     private element_ref: ElementRef,
@@ -109,8 +119,20 @@ export class ProfileComponent implements OnInit {
       }
     })
   }
-  updateDownload(event: any) {
-    this.total_download = event;
+  updateDownload(new_totalDownload: number) {
+    this.total_download = new_totalDownload;
+  }
+  updateSave(data_pkg: any) {
+    const wpp_id = data_pkg.wpp_id;
+    const type = data_pkg.type;
+    if(type && type === 'save') {
+      // Set wpp to local collection variable
+      this.collection.push(this.cur_wallpaper.filter(wpp => wpp.wpp_id === wpp_id)[0]);
+    }
+    else if(type && type === 'unsave') {
+      // Set wpp to local collection variable
+      this.collection = this.collection.filter(wpp => wpp.wpp_id !== wpp_id);
+    }
   }
   sliceArray(array:any, start: number, end:number): any {
     if(end <= start) {
@@ -121,43 +143,70 @@ export class ProfileComponent implements OnInit {
       (end <= array.length) ? end : array.length
     )
   }
-  ngOnDestroy(): void {
+  isCurrentTab(id: string): boolean {
+    return this.cur_tab === id ? true : false;
+  }
+  changeTab(btn_target: any) {
+    this.cur_tab = btn_target.target.id;
   }
   // Hook
   ngOnInit() {
+    // Check login
     if(this.auth_service.isLogin()) {
-      let username = this.atv_router.snapshot.url[this.atv_router.snapshot.url.length - 1].path;
-      this.api_service.getUser(username).subscribe((user_data:any) => {
-        this.user_account = user_data[0];
-        
-        if(user_data[0].user_id) {
-          this.api_service.getWallpapers(user_data[0].user_id).subscribe((wpps:any) => {
-            this.total_wallpapers = wpps;
-            this.cur_wallpaper = wpps.slice(
-              0, 
-              (this.total_wallpapers.length >= 6) ? 6 : this.total_wallpapers.length
-            );
-            wpps.forEach((wpp:any) => {
-              // filter wallpaper
-              if(wpp.wpp_type === 'image') {
-                this.img_wallpapers.push(wpp);
-              }
-              else {
-                this.video_wallpapers.push(wpp);
-              }
-              // calc total views
-              this.total_views += wpp.total_views;
-              this.total_love += wpp.lover.length;
-              
-              this.total_download += wpp.total_download;
+      // Get username from link
+      this.sub = this.atv_router.params.subscribe(param => {
+        let username = param['username'];
+        this.cur_tab = param['tab'];
+  
+        // Get user data by username
+        this.api_service.getUser(username).subscribe((user_data:any) => {
+          this.user_account = user_data[0];
+          
+          if(user_data[0].user_id) {
+            // Get wallpaper data by user_id
+            this.api_service.getWallpapers(user_data[0].user_id).subscribe((wpps:any) => {
+              this.total_wallpapers = wpps;
+              this.cur_wallpaper = wpps.slice(
+                0, 
+                (this.total_wallpapers.length >= 6) ? 6 : this.total_wallpapers.length
+              );
+              // Split wpp type to img_wallpapers and video_wallpapers
+              wpps.forEach((wpp:any) => {
+                // filter wallpaper
+                if(wpp.wpp_type === 'image') {
+                  this.img_wallpapers.push(wpp);
+                }
+                else {
+                  this.video_wallpapers.push(wpp);
+                }
+                // calc total views, love, download
+                this.total_views += wpp.total_views;
+                this.total_love += wpp.lover.length;
+                this.total_download += wpp.total_download;
+              });
             });
-          });
-          this.api_service.getAlbums(user_data[0].user_id).subscribe((albums:any) => {
-            this.albums = albums;
-            this.preview_albums = albums.slice(0, albums.length > 3 ? 3 : albums.length);
-          });
-        }
+            // Get albums data by user_id
+            this.api_service.getAlbums(user_data[0].user_id).subscribe((albums:any) => {
+              this.albums = albums;
+              this.preview_albums = albums.slice(0, albums.length > 3 ? 3 : albums.length);
+            });
+            // Get collection data by user_id
+            this.api_service.getCollection(user_data[0].user_id).subscribe((collection:any) => {
+              
+              this.collection = collection;
+              this.cur_collection = collection.slice(
+                0, 
+                (this.collection.length >= 6) ? 6 : this.collection.length
+              );
+            });
+          }
+        })
       })
     }
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    
+    this.sub && this.sub.unsubscribe();
   }
 }
