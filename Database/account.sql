@@ -91,7 +91,6 @@ VALUES ('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/av
 ('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-roberto-nickson-2478248.jpg', 0, ARRAY[]::INT[], 0, 'image'),
 ('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-rakicevic-nenad-769525.jpg', 0, ARRAY[]::INT[], 0, 'image'),
 ('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-pixabay-461940.jpg', 0, ARRAY[]::INT[], 0, 'image'),
-('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-og-mpango-3041110.jpg', 0, ARRAY[]::INT[], 0, 'image'),
 ('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-maxime-francis-2246476.jpg', 0, ARRAY[]::INT[], 0, 'image'),
 ('user@1', 'Dương Minh', 'https://aldortio.sirv.com/swallpapers/user/avt/dm410.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-luis-del-río-15286.jpg', 0, ARRAY[]::INT[], 0, 'image'),
 ('user@3', 'Nguyễn Ba Phương', 'https://aldortio.sirv.com/swallpapers/user/avt/bluegirl2014.png', 'https://aldortio.sirv.com/swallpapers/wallpapers/pexels-irina-iriser-1408221.jpg', 0, ARRAY[]::INT[], 0, 'image'),
@@ -171,3 +170,8 @@ SELECT * FROM albums;
 DELETE FROM wallpapers WHERE wpp_id >= 36;
 SELECT * FROM wallpapers ORDER BY wpp_id ASC;
 SELECT * FROM collection;
+
+SELECT *
+FROM wallpapers
+ORDER BY total_download DESC
+LIMIT 10; 

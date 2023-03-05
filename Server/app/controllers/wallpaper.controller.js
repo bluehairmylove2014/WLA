@@ -144,3 +144,33 @@ exports.updateSaveWallpaper = function(req, res, next) {
         res.status(500).json({ error: err });
     }
 };
+exports.getSpotlightWallpaper = function(req, res, next) {
+    let start_index = req.query.start >= 0 ? req.query.start : 0;
+    let numof_wallpaper = req.query.numof_wallpaper >= 0 ? req.query.numof_wallpaper : 0;
+    const query = `
+        SELECT *
+        FROM wallpapers
+        ORDER BY total_download DESC, wpp_id ASC
+        OFFSET ${start_index}
+        LIMIT ${numof_wallpaper};    
+    `
+    try {
+        if(numof_wallpaper) {
+            db.query(query, (err, dbres) => {
+                    if (err) {
+                        console.log(err.stack);
+                    }
+                    else {
+                        res.status(200).json({
+                            wpps: dbres.rows,
+                            total: dbres.rows.length ? dbres.rows.length : 0
+                        });
+                    }
+                }
+            )  
+        }
+    }
+    catch(err) {
+        res.status(500).json({ error: err });
+    }
+};

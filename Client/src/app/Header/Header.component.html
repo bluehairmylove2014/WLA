@@ -1,57 +1,87 @@
 
 
-<div class="container">
-  <nav class="home-navbar row">
-    <div class="col-1 h-100 animate-fadeindown">
-      <a routerLink="">
-        <img src=".././../assets/logos/swallpapers.png" class="home-navlogo" />
+<nav class="home-navbar row">
+  <div class="col-1 h-100 animate-fadeindown">
+    <a routerLink="">
+      <img src=".././../assets/logos/swallpapers.png" class="home-navlogo" />
+    </a>
+  </div>
+
+  <div class="col-6 animate-fadeindown search-box-holder">
+    <input class="search-box" placeholder="Search for free wallpaper">
+    <button type="button" class="search-box-btn">
+      <i class="fi fi-br-search"></i>
+    </button>
+  </div>
+
+  <div class="col-5 nav-interact-holder animate-fadeindown" *ngIf="islogin, else notlogin">
+    <div class="license-holder pe-3">
+      <a
+        class="license-btn"
+        routerLink="/license"
+      >
+        License
       </a>
     </div>
-
-    <div class="col-6 animate-fadeindown search-box-holder">
-      <input class="search-box" placeholder="Search for free wallpaper">
-      <button type="button" class="search-box-btn">
-        <i class="fi fi-rr-search"></i>
+    <div class="noti-holder ps-2 pe-3">
+      <button
+        class="noti-btn"
+        type="button"
+        (click)="showNoti()"
+      >
+        <i class="fa-solid fa-bell"></i>
+      </button>
+      <div class="noti-content" #notiContent>
+        <p class="noti-box-title">Notifications</p>
+        <ng-container *ngIf="notifications.length, else emptyNoti">
+          <div class="noti-element" *ngFor="let noti of notifications">
+            <!-- This field for update purpose!!! -->
+          </div>
+        </ng-container>
+        <ng-template #emptyNoti>
+          <img src="../../assets/graphics/empty.png" class="empty-noti">
+        </ng-template>
+      </div>
+    </div>
+    <div class="nav-dropdown-holder">
+      <button class="nav-avt-holder" (click)="showAvtDropdown($event)">
+        <img [src]="user_avatar" class='nav-avt me-1'>
+      </button>
+      <div class="nav-dropdown-content">
+        <button class="nav-btn-title" (click)="goProfile()">
+          Your profile
+        </button>
+        <button class="nav-btn-title" (click)="goCollection()">
+          Your collection
+        </button>
+        <button class="nav-btn-title" (click)="logOut()">
+          Logout
+        </button>
+        <hr class="mb-0">
+        <div class="nav-contact-holder">
+          <a target='_blank' rel='noreferrer' href="https://www.facebook.com/MinMinPD2211/" class='contact-icon'>
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+          <a target='_blank' rel='noreferrer' href="https://twitter.com/PHAN_DUONG_MINH" class='contact-icon'>
+            <i class="fa-brands fa-twitter"></i>
+          </a>
+          <a target='_blank' rel='noreferrer' href="https://discord.gg/VTABagPraN" class='contact-icon'>
+            <i class="fa-brands fa-discord"></i>
+          </a>
+        </div>
+        <p class="dropdown-info">Powered by Sunrise Company</p>
+      </div>
+    </div>
+    <div class="">
+      <button type="button" class="nav-btn" (click)="uploadWallpaper()">
+        Upload
       </button>
     </div>
-
-    <div class="col-5 nav-interact-holder animate-fadeindown">
-      <div class="nav-dropdown-holder">
-        <button class="nav-avt-holder" (click)="showAvtDropdown($event)">
-          <img [src]="user_avatar" class='nav-avt me-1'>
-          <img src="../../assets/graphics/chevron.png" class="nav-avt-chevron">
-        </button>
-        <div class="nav-dropdown-content">
-          <button class="nav-btn-title" (click)="goProfile()">
-            Your profile
-          </button>
-          <button class="nav-btn-title" (click)="goCollection()">
-            Your collection
-          </button>
-          <button class="nav-btn-title" (click)="logOut()">
-            Logout
-          </button>
-          <hr class="mb-0">
-          <div class="nav-contact-holder">
-            <a target='_blank' rel='noreferrer' href="https://www.facebook.com/MinMinPD2211/" class='contact-icon'>
-              <i class="fa-brands fa-facebook"></i>
-            </a>
-            <a target='_blank' rel='noreferrer' href="https://twitter.com/PHAN_DUONG_MINH" class='contact-icon'>
-              <i class="fa-brands fa-twitter"></i>
-            </a>
-            <a target='_blank' rel='noreferrer' href="https://discord.gg/VTABagPraN" class='contact-icon'>
-              <i class="fa-brands fa-discord"></i>
-            </a>
-          </div>
-          <p class="dropdown-info">Powered by Sunrise Company</p>
-        </div>
-      </div>
-      <div class="">
-        <button type="button" class="nav-btn" (click)="uploadWallpaper()">
-          Upload
-        </button>
-      </div>
+  </div>
+  <ng-template #notlogin>
+    <div class="col-5">
+      
     </div>
-  </nav>
-</div>
+  </ng-template>
+</nav>
 <ng-container #uploadContainer></ng-container>

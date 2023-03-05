@@ -42,8 +42,7 @@ exports.getCollection = function(req, res, next) {
     const query = `
         SELECT *
         FROM wallpapers
-        WHERE user_id = '${req.query.user_id}'
-        AND wpp_id IN (SELECT UNNEST(wpp_list) FROM collection WHERE user_id = '${req.query.user_id}')
+        WHERE wpp_id IN (SELECT UNNEST(wpp_list) FROM collection WHERE user_id = '${req.query.user_id}')
     `
     try {
         db.query(query, (err, dbres) => {

@@ -1,4 +1,8 @@
-<app-Header [user_avatar]="user_account.avatar" [username]="user_account.username"></app-Header>
+<app-Header 
+  [islogin]="isLogin()"
+  [user_avatar]="user_account.avatar" 
+  [username]="user_account.username"
+></app-Header>
 <div class="homecontent-wrapper" #main>
   <div class="profile">
     <div class="container">
@@ -166,6 +170,11 @@
 
     </app-ProfileCollection>
 
+    <!-- DEFAULT -->
+    <app-PageNotFound
+      *ngSwitchDefault=""
+    >
+    </app-PageNotFound>
   </ng-container>
 </div>
 <app-Footer></app-Footer>

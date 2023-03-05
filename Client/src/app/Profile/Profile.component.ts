@@ -1,6 +1,6 @@
 
 import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Album } from '../common/Album';
 import { User } from '../common/User';
 import { Wallpaper } from '../common/Wallpaper';
@@ -59,7 +59,8 @@ export class ProfileComponent implements OnInit {
     private atv_router: ActivatedRoute,
     private api_service: ApiService,
     private auth_service: AuthService,
-    public date_service: DateService
+    public date_service: DateService,
+    private router: Router
   ) {
   }
 
@@ -89,6 +90,9 @@ export class ProfileComponent implements OnInit {
         this.cur_wallpaper.push(wp);
       })
     }
+  }
+  isLogin():boolean {
+    return this.auth_service.isLogin();
   }
   compareRatio(targetId: string): boolean {
     let album_container = this.element_ref.nativeElement.querySelector('.album-avt-holder');
@@ -147,12 +151,12 @@ export class ProfileComponent implements OnInit {
     return this.cur_tab === id ? true : false;
   }
   changeTab(btn_target: any) {
-    this.cur_tab = btn_target.target.id;
+    this.router.navigate(['profile', this.user_account.username, btn_target.target.id])
   }
   // Hook
   ngOnInit() {
     // Check login
-    if(this.auth_service.isLogin()) {
+    if(this.isLogin()) {
       // Get username from link
       this.sub = this.atv_router.params.subscribe(param => {
         let username = param['username'];
@@ -160,7 +164,7 @@ export class ProfileComponent implements OnInit {
   
         // Get user data by username
         this.api_service.getUser(username).subscribe((user_data:any) => {
-          this.user_account = user_data[0];
+          user_data[0] && (this.user_account = user_data[0]);
           
           if(user_data[0].user_id) {
             // Get wallpaper data by user_id

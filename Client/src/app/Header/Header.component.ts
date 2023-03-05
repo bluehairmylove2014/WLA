@@ -10,10 +10,13 @@ import { UploadWallpaperComponent } from '../UploadWallpaper/UploadWallpaper.com
   styleUrls: ['./Header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  @Input() islogin: boolean = false;
   @Input() user_avatar: string = '../../assets/user/avt/default_avt.png'
   @Input() username: string = '../../assets/user/avt/default_avt.png'
   @ViewChild('uploadContainer', {read: ViewContainerRef}) uploadContainerRef!: ViewContainerRef;
+  @ViewChild('notiContent') notiContentRef!: ElementRef;
 
+  notifications: Notification[] = [] as Notification[];
   // Listener
   avtdropdown_listener: () => void;
 
@@ -58,6 +61,17 @@ export class HeaderComponent implements OnInit {
             }
           })
         }, 300);
+      }
+    }
+  }
+  showNoti() {
+    const notiField = this.notiContentRef.nativeElement;
+    if(notiField) {
+      if(!notiField.classList.contains('active')) {
+        this.renderer.addClass(notiField, 'active')
+      }
+      else {
+        this.renderer.removeClass(notiField, 'active')
       }
     }
   }

@@ -1,4 +1,5 @@
 .footer {
+    width: 100vw;
     background: linear-gradient(to right, #000000, #010518);
 }
 .footer-title {

@@ -1,0 +1,180 @@
+.body {
+    width: 100vw;
+}
+.greating {
+    width: 100%;
+    height: 70vh;
+    background-image: url('../../assets/bgs/dark-city.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+.intro-holder {
+    position: absolute;
+    color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.intro-title {
+    font-family: 'InterBold', sans-serif;
+    font-size: 40px;
+}
+.intro-line {
+    height: 2px;
+    background-color: white;
+    opacity: 1;
+    width: 400px;
+    margin: 1rem auto;
+}
+.intro-des {
+    font-family: 'OpenSans', sans-serif;
+    font-size: 14px;
+}
+.intro-input {
+    font-family: 'OpenSans', sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    padding: 20px 10px 20px 45px;
+    border-radius: 0.3rem;
+    border: none;
+    outline: none;
+}
+.intro-input-placeholder {
+    font-family: 'OpenSans', sans-serif;
+    position: relative;
+    z-index: 999;
+    pointer-events: none;
+    margin: 0;
+    width: fit-content;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.2s ease-in-out;
+}
+.intro-input-placeholder.active {
+    visibility: visible!important;
+    opacity: 1!important;
+}
+.intro-input-holder {
+    position: relative;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 50px auto;
+    padding: 0px 30px 0px 50px;
+    z-index: 999;
+    color: black;
+    white-space: nowrap;
+    text-align: center;
+}
+.intro-input-btn {
+    position: absolute!important;
+    top: 60%;
+    left: 10px;
+    transform: translateY(-50%);
+    position: relative;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+.copyright {
+    font-family: 'OpenSans', sans-serif;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color: white;
+    font-size: 12px;
+}
+
+
+.wpp-of-week {
+    padding-top: 3rem;
+    min-height: 500px;
+}
+/* Wallpaper interact btn */
+.wpp {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.wpp:hover .wpp-hover-bg {
+    visibility: visible;
+    opacity: 1;
+}
+
+.wpp:hover .wpp-interact-btn {
+    visibility: visible;
+    opacity: 1;
+}
+
+.wpp-img {
+    transition: transform 0.2s ease-in-out;
+}
+
+.wpp-interact-btn {
+    visibility: hidden;
+    opacity: 0;
+    border-radius: 0.4rem;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    padding: 6px 12px 4px 12px;
+    background-color: white;
+    position: absolute;
+    transition: all 0.3s ease-in-out;
+    z-index: 10;
+    box-shadow: -2px 2px 5px #000000;
+}
+
+.wpp-interact-btn.download {
+    bottom: 10px;
+    right: 20px;
+}
+
+.wpp-interact-btn.love {
+    top: 10px;
+    right: 20px;
+}
+
+.wpp-interact-btn.save {
+    top: 10px;
+    right: 70px;
+}
+.wpp-interact-icon {
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+}
+.wpp-interact-icon.loveactive {
+    color: red;
+}
+.wpp-interact-icon.bookmarkactive {
+    color: yellow;
+    filter: drop-shadow(0px 0px 4px #888888);
+}
+
+.wpp-hover-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 9;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.grid-item {
+    padding: 10px 10px;
+    width: 33.333%;
+}

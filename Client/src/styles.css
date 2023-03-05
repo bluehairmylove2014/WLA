@@ -71,6 +71,11 @@ body {
     font-family: OpenSans;
     src: url('./assets/fonts/Open_Sans/OpenSans.ttf'); 
 }
+@font-face {
+    /* font-family: 'InterBold', sans-serif; */
+    font-family: InterBold;
+    src: url('./assets/fonts/Inter/Inter-Bold.ttf'); 
+}
 
 /* Animation */
 .animate-fadein {

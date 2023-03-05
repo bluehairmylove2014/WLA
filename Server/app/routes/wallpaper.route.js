@@ -6,9 +6,11 @@ const {
     upload,
     download,
     updateLoveWallpaper,
-    updateSaveWallpaper
+    updateSaveWallpaper,
+    getSpotlightWallpaper
 } = require("../controllers/wallpaper.controller");
 
+router.get("/getSpotlightWallpaper", getSpotlightWallpaper);
 router.get("/download", download);
 router.post("/upload", uploada.single('file'), upload);
 router.put("/updateLoveWallpaper", updateLoveWallpaper);

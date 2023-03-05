@@ -1,1 +1,63 @@
-<a routerLink="/login">Login</a>
+<app-Header [islogin]="isLogin()" [user_avatar]="user_account.avatar" [username]="user_account.username"></app-Header>
+<div class="body" #bodyContent>
+    <div class="greating">
+        <div class="intro-holder">
+            <p class="intro-title">Wallpaper Wonderland</p>
+            <hr class="intro-line">
+            <p class="intro-des">Discover stunning wallpapers and keep your devices refreshed with our unlimited
+                collection. Store your favorites and access them anytime, anywhere. Upgrade your wallpaper with our
+                easy-to-use website.</p>
+            <div class="intro-input-holder" #intro_input>
+                <input class="intro-input" (focus)="inputOnFocus()" (blur)="inputOnBlur()">
+                <button type="button" class="intro-input-btn">
+                    <i class="fi fi-br-search"></i>
+                </button>
+                <p class="intro-input-placeholder active">
+                    Search for some wonderful wallpaper?
+                </p>
+            </div>
+        </div>
+        <div class="copyright">
+            www.swallpapers.vn
+        </div>
+    </div>
+    <div class="wpp-of-week">
+        <div class="container">
+            <!-- List of wallpaper -->
+            <div class="row" *ngIf="wallpapers_data.length === 0, else wppholder">
+                <img src="../../assets/graphics/nowallpaper.png" alt="nowallpaper">
+            </div>
+            <ng-template #wppholder>
+                <ngx-masonry [options]="masonryOptions" class="d-flex">
+                    <ng-container *ngFor="let item of wallpapers_data">
+                        <div ngxMasonryItem class="grid-item">
+                            <div class='wpp' [attr.data-wppid]="item.wpp_id">
+                                <div class='wpp-hover-bg'></div>
+                                <img crossorigin="anonymous" src={{item.wpp_path}} class='img-fluid wpp-img'>
+                                <button type='button' class='wpp-interact-btn download' (click)="downloadWallpaper($event)">
+                                    <i class="fi fi-rr-download wpp-interact-icon"></i>
+                                </button>
+                                <button type='button' class='wpp-interact-btn love' (click)="loveWallpaper($event)">
+                                    <i class="fi fi-rr-heart wpp-interact-icon"
+                                        *ngIf="!isLoved(item.wpp_id), else loved"></i>
+                                    <ng-template #loved>
+                                        <i class="fi fi-sr-heart wpp-interact-icon loveactive"></i>
+                                    </ng-template>
+
+                                </button>
+                                <button type='button' class='wpp-interact-btn save' (click)="saveWallpaper($event)">
+                                    <i class="fi fi-rr-bookmark wpp-interact-icon"
+                                        *ngIf="!isSaved(item.wpp_id), else saved"></i>
+                                    <ng-template #saved>
+                                        <i class="fi fi-sr-bookmark wpp-interact-icon bookmarkactive"></i>
+                                    </ng-template>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ngx-masonry>
+            </ng-template>
+        </div>
+    </div>
+</div>
+<app-Footer></app-Footer>

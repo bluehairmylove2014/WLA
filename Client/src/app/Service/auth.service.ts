@@ -13,8 +13,8 @@ export class AuthService {
   private idtoken_keyword = 'id_token';
   private expires_keyword = 'expires_at';
   private username_keyword = 'username';
+
   private decode_package: any;
-  private username: string = '';
 
   constructor(
     private api: ApiService,
@@ -25,14 +25,17 @@ export class AuthService {
     this.api.checkLogin(email, password).subscribe(
       (res:any) => {   
         const expiresAt = moment().add(res.expiresIn, 'minute');
-        localStorage.setItem(this.idtoken_keyword, res.idToken);
-        localStorage.setItem(this.expires_keyword, JSON.stringify(expiresAt.valueOf()));
 
         // Decode to get username
+        let username;
         res.idToken && (this.decode_package = jwt_decode(res.idToken));
-        this.decode_package.sub && (this.username = this.decode_package.sub);
+        this.decode_package.sub && (username = this.decode_package.sub);
+
+        localStorage.setItem(this.username_keyword, username);
+        localStorage.setItem(this.idtoken_keyword, res.idToken);
+        localStorage.setItem(this.expires_keyword, JSON.stringify(expiresAt.valueOf()));
         
-        this.router.navigate(['profile', this.username]);
+        this.router.navigate(['']);
         return true;
       }
     )
@@ -49,7 +52,14 @@ export class AuthService {
     const expiresAt = JSON.parse(str);    
     return moment().isBefore(moment(expiresAt));
   }
-  getLoginToken(): string | null {
-    return localStorage.getItem(this.idtoken_keyword);
+  getUsername(): string {
+    if(this.isLogin()) {
+      let username = localStorage.getItem(this.username_keyword);
+      return username ? username : '';
+    }
+    else {
+      this.router.navigate(['login']);
+      return '';
+    }
   }
 }

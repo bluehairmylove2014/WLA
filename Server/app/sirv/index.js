@@ -70,7 +70,7 @@ class Sirv {
         });
         return {
             path: `https://aldortio.sirv.com${path}`,
-            type: file.mimetype.split('/')[1]
+            type: file.mimetype
         };
     }
     download = (filename) => {

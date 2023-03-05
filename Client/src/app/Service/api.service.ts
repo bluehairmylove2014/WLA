@@ -50,7 +50,7 @@ export class ApiService {
   checkLogin(email:string, psw:string) {
     return this.http.post(`${this.REST_API_SERVER}/api/v1/login/checkLogin`, {email, psw});
   }
-  // Uploading wallpaper
+  // Wallpaper
   uploadWallpaper(data: any) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
@@ -59,6 +59,10 @@ export class ApiService {
   }
   downloadWallpaper(wpp_id:number, filename: string) {
     const query = `download?wpp_id=${wpp_id}&filename=${filename}`
+    return this.http.get(`${this.REST_API_SERVER}/api/v1/wallpaper/${query}`);
+  }
+  getSpotlightWallpaper(start: number, numof_wallpaper: number) {
+    const query = `getSpotlightWallpaper?start=${start}&numof_wallpaper=${numof_wallpaper}`
     return this.http.get(`${this.REST_API_SERVER}/api/v1/wallpaper/${query}`);
   }
   // get request
