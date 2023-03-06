@@ -50,3 +50,64 @@ Nếu bạn có bất kỳ câu hỏi hoặc đóng góp nào cho ứng dụng, 
 
 # Giấy phép
 Ứng dụng được phân phối theo giấy phép MIT. Xem thêm chi tiết trong file LICENSE.
+
+
+# WallpaperLibrary-Angular
+# Introduction
+
+WallpaperLibrary-Angular is a web application that allows users to view and download the most beautiful wallpapers from the Internet. The application is built on the Angular framework and uses the latest web technologies to provide users with the best experience.
+
+# Features
+
+- View a list of the most beautiful wallpapers
+- Search for wallpapers by keywords
+- View detailed information about a wallpaper
+- Download favorite wallpapers
+- Save wallpapers to a collection
+
+# Technologies Used
+
+- __FRONT-END__: Angular/Bootstrap
+- __BACK-END__: Node.js
+- __HTML/CSS/Typescript/Javascript__
+- __RxJS__
+- __Database: PostgreSQL__
+- __Wallpaper Storage__: SIRV.COM (supports storing, downloading, and uploading images through API)
+- __Authentication__: Firebase Authentication and JWT (JSON Web Token)
+
+# Installation Guide
+
+To run the application on your computer, you need to install the following software:
+
+- Node.js (latest version)
+
+- Angular CLI (15 or above)
+`npm install -g @angular/cli`
+
+- After installation, follow these steps:
+
+- Clone the repository to your computer:
+`git clone https://github.com/bluehairmylove2014/WallpaperLibrary-Angular.git`
+
+- Open a command prompt and navigate to the directory containing the source code of the repository:
+`cd WallpaperLibrary-Angular`
+
+- Install the necessary packages with the command (in both Client and Server folders):
+`npm install`
+
+- In the Database folder, there is a script file. Run the file and configure PostgreSQL appropriately (username, password, ... in db/index.js on the Server)
+
+- Start the Server with the command: `npm start`
+
+- Then start the Client with the command: `ng serve -o`
+
+- Open your browser and go to http://localhost:4200/ to use the application.
+
+# Author
+
+__Phan Phuc Dat__  
+If you have any questions or contributions to the application, please contact the author via email: bluehairmylove2014@gmail.com.
+
+# License
+
+The application is distributed under the MIT license. See more details in the LICENSE file.
