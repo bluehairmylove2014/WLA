@@ -122,6 +122,20 @@ export class ProfileComponent implements OnInit {
         return;
       }
     })
+    this.collection.forEach(wpp => {
+      if(wpp.wpp_id === event.targetId) {
+        if(event.type === 'unlove') {
+          wpp.lover = wpp.lover.filter(uid => uid !== this.user_account.user_id);
+          this.total_love -= 1;
+          
+        }
+        else if(event.type === 'love') {
+          wpp.lover.push(this.user_account.user_id);
+          this.total_love += 1;
+        }
+        return;
+      }
+    })
   }
   updateDownload(new_totalDownload: number) {
     this.total_download = new_totalDownload;

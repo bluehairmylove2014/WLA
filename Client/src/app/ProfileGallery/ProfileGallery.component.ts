@@ -83,33 +83,34 @@ export class ProfileGalleryComponent implements OnInit {
     }
   }
   loveWallpaper(event:any):void {
-    const img_element = event.target.parentElement.querySelector('img');
-    const icon_element = event.target.querySelector('i');;
-    const wpp_id = img_element.getAttribute('data-wppid');
+    const wpp_element = this.renderer.parentNode(event.target);
+    const icon_element = event.target.querySelector('i');
+    const wppid = Number.parseInt(wpp_element.getAttribute('data-wppid'));
     
     if(icon_element.classList.contains('fi-rr-heart')) {
       // Update total love in Profile component (parent)
       this.loveManagement.emit({
         type: 'love',
-        targetId: Number.parseInt(wpp_id)
+        targetId: wppid
       });
       // Call api to update love in server
-      this.api_service.updateLoveWallpaper(wpp_id, this.user_id, 'love');
+      this.api_service.updateLoveWallpaper(wppid, this.user_id, 'love');
     }
     else if(icon_element.classList.contains('fi-sr-heart')) {
       // Update total love in Profile component (parent)
       this.loveManagement.emit({
         type: 'unlove',
-        targetId: Number.parseInt(wpp_id)
+        targetId: wppid
       });
       // Call api to update love in server
-      this.api_service.updateLoveWallpaper(wpp_id, this.user_id, 'unlove');
+      this.api_service.updateLoveWallpaper(wppid, this.user_id, 'unlove');
     }
   }
   saveWallpaper(event:any):void {
     const wpp_element = this.renderer.parentNode(event.target);
     const icon_element = event.target.querySelector('i');
     const wppid = Number.parseInt(wpp_element.getAttribute('data-wppid'));
+    
     
     if(icon_element.classList.contains('fi-rr-bookmark')) {
       icon_element.classList.replace('fi-rr-bookmark', 'fi-sr-bookmark');

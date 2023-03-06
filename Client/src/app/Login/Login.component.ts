@@ -42,8 +42,6 @@ export class LoginComponent implements OnInit {
     private cd: ChangeDetectorRef, 
     private renderer: Renderer2, 
     private ngZone: NgZone,
-    private router: Router,
-    private api_service: ApiService,
     private auth_service : AuthService
   ) { 
     // initialize listener
@@ -179,6 +177,10 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  // Login with facebook handle
+  loginWithFacebook(): void {
+    this.auth_service.loginWithFacebook();
+  }
   // Login with google handle
   loginWithGoogle(): void {
     this.auth_service.loginWithGoogle();

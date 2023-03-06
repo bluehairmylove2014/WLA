@@ -7,13 +7,12 @@
   <ng-template #wppholder>
     <ngx-masonry [options]="masonryOptions" class="row">
       <div ngxMasonryItem *ngFor="let item of collection_data" class="grid-item">
-        <div class='wpp'>
+        <div class='wpp' [attr.data-wppid]="item.wpp_id">
           <div class='wpp-hover-bg'></div>
           <img 
             crossorigin="anonymous"
             src={{item.wpp_path}} 
             class='img-fluid wpp-img'
-            [attr.data-wppid]="item.wpp_id"
           >
           <button
             type='button'

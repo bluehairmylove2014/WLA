@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
     this.avtdropdown_listener = () => {}
   }
   logOut() {
+    Number.parseInt
     this.auth_service.logout();
     this.router.navigate(['login'])
   }

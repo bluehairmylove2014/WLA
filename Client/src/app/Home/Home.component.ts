@@ -124,24 +124,56 @@ export class HomeComponent implements OnInit {
       this.wpp_service.download(event.target.parentElement.getAttribute('data-wppid'), img_element.src);
     }
   }
+  updateLove(event: any) {
+    this.wallpapers_data.forEach(wpp => {
+      if(wpp.wpp_id === event.targetId) {
+        if(event.type === 'unlove') {
+          wpp.lover = wpp.lover.filter(uid => uid !== this.user_account.user_id);
+        }
+        else if(event.type === 'love') {
+          wpp.lover.push(this.user_account.user_id);
+        }
+        return;
+      }
+    })
+    this.collection_data.forEach(wpp => {
+      if(wpp.wpp_id === event.targetId) {
+        if(event.type === 'unlove') {
+          wpp.lover = wpp.lover.filter(uid => uid !== this.user_account.user_id);
+        }
+        else if(event.type === 'love') {
+          wpp.lover.push(this.user_account.user_id);
+        }
+        return;
+      }
+    })
+  }
   loveWallpaper(event:any):void {
     if(!this.isLogin()) {
       this.router.navigate(['login'])
       return;
     }
-    const img_element = event.target.parentElement.querySelector('img');
-    const icon_element = event.target.querySelector('i');;
-    const wpp_id = img_element.getAttribute('data-wppid');
+    const wpp_element = this.renderer.parentNode(event.target);
+    const icon_element = event.target.querySelector('i');
+    const wppid = Number.parseInt(wpp_element.getAttribute('data-wppid'));
     
     if(icon_element.classList.contains('fi-rr-heart')) {
+      this.updateLove({
+        type: 'love',
+        targetId: wppid
+      })
       // Call api to update love in server
-      this.api_service.updateLoveWallpaper(wpp_id, this.user_account.user_id, 'love');
+      this.api_service.updateLoveWallpaper(wppid, this.user_account.user_id, 'love');
     }
     else if(icon_element.classList.contains('fi-sr-heart')) {
+      this.updateLove({
+        type: 'unlove',
+        targetId: wppid
+      })
       // Call api to update love in server
-      this.api_service.updateLoveWallpaper(wpp_id, this.user_account.user_id, 'unlove');
+      this.api_service.updateLoveWallpaper(wppid, this.user_account.user_id, 'unlove');
     }
-  }
+  }  
   saveWallpaper(event:any):void {
     if(!this.isLogin()) {
       this.router.navigate(['login'])

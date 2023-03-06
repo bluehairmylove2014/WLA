@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS accounts;
 -- Tạo bảng account
 CREATE TABLE accounts (
   user_id TEXT PRIMARY KEY NOT NULL,
-  username VARCHAR(16) NOT NULL,
+  username TEXT NOT NULL,
   password TEXT NOT NULL,
   email TEXT NOT NULL,
   avatar TEXT UNIQUE NOT NULL,
@@ -115,12 +115,12 @@ INSERT INTO collection (user_id, wpp_list) VALUES
   ('user@3', ARRAY[]::INT[]);
 
 -- Viết function
-DROP FUNCTION get_accounts_by_username(username_in VARCHAR(16));
+DROP FUNCTION IF EXISTS get_accounts_by_username(username_in TEXT);
 -- Create
-CREATE OR REPLACE FUNCTION get_accounts_by_username(username_in VARCHAR(16))
+CREATE OR REPLACE FUNCTION get_accounts_by_username(username_in TEXT)
 RETURNS TABLE (
     user_id TEXT,
-    username VARCHAR(16),
+    username TEXT,
     password TEXT,
     email TEXT,
     avatar TEXT,
@@ -160,9 +160,10 @@ LANGUAGE plpgsql;
 
 -- Xem bảng đã được tạo
 SELECT * FROM accounts;
+SELECT MAX(user_id) as LAST_ID FROM accounts;
 -- Call
 SELECT username, avatar, display_name, account_type, account_status, createat, following, follower, location
-FROM get_accounts_by_username('dm410');
+FROM get_accounts_by_username('phucdat4102');
 -- Xem bảng đã được tạo
 SELECT * FROM user_detail;
 SELECT * FROM albums;

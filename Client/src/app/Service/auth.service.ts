@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { Router } from '@angular/router';
 
 import jwt_decode from 'jwt-decode';
-import { sendSignInLinkToEmail, Auth, GoogleAuthProvider } from '@angular/fire/auth';
+import { sendSignInLinkToEmail, Auth, GoogleAuthProvider, FacebookAuthProvider } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
@@ -28,6 +28,7 @@ export class AuthService {
     return this.afauth
       .signInWithPopup(provider)
       .then(data => {
+        
         // Add user to database
         const user_info = data.additionalUserInfo ? data.additionalUserInfo : null;
         if (user_info) {
@@ -90,6 +91,13 @@ export class AuthService {
       .catch(err => {
         console.error(err);
       })
+  }
+  loginWithFacebook() {
+    alert(`
+    Xin lỗi, hiện tại website trong quá trình phát triển đang dùng giao thức HTTP, vì tính bảo mật nên không thể sử dụng tính năng này!
+    Sorry, the website is currently under development and using the HTTP protocol. Due to security concerns, this feature cannot be used.
+    `)
+    // return this.AuthLogin(new FacebookAuthProvider);
   }
   loginWithGoogle() {
     return this.AuthLogin(new GoogleAuthProvider);
