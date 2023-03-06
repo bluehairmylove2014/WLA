@@ -50,6 +50,13 @@ export class ApiService {
   checkLogin(email:string, psw:string) {
     return this.http.post(`${this.REST_API_SERVER}/api/v1/login/checkLogin`, {email, psw});
   }
+  loginWithGoogle(email:string) {
+    const query = `loginWithGoogle?email=${email}`;
+    return this.http.get(`${this.REST_API_SERVER}/api/v1/login/${query}`)
+  }
+  createNewUser(email: string, fullname: string, avatar: string, password: string) {
+    return this.http.post(`${this.REST_API_SERVER}/api/v1/login/createUser`, { email, fullname, avatar, password });
+  }
   // Wallpaper
   uploadWallpaper(data: any) {
     const headers = new HttpHeaders();

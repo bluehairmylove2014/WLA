@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "swallpapers-66098": {
+      "hosting": {
+        "WallpaperLibrary": [
+          "swallpapers-66098"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "swallpapers-66098"
+  }
+}

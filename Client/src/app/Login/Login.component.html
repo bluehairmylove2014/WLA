@@ -1,7 +1,7 @@
 <div #home>
   <div class="header-wrapper">
     <nav class="home-navbar row">
-      <div class="col-1 h-100 animate-fadeindown">
+      <div class="col-1 home-navlogo-holder animate-fadeindown">
         <img 
           src=".././../assets/logos/swallpapers.png"
           class="home-navlogo"
@@ -34,85 +34,167 @@
           </p>
         </div>
       </div>
-      <div class="col-5 login-btn-wrapper">
-        <div class="login-btn-holder mb-3 animate-fadein-toleft">
-          <button
-            class="login-btn ver2"
-            type="button"
-          >
-            <img 
-              src="../../assets/graphics/facebook.png"
-              class="login-btn-icon"
-            >
-            Continue with Facebook
-          </button>
-        </div>
-        <div class="login-btn-holder mb-3 animate-fadein-toleft">
-          <button
-            class="login-btn ver3"
-            type="button"
-            (click)="loginWithGoogle()"
-          >
-            <img 
-              src="../../assets/graphics/google.png"
-              class="login-btn-icon"
-            >
-            Continue with google
-          </button>
-        </div>
-        <div 
-          class="login-btn-holder mb-3 animate-fadein-toleft" 
-          #saloginholder
-        >
-          <div class="btn-wrapper">
+      <div class="col-5 m-auto position-relative">
+        <div class="login-btn-wrapper active" #loginField>
+          <div class="login-btn-holder mb-3 animate-fadein-toleft">
             <button
-              class="login-btn ver1"
+              class="login-btn ver2"
               type="button"
-              (click)="loginSunriseAccount()"
             >
-              Continue with Sunrise Account
+              <img 
+                src="../../assets/graphics/facebook.png"
+                class="login-btn-icon"
+              >
+              Continue with Facebook
             </button>
-            <form class="login-form">
+          </div>
+          <div class="login-btn-holder mb-3 animate-fadein-toleft">
+            <button
+              class="login-btn ver3"
+              type="button"
+              (click)="loginWithGoogle()"
+            >
+              <img 
+                src="../../assets/graphics/google.png"
+                class="login-btn-icon google"
+              >
+              Continue with google
+            </button>
+          </div>
+          <div 
+            class="login-btn-holder mb-3 animate-fadein-toleft" 
+            #saloginholder
+          >
+            <div class="btn-wrapper">
+              <button
+                class="login-btn ver1"
+                type="button"
+                (click)="loginSunriseAccount()"
+              >
+                Continue with Sunrise Account
+              </button>
+              <form class="login-form">
+                <div class='salogin-input-holder'>
+                  <input 
+                    type="email"
+                    class='salogin-input' 
+                    (focus)="inputFocus('email', 'login')"
+                    (blur)="inputBlur('email', 'login')"
+                    id="email-input"
+                  >
+                  <p class='salogin-label' id="email-label">Email</p>
+                </div>
+                <div class='salogin-input-holder'>
+                  <input 
+                    type="password"
+                    class='salogin-input' 
+                    (focus)="inputFocus('psw', 'login')"
+                    (blur)="inputBlur('psw', 'login')"
+                    id="psw-input"
+                  >
+                  <p class='salogin-label' id="psw-label">Password</p>
+                </div>
+                <div class='text-center pt-3'>
+                  <button 
+                    type='button' 
+                    class="commit-login-btn"
+                    (click)="commitSALogin()"
+                  >
+                    LOGIN
+                  </button>
+                </div>
+              </form>
+              <div class="login-error-notification" #loginErrorNoti>
+                <p id="error-noti-content"></p>
+              </div>
+            </div>
+          </div>
+          <div class="login-btn-holder animate-fadeinup">
+            <p class="register-now-text">
+              Or
+              <button 
+                (click)="goRegister()"
+                type="button" 
+                class="register-now-link"
+              >
+                Register Sunrise Account Now!
+              </button>
+            </p>
+          </div>
+        </div>
+        <div class="register-wrapper" #registerField>
+          <div class="register-data-holder ">
+            <p class="register-title">REGISTER A SUNRISE ACCOUNT</p>
+            <form class="register-form" [formGroup]="registerForm" (submit)="commitSARegister()">
               <div class='salogin-input-holder'>
                 <input 
                   type="email"
                   class='salogin-input' 
-                  (focus)="loginFocus('email')"
-                  (blur)="loginBlur('email')"
-                  id="email-input"
+                  (focus)="inputFocus('remail', 'register')"
+                  (blur)="inputBlur('remail', 'register')"
+                  id="remail-input"
+                  formControlName="email"
                 >
-                <p class='salogin-label' id="email-label">Email</p>
+                <p class='salogin-label' id="remail-label">Email</p>
+              </div>
+              <div class='salogin-input-holder'>
+                <input 
+                  type="text"
+                  class='salogin-input' 
+                  (focus)="inputFocus('name', 'register')"
+                  (blur)="inputBlur('name', 'register')"
+                  id="name-input"
+                  formControlName="name"
+                >
+                <p class='salogin-label' id="name-label">Your name</p>
               </div>
               <div class='salogin-input-holder'>
                 <input 
                   type="password"
                   class='salogin-input' 
-                  (focus)="loginFocus('psw')"
-                  (blur)="loginBlur('psw')"
-                  id="psw-input"
+                  (focus)="inputFocus('rpsw', 'register')"
+                  (blur)="inputBlur('rpsw', 'register')"
+                  id="rpsw-input"
+                  formControlName="psw"
                 >
-                <p class='salogin-label' id="psw-label">Password</p>
+                <p class='salogin-label' id="rpsw-label">Password</p>
               </div>
-              <div class='text-center pt-3'>
-                <button 
-                  type='button' 
-                  class="commit-login-btn"
-                  (click)="commitSALogin()"
+              <div class='salogin-input-holder'>
+                <input 
+                  type="password"
+                  class='salogin-input' 
+                  (focus)="inputFocus('cmpsw', 'register')"
+                  (blur)="inputBlur('cmpsw', 'register')"
+                  id="cmpsw-input"
+                  formControlName="cmpsw"
                 >
-                  LOGIN
+                <p class='salogin-label' id="cmpsw-label">Commit Password</p>
+              </div>
+              <div class='text-center pt-4'>
+                <button 
+                  type='submit' 
+                  class="commit-register-btn"
+                >
+                  CREATE ACCOUNT
                 </button>
               </div>
+              
+              <div class="register-error-notification" #registerErrorNoti>
+                <p id="error-rnoti-content"></p>
+              </div>
             </form>
-            <div class="login-error-notification">
-              <p id="error-noti-content"></p>
-            </div>
           </div>
-        </div>
-        <div class="login-btn-holder animate-fadeinup">
-          <p class="register-now-text">
-            Or
-            <a href="" class="register-now-link">Register now!</a>
-          </p>
+          <div class="login-btn-holder animate-fadeinup pt-4">
+            <p class="register-now-text">
+              <button 
+                (click)="goLogin()"
+                type="button" 
+                class="register-now-link"
+              >
+                Already have an account?
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </div>

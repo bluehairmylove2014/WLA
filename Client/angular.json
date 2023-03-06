@@ -28,8 +28,7 @@
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -92,6 +91,16 @@
               "src/styles.css"
             ],
             "scripts": []
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "WallpaperLibrary:build:production",
+            "firebaseProject": "swallpapers-66098",
+            "firebaseHostingSite": "swallpapers-66098"
           }
         }
       }

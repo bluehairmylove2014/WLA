@@ -45,7 +45,7 @@
     </div>
     <div class="nav-dropdown-holder">
       <button class="nav-avt-holder" (click)="showAvtDropdown($event)">
-        <img [src]="user_avatar" class='nav-avt me-1'>
+        <img crossorigin="anonymous" [src]="user_avatar" class='nav-avt me-1'>
       </button>
       <div class="nav-dropdown-content">
         <button class="nav-btn-title" (click)="goProfile()">
@@ -79,8 +79,17 @@
     </div>
   </div>
   <ng-template #notlogin>
-    <div class="col-5">
-      
+    <div class="col-5 nav-interact-holder">
+      <div class="license-holder pe-3">
+        <a
+          class="license-btn"
+          routerLink="/license"
+        >
+          License
+        </a>
+      </div>
+      <a routerLink="/login" class="login-btn">Login</a>
+      <a routerLink="/login" class="register-btn">Register</a>
     </div>
   </ng-template>
 </nav>

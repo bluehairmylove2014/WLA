@@ -10,10 +10,16 @@
 }
 .home-navbar {
     padding: 0px 0px 0px 20px;
-    height: 13%;
+    height: 10%;
+}
+.home-navlogo-holder {
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 .home-navlogo {
-    height: 100%;
+    filter: drop-shadow(0px 0px 3px #b4b4b4);
+    height: 70%;
 }
 .calendar-notify-text {
     font-family: Kollektif, sans-serif;
@@ -21,13 +27,14 @@
     text-transform: uppercase;
     text-align: center;
     font-size: 16px;
+    filter: drop-shadow(-4px 3px 10px #e4d2d2);
 }
 .intro-text {
     font-family: BebasNeue, sans-serif;
     color: white;
     font-size: 130px;
     line-height: 110px;
-
+    filter: drop-shadow(-4px 3px 5px #4b4b4b);
 }
 .intro {
     display: flex;
@@ -67,11 +74,19 @@
     background-color: #3a4aae;
     color: #ffffff;
     width: 50%;
+    transition: all 0.1s ease-in-out;
 }
 .login-btn.ver3 {
+    transition: all 0.1s ease-in-out;
     background-color: #fcfcfc;
     color: #000000;
     width: 50%;
+}
+.login-btn:hover.ver3 {
+    background-color: #d8d8d8;
+}
+.login-btn:hover.ver2 {
+    background-color: #2e3c9b;
 }
 .login-btn.ver1:before, .login-btn.ver1:after {
     content: '';
@@ -108,7 +123,15 @@
     border-bottom-left-radius: 0!important;
 }
 .login-btn-wrapper {
-    margin: auto;
+    transform: translateX(6em);
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.4s ease-in-out;
+}
+.login-btn-wrapper.active {
+    transform: translateX(0);
+    visibility: visible;
+    opacity: 1;
 }
 .btn-wrapper {
     width: 50%;
@@ -122,16 +145,20 @@
     transform: translateY(-2px);
     width: 20px;
     height: 20px;
-    background-color: white;
-    border-radius: 50%;
+}
+.login-btn-icon.google {
+    background-color: transparent;
+    filter: drop-shadow(-2px 2px 2px #bebebe);
 }
 .register-now-text {
     font-family: Kollektif, sans-serif;
     color: white;
 }
 .register-now-link {
-    color: rgb(131, 131, 255);
-    text-decoration: none;
+    color: rgb(195, 195, 255);
+    border: none;
+    outline: none;
+    background-color: transparent;
 }
 .register-now-link:hover {
     color: rgb(107, 107, 254);
@@ -164,8 +191,21 @@
     justify-content: flex-end;
     transition: all 0.3s ease-in-out;
     pointer-events: none;
+    white-space: nowrap;
 }
-.login-error-notification.active {
+.register-error-notification {
+    font-family: Roboto_Mono, sans-serif;
+    visibility: hidden;
+    opacity: 0;
+    width: fit-content;
+    height: 60px;
+    color: rgb(255, 0, 0);
+    margin: 1rem auto;
+    transition: all 0.3s ease-in-out;
+    pointer-events: none;
+    white-space: nowrap;
+}
+.login-error-notification.active, .register-error-notification.active {
     visibility: visible;
     opacity: 1;
 }
@@ -190,7 +230,7 @@
     width: 90%;
     box-shadow: 0px 3px 3px #272727;
 }
-.commit-login-btn {
+.commit-login-btn, .commit-register-btn {
     background-color: rgb(187, 252, 255); /* Default */
     border: none;
     outline: none;
@@ -202,12 +242,58 @@
     box-shadow: 0px 0px 6px #000000;
 
     /* Prepare Hover Effect */
-    background: linear-gradient(to left, rgb(187, 252, 255) 50%, rgb(55, 33, 255) 50%);
-    background-size: 200%;
-    background-position: right;
     transition: background-position 0.3s ease-in-out, color 0.2s ease-in-out;
+}
+.commit-register-btn {
+    background: linear-gradient(to left, rgb(187, 252, 255) 50%, rgb(3, 153, 40) 50%);
+    background-size: 210%;
+    background-position: right;
+}
+.commit-login-btn {
+    background: linear-gradient(to left, rgb(187, 252, 255) 50%, rgb(55, 33, 255) 50%);
+    background-size: 210%;
+    background-position: right;
+}
+.commit-register-btn:hover {
+    background-position: left;
+    color: white;
 }
 .commit-login-btn:hover {
     background-position: left;
     color: white;
+}
+.register-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-30em, -50%);
+    width: 400px;
+    height: fit-content;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.4s ease-in-out;
+}
+.register-wrapper.active {
+    transform: translate(-50%, -50%);
+    visibility: visible;
+    opacity: 1;
+}
+.register-data-holder {
+    background-image: url('../../assets/bgs/dawn.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 0.5rem;
+    padding: 3rem 1rem 0rem 1rem;
+    box-shadow: 0px 0px 5px #3b3b3b;
+}
+.register-title {
+    font-family: Roboto_Mono, sans-serif;
+    text-align: center;
+    color: black;
+    font-size: 17px;
+}
+.register-form {
+    position: relative;
+    margin-top: 3rem;
+    text-align: center;
 }

@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -22,9 +22,14 @@ import { HeaderComponent } from './Header/Header.component';
 // Pipe
 import { ShortNumberPipe } from './Pipe/ShortNumber.pipe';
 import { DatePipe } from '@angular/common';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 @NgModule({
-  declarations: [																			
+  declarations: [
     AppComponent,
     LoginComponent,
     ProfileGalleryComponent,
@@ -32,22 +37,26 @@ import { DatePipe } from '@angular/common';
     ProfileComponent,
     ProfileCollectionComponent,
     FooterComponent,
-
     ShortNumberPipe,
-      UploadWallpaperComponent,
-      HeaderComponent,
-      HeaderComponent,
-      HomeComponent,
-      UploadWallpaperComponent
-   ],
+    UploadWallpaperComponent,
+    HeaderComponent,
+    HeaderComponent,
+    HomeComponent,
+    UploadWallpaperComponent
+  ],
   imports: [
+    ReactiveFormsModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,
     NgxMasonryModule,
     HttpClientModule,
-    BrowserModule, 
+    BrowserModule,
     BrowserAnimationsModule,
+    provideFirebaseApp(() => initializeApp(environment)),
+    provideAuth(() => getAuth()),
+    AngularFireModule.initializeApp(environment),
+    AngularFireAuthModule,
   ],
   providers: [
     DatePipe

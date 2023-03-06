@@ -14,12 +14,23 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      //logic xét duyệt để trả về true/false ở đây
-      if (!this.auth.isLogin()) {
-        this.router.navigate(['login']);        
-        return false;
+      let isLogin = this.auth.isLogin();
+      let routeConfig = route.routeConfig ? route.routeConfig : {};
+      let path = routeConfig.path ? routeConfig.path : '';
+      
+      if(path.includes('profile')) {
+        if (!isLogin) {
+          this.router.navigate(['login']);        
+          return false;
+        }
       }
-      else return true;
+      else if(path.includes('login')) {
+        if(isLogin) {
+          this.router.navigate(['']);
+          return false;
+        }
+      }
+      return true;
   }
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,

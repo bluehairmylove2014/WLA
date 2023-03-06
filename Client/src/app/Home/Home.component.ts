@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '../common/User';
 import { Wallpaper } from '../common/Wallpaper';
 import { ApiService } from '../Service/api.service';
@@ -47,7 +48,8 @@ export class HomeComponent implements OnInit {
     private auth_service: AuthService,
     private api_service: ApiService,
     private wpp_service: WallpaperService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router
   ) { }
   
   @HostListener('window:scroll', ['$event'])
@@ -123,6 +125,10 @@ export class HomeComponent implements OnInit {
     }
   }
   loveWallpaper(event:any):void {
+    if(!this.isLogin()) {
+      this.router.navigate(['login'])
+      return;
+    }
     const img_element = event.target.parentElement.querySelector('img');
     const icon_element = event.target.querySelector('i');;
     const wpp_id = img_element.getAttribute('data-wppid');
@@ -137,6 +143,10 @@ export class HomeComponent implements OnInit {
     }
   }
   saveWallpaper(event:any):void {
+    if(!this.isLogin()) {
+      this.router.navigate(['login'])
+      return;
+    }
     const wpp_element = this.renderer.parentNode(event.target);
     const icon_element = event.target.querySelector('i');
     const wppid = Number.parseInt(wpp_element.getAttribute('data-wppid'));
@@ -174,6 +184,13 @@ export class HomeComponent implements OnInit {
             this.collection_data = collection;
           });
         }
+      })
+    }
+    else {
+      // Get wallpaper data
+      this.api_service.getSpotlightWallpaper(this.last_index, this.number_of_preview).subscribe((data: any) => {
+        data.wpps && (this.wallpapers_data = data.wpps);
+        data.total && (this.last_index = data.total);
       })
     }
   }

@@ -171,7 +171,8 @@ DELETE FROM wallpapers WHERE wpp_id >= 36;
 SELECT * FROM wallpapers ORDER BY wpp_id ASC;
 SELECT * FROM collection;
 
-SELECT *
+SELECT user_id, wpp_id, total_download, wpp_path
 FROM wallpapers
-ORDER BY total_download DESC
-LIMIT 10; 
+ORDER BY total_download DESC, wpp_id ASC
+OFFSET 30
+LIMIT 15; 
