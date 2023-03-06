@@ -3,7 +3,7 @@
 const db = require("../db");
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const PRIVATE_KEY = fs.readFileSync('private-key.pem');
+const PRIVATE_KEY = fs.readFileSync('../../private-key.pem');
 
 exports.checkLogin = function (req, res, next) {
     try {
