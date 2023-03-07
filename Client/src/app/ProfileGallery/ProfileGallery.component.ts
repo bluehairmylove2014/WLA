@@ -41,7 +41,8 @@ export class ProfileGalleryComponent implements OnInit {
     transitionDuration: '0.2s',
     gutter: 0,
     resize: true,
-    initLayout: true
+    initLayout: true,
+    itemSelector: '.grid-item',
   };
 
   constructor(

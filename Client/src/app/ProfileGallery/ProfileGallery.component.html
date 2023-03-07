@@ -5,7 +5,7 @@
     <img src="../../assets/graphics/nowallpaper.png" alt="nowallpaper">
   </div>
   <ng-template #wppholder>
-    <ngx-masonry [options]="masonryOptions" class="row">
+    <ngx-masonry [options]="masonryOptions" [ordered]="true" class="row">
       <div ngxMasonryItem *ngFor="let item of wallpapers_data" class="grid-item">
         <div class='wpp' [attr.data-wppid]="item.wpp_id">
           <div class='wpp-hover-bg'></div>

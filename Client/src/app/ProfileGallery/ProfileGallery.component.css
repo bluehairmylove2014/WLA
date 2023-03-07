@@ -79,7 +79,9 @@
     margin-bottom: 15px;
     width: 33.333%;
 }
-  
-.grid-item {
-    width: 33.333%;
+
+@media (max-width: 960px) {
+    .grid-item {
+        width: 50%!important;
+    }
 }
