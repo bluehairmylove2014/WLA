@@ -1,0 +1,66 @@
+<app-Header></app-Header>
+<div class="body container">
+  <hr>
+  <div class="title mt-5">
+    <p class="result-title">Results for {{keysearch}}</p>
+    <div class="wpp-center">
+      <div class="category">
+        <button type="button" id="photos" class="category-btn" [ngClass]="{'active': isCurrentTab(photoBtn.id)}"
+          (click)="changeTab($event)" #photoBtn>
+          Photos
+        </button>
+        <button type="button" id="videos" class="category-btn" [ngClass]="{'active': isCurrentTab(videoBtn.id)}"
+          #videoBtn (click)="changeTab($event)">
+          Videos
+        </button>
+        <button type="button" id="users" class="category-btn" [ngClass]="{'active': isCurrentTab(userBtn.id)}" #userBtn
+          (click)="changeTab($event)">
+          Users
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="result">
+    <div class="wpp-of-week">
+      <div class="row" *ngIf="result_data.length === 0, else wppholder">
+        <img src="../../assets/graphics/nowallpaper.png" alt="nowallpaper">
+      </div>
+      <ng-template #wppholder>
+        <ngx-masonry [options]="masonryOptions" class="d-flex">
+          <ng-container *ngFor="let item of result_data">
+            <div ngxMasonryItem class="grid-item">
+              <div class='wpp' [attr.data-wppid]="item.wpp_id">
+                <div class='wpp-hover-bg'></div>
+                <div class="loading">
+                  <span class="loader"></span>
+                </div>
+                <img crossorigin="anonymous" src={{item.wpp_path}} class='img-fluid wpp-img'>
+                <button type='button' class='wpp-interact-btn download' (click)="downloadWallpaper($event)">
+                  <i class="fi fi-rr-download wpp-interact-icon"></i>
+                </button>
+                <button type='button' class='wpp-interact-btn love' (click)="loveWallpaper($event)">
+                  <i class="fi fi-rr-heart wpp-interact-icon" *ngIf="!isLoved(item.wpp_id), else loved"></i>
+                  <ng-template #loved>
+                    <i class="fi fi-sr-heart wpp-interact-icon loveactive"></i>
+                  </ng-template>
+
+                </button>
+                <button type='button' class='wpp-interact-btn save' (click)="saveWallpaper($event)">
+                  <i class="fi fi-rr-bookmark wpp-interact-icon" *ngIf="!isSaved(item.wpp_id), else saved"></i>
+                  <ng-template #saved>
+                    <i class="fi fi-sr-bookmark wpp-interact-icon bookmarkactive"></i>
+                  </ng-template>
+                </button>
+                <button type="button" class="wpp-interact-btn owner" (click)="goProfileById(item.user_id)">
+                  <img crossorigin="anonymous" src={{item.artist_img}} class='owner-avt'>
+                  <span>{{item.artist_name}}</span>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+        </ngx-masonry>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<app-Footer></app-Footer>

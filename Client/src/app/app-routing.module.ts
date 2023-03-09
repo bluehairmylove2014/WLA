@@ -10,9 +10,11 @@ import { HomeComponent } from './Home/Home.component';
 import { LoginComponent } from './Login/Login.component';
 import { PageNotFoundComponent } from './PageNotFound/PageNotFound.component';
 import { ProfileComponent } from './Profile/Profile.component';
+import { WallpaperSearchComponent } from './WallpaperSearch/WallpaperSearch.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
+  {path: 's/:type/:keysearch', component: WallpaperSearchComponent},
   {path: 'login', component: LoginComponent, canActivate: [AuthGuard]},
   {path: 'profile/:username', redirectTo: 'profile/:username/gallery', pathMatch: 'full'},
   {path: 'profile/:username/:tab', component: ProfileComponent, canActivate: [AuthGuard]},

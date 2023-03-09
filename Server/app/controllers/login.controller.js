@@ -39,12 +39,13 @@ exports.checkLogin = function (req, res, next) {
 exports.loginWithGoogle = function(req, res, next) {
     try {
         const email = req.query.email;
+        console.log(email);
         db.query(`SELECT * FROM accounts where email='${email}'`,
             (err, dbres) => {
                 if (err) {
                     console.log(err.stack);
                 } else {
-                    if (dbres.rows.length === 0) {
+                    if (dbres.rowCount === 0) {
                         // Wrong
                         res.status(401);
                     }

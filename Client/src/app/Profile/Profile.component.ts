@@ -12,6 +12,7 @@ import { DateService } from '../Service/date.service';
 import { ShortNumberPipe } from '../Pipe/ShortNumber.pipe';
 import { ApiService } from '../Service/api.service';
 import { Subscription } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-Profile',
@@ -46,6 +47,7 @@ export class ProfileComponent implements OnInit {
   cur_wallpaper: Wallpaper[] = [] as Wallpaper[];
 
   collection: Wallpaper[] = [] as Wallpaper[];
+  selfCollection: Wallpaper[] = [] as Wallpaper[];
   cur_collection: Wallpaper[] = [] as Wallpaper[];
 
   total_views: number = 0;
@@ -53,11 +55,27 @@ export class ProfileComponent implements OnInit {
   total_download: number = 0;
 
   cur_tab = 'gallery';
+  auth = {
+    islogin: false,
+    is_own: false
+  }
+  typeFilterOption = 'pav';
+  rateFilterOption = 'recency';
+
+  typeOptions = [
+    {name: 'Photos and videos', value: 'pav'},
+    {name: 'Photos', value: 'photos'},
+    {name: 'Videos', value: 'videos'}
+  ]
+  rateOptions = [
+    {name: 'Popularity', value: 'popularity'},
+    {name: 'Recency', value: 'recency'}
+  ]
 
   constructor(
     private element_ref: ElementRef,
     private atv_router: ActivatedRoute,
-    private api_service: ApiService,
+    private api_service: ApiService,  
     private auth_service: AuthService,
     public date_service: DateService,
     private router: Router
@@ -78,12 +96,13 @@ export class ProfileComponent implements OnInit {
     
     // pos/docHeight will give you the distance between scroll bottom and and bottom of screen in percentage.
     if (pos >= docHeight) {
+      const tw_applied = this.applyFilter(this.total_wallpapers);
       const oldLength = this.cur_wallpaper.length;
-      const totalLength = this.total_wallpapers.length;
-      const newLength = ((oldLength + 6) >= totalLength) ?
-        totalLength : oldLength + 6;
+      const totalLength = tw_applied.length;
+      const newLength = ((oldLength + 15) >= totalLength) ?
+        totalLength : oldLength + 15;
 
-      this.total_wallpapers.slice(
+      tw_applied.slice(
         this.cur_wallpaper.length,
         newLength
       ).forEach(wp => {
@@ -91,8 +110,59 @@ export class ProfileComponent implements OnInit {
       })
     }
   }
-  isLogin():boolean {
-    return this.auth_service.isLogin();
+  applyFilter(wpp_list: any) {
+    let wpplist_applied = [...wpp_list];
+    switch(this.typeFilterOption) {
+      case 'pav': {
+        wpplist_applied = wpp_list;
+        break;
+      }
+      case 'photos': {
+        wpplist_applied = wpp_list.filter((wpp: Wallpaper) => wpp.wpp_type.includes('image'));
+        break;
+      }
+      case 'videos': {
+        wpplist_applied = wpp_list.filter((wpp: Wallpaper) => wpp.wpp_type.includes('video'));
+        break;
+      }
+    }
+    switch(this.rateFilterOption) {
+      case 'popularity': {
+        // Sắp xếp danh sách theo trường lover.length và total_download
+        wpplist_applied.sort((a, b) => {
+          const popularityA = a.lover.length + a.total_download;
+          const popularityB = b.lover.length + b.total_download;
+          return -1 * (popularityA - popularityB);
+        });
+        break;
+      }
+      case 'recency': {
+        // Sắp xếp danh sách theo trường createat
+        wpplist_applied.sort((a, b) => {
+          const createatA = new Date(a.createat).getTime();
+          const createatB = new Date(b.createat).getTime();
+          return -1 * (createatA - createatB);
+        });
+        break;
+      }
+    }
+    return wpplist_applied;
+  }
+  reapplyFilter() {
+    if(this.cur_tab === 'gallery') {
+      const tw_applied = this.applyFilter(this.total_wallpapers);
+      this.cur_wallpaper = [...tw_applied.slice(
+        0, 
+        (tw_applied.length >= 15) ? 15 : tw_applied.length
+      )];
+    }
+    else if(this.cur_tab === 'collection') {
+      const tw_applied = this.applyFilter(this.selfCollection);
+      this.cur_collection = [...tw_applied.slice(
+        0, 
+        (tw_applied.length >= 15) ? 15 : tw_applied.length
+      )];
+    }
   }
   compareRatio(targetId: string): boolean {
     let album_container = this.element_ref.nativeElement.querySelector('.album-avt-holder');
@@ -111,12 +181,12 @@ export class ProfileComponent implements OnInit {
     this.total_wallpapers.forEach(wpp => {
       if(wpp.wpp_id === event.targetId) {
         if(event.type === 'unlove') {
-          wpp.lover = wpp.lover.filter(uid => uid !== this.user_account.user_id);
+          wpp.lover = wpp.lover.filter(uid => uid !== this.auth_service.getUsername());
           this.total_love -= 1;
           
         }
         else if(event.type === 'love') {
-          wpp.lover.push(this.user_account.user_id);
+          wpp.lover.push(this.auth_service.getUsername());
           this.total_love += 1;
         }
         return;
@@ -125,12 +195,12 @@ export class ProfileComponent implements OnInit {
     this.collection.forEach(wpp => {
       if(wpp.wpp_id === event.targetId) {
         if(event.type === 'unlove') {
-          wpp.lover = wpp.lover.filter(uid => uid !== this.user_account.user_id);
+          wpp.lover = wpp.lover.filter(uid => uid !== this.auth_service.getUsername());
           this.total_love -= 1;
           
         }
         else if(event.type === 'love') {
-          wpp.lover.push(this.user_account.user_id);
+          wpp.lover.push(this.auth_service.getUsername());
           this.total_love += 1;
         }
         return;
@@ -143,13 +213,24 @@ export class ProfileComponent implements OnInit {
   updateSave(data_pkg: any) {
     const wpp_id = data_pkg.wpp_id;
     const type = data_pkg.type;
+    
     if(type && type === 'save') {
       // Set wpp to local collection variable
-      this.collection.push(this.cur_wallpaper.filter(wpp => wpp.wpp_id === wpp_id)[0]);
+      if(this.auth.is_own) {
+        this.collection.push(this.total_wallpapers.filter(wpp => wpp.wpp_id === wpp_id)[0]);
+      }
+      else if(this.cur_tab === 'gallery') {
+        this.selfCollection.push(this.total_wallpapers.filter(wpp => wpp.wpp_id === wpp_id)[0]);
+      }
+      else if(this.cur_tab === 'collection') {
+        this.selfCollection.push(this.collection.filter(wpp => wpp.wpp_id === wpp_id)[0]);
+      }
+      
     }
     else if(type && type === 'unsave') {
       // Set wpp to local collection variable
-      this.collection = this.collection.filter(wpp => wpp.wpp_id !== wpp_id);
+      this.auth.is_own && (this.collection = this.collection.filter(wpp => wpp.wpp_id !== wpp_id));
+      !this.auth.is_own && (this.selfCollection = this.selfCollection.filter(wpp => wpp.wpp_id !== wpp_id));
     }
   }
   sliceArray(array:any, start: number, end:number): any {
@@ -167,31 +248,45 @@ export class ProfileComponent implements OnInit {
   changeTab(btn_target: any) {
     this.router.navigate(['profile', this.user_account.username, btn_target.target.id])
   }
+  chooseTypeFilter(event: any) {
+
+  }
+  chooseOptionFilter(event: any) {
+
+  }
   // Hook
   ngOnInit() {
     // Check login
-    if(this.isLogin()) {
+    this.auth.islogin = this.auth_service.isLogin();
+    if(this.auth.islogin) {
       // Get username from link
       this.sub = this.atv_router.params.subscribe(param => {
         let username = param['username'];
         this.cur_tab = param['tab'];
-  
+        
+        this.auth.is_own = this.auth_service.isOwn(username);
+
         // Get user data by username
         this.api_service.getUser(username).subscribe((user_data:any) => {
           user_data[0] && (this.user_account = user_data[0]);
-          
           if(user_data[0].user_id) {
             // Get wallpaper data by user_id
             this.api_service.getWallpapers(user_data[0].user_id).subscribe((wpps:any) => {
               this.total_wallpapers = wpps;
-              this.cur_wallpaper = wpps.slice(
+              const tw_applied = this.applyFilter(wpps);
+              this.cur_wallpaper = this.applyFilter(tw_applied).slice(
                 0, 
-                (this.total_wallpapers.length >= 6) ? 6 : this.total_wallpapers.length
+                (tw_applied.length >= 15) ? 15 : tw_applied.length
               );
               // Split wpp type to img_wallpapers and video_wallpapers
+              this.total_love = 0;
+              this.total_download = 0;
+              this.total_views = 0;
+              this.img_wallpapers = [];
+              this.video_wallpapers = [];
               wpps.forEach((wpp:any) => {
                 // filter wallpaper
-                if(wpp.wpp_type === 'image') {
+                if(wpp.wpp_type.includes('image')) {
                   this.img_wallpapers.push(wpp);
                 }
                 else {
@@ -203,20 +298,26 @@ export class ProfileComponent implements OnInit {
                 this.total_download += wpp.total_download;
               });
             });
-            // Get albums data by user_id
-            this.api_service.getAlbums(user_data[0].user_id).subscribe((albums:any) => {
-              this.albums = albums;
-              this.preview_albums = albums.slice(0, albums.length > 3 ? 3 : albums.length);
-            });
+            // // Get albums data by user_id
+            // this.api_service.getAlbums(user_data[0].user_id).subscribe((albums:any) => {
+            //   this.albums = albums;
+            //   this.preview_albums = albums.slice(0, albums.length > 3 ? 3 : albums.length);
+            // });
             // Get collection data by user_id
             this.api_service.getCollection(user_data[0].user_id).subscribe((collection:any) => {
-              
               this.collection = collection;
               this.cur_collection = collection.slice(
                 0, 
-                (this.collection.length >= 6) ? 6 : this.collection.length
+                (this.collection.length >= 15) ? 15 : this.collection.length
               );
             });
+            if(!this.auth.is_own) {
+              this.api_service.getUser(this.auth_service.getUsername()).subscribe(data => {
+                data[0] && this.api_service.getCollection(data[0].user_id).subscribe((collection:any) => {
+                  this.selfCollection = collection;
+                });
+              })
+            }
           }
         })
       })

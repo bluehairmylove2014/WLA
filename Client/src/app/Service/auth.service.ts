@@ -60,8 +60,7 @@ export class AuthService {
               this.api.createNewUser(
                 user_profile.email.trim(),
                 (user_profile.family_name + ' ' + user_profile.given_name).trim(),
-                // user_profile.picture.trim(),
-                'https://aldortio.sirv.com/swallpapers/user/avt/default_avt.png',
+                user_profile.picture.trim(),
                 password.trim()
               ).subscribe((res:any) => {
                 const expiresAt = moment().add(res.expiresIn, 'minute');
@@ -150,6 +149,9 @@ export class AuthService {
     if (str == "") return false;
     const expiresAt = JSON.parse(str);
     return moment().isBefore(moment(expiresAt));
+  }
+  isOwn(username: string): boolean {
+    return username === localStorage.getItem(this.username_keyword) ? true : false;
   }
   getUsername(): string {
     let username = localStorage.getItem(this.username_keyword);

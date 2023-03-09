@@ -1,10 +1,51 @@
+.body {
+    padding-top: 70px;
+}
+.result-title {
+    font-family: MontserratBold, sans-serif;
+    color: black;
+    font-size: 40px;
+}
+.wpp-center {
+    display: inline-block;
+    width: 100%;
+    margin: 2rem 0px 2rem 0px;
+}
+.category {
+    float: left;
+}
+.category-btn {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-family: League_Spartan, sans-serif;
+    font-size: 20px;
+    color: #535353;
+    transition: all 0.2s ease-in-out;
+    padding: 5px 20px;
+    margin-right: 10px;
+}
 
+.category-btn:hover {
+    color: black;
+}
+
+.category-btn.active {
+    background-color: black;
+    border-radius: 0.6rem;
+    color: white;
+}
+.wpp-of-week {
+    /* padding-top: 3rem; */
+    min-height: 500px;
+}
 
 /* Wallpaper interact btn */
 .wpp {
     position: relative;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
+    pointer-events:all;
 }
 
 .wpp:hover .wpp-hover-bg {
@@ -35,6 +76,7 @@
     z-index: 10;
     box-shadow: -2px 2px 5px #000000;
 }
+
 .owner-avt {
     width: 35px;
     height: 35px;
@@ -65,13 +107,16 @@
     top: 10px;
     right: 70px;
 }
+
 .wpp-interact-icon {
     pointer-events: none;
     transition: all 0.2s ease-in-out;
 }
+
 .wpp-interact-icon.loveactive {
     color: red;
 }
+
 .wpp-interact-icon.bookmarkactive {
     color: yellow;
     filter: drop-shadow(0px 0px 4px #888888);
@@ -91,9 +136,10 @@
 }
 
 .grid-item {
-    margin-bottom: 15px;
+    padding: 10px 10px;
     width: 33.333%;
 }
+
 .loading {
     position: absolute;
     top: 0;
@@ -190,8 +236,10 @@
 }
 
 
+/* Responsive */
+
 @media (max-width: 960px) {
     .grid-item {
-        width: 50%!important;
+        width: 50% !important;
     }
 }

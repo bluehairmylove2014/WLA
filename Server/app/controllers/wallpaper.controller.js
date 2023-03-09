@@ -15,6 +15,7 @@ exports.upload = function (req, res, next) {
         // Upload to sirv
         const targetPath = `/swallpapers/wallpapers/${file.originalname}`;
         const file_detail = sirv.upload(file, fileBuffer, targetPath);
+        file = null;
 
         // Get user detail
         let query = `SELECT user_id, display_name, avatar FROM accounts WHERE username = '${wpp.username}'`
@@ -57,6 +58,7 @@ exports.download = function (req, res, next) {
     let filename = `%2Fswallpapers%2Fwallpapers%2F${req.query.filename}`;
     try {
         // Download from sirv
+
         sirv.download(filename)
             .then(file => {
                 db.query(`UPDATE wallpapers SET total_download = total_download + 1 WHERE wpp_id = '${req.query.wpp_id}'`,
@@ -69,7 +71,9 @@ exports.download = function (req, res, next) {
                         }
                     }
                 )
+                // send file to client
                 res.status(200).json(file);
+                file = null;
             })
             .catch(error => {
                 console.log(`Error download file: ${error}`);
@@ -79,12 +83,12 @@ exports.download = function (req, res, next) {
         res.status(500).json({ error: err });
     }
 }
-exports.updateLoveWallpaper = function(req, res, next) {
+exports.updateLoveWallpaper = function (req, res, next) {
     const wpp_id = req.body.wpp_id;
-    const user_id = req.body.user_id;
+    const username = req.body.username;
     try {
-        if(req.body.type === 'love') {
-            db.query(`UPDATE wallpapers SET lover = array_append(lover, '${user_id}') WHERE wpp_id = '${wpp_id}'`, 
+        if (req.body.type === 'love') {
+            db.query(`UPDATE wallpapers SET lover = array_append(lover, '${username}') WHERE wpp_id = '${wpp_id}'`,
                 (err, dbres) => {
                     if (err) {
                         console.log(err.stack);
@@ -93,10 +97,10 @@ exports.updateLoveWallpaper = function(req, res, next) {
                         res.status(200).json(dbres.rows);
                     }
                 }
-            )  
+            )
         }
-        else if(req.body.type === 'unlove') {
-            db.query(`UPDATE wallpapers SET lover = array_remove(lover, '${user_id}') WHERE wpp_id = '${wpp_id}'`, 
+        else if (req.body.type === 'unlove') {
+            db.query(`UPDATE wallpapers SET lover = array_remove(lover, '${username}') WHERE wpp_id = '${wpp_id}'`,
                 (err, dbres) => {
                     if (err) {
                         console.log(err.stack);
@@ -105,19 +109,26 @@ exports.updateLoveWallpaper = function(req, res, next) {
                         res.status(200).json(dbres.rows);
                     }
                 }
-            ) 
+            )
         }
     }
-    catch(err) {
+    catch (err) {
         res.status(500).json({ error: err });
     }
 };
-exports.updateSaveWallpaper = function(req, res, next) {
+exports.updateSaveWallpaper = function (req, res, next) {
     const data_pkg = req.body;
     try {
-        if(data_pkg.type === 'save') {
-            db.query(`UPDATE collection SET wpp_list = array_append(wpp_list, '${data_pkg.wpp_id}') WHERE user_id = '${data_pkg.user_id}'`, 
-                (err, dbres) => {
+        if (data_pkg.type === 'save') {
+            db.query(`
+                    UPDATE collection 
+                    SET wpp_list = array_append(wpp_list, '${data_pkg.wpp_id}') 
+                    WHERE user_id = (
+                        SELECT user_id 
+                        FROM accounts 
+                        WHERE username = '${data_pkg.username}'
+                    )
+                `, (err, dbres) => {
                     if (err) {
                         console.log(err.stack);
                     }
@@ -125,11 +136,18 @@ exports.updateSaveWallpaper = function(req, res, next) {
                         res.status(200).json(dbres.rows);
                     }
                 }
-            )  
+            )
         }
-        else if(data_pkg.type === 'unsave') {
-            db.query(`UPDATE collection SET wpp_list = array_remove(wpp_list, '${data_pkg.wpp_id}') WHERE user_id = '${data_pkg.user_id}'`, 
-                (err, dbres) => {
+        else if (data_pkg.type === 'unsave') {
+            db.query(`
+                    UPDATE collection 
+                    SET wpp_list = array_remove(wpp_list, '${data_pkg.wpp_id}') 
+                    WHERE user_id = (
+                        SELECT user_id 
+                        FROM accounts 
+                        WHERE username = '${data_pkg.username}'
+                    )
+                `, (err, dbres) => {
                     if (err) {
                         console.log(err.stack);
                     }
@@ -137,14 +155,14 @@ exports.updateSaveWallpaper = function(req, res, next) {
                         res.status(200).json(dbres.rows);
                     }
                 }
-            ) 
+            )
         }
     }
-    catch(err) {
+    catch (err) {
         res.status(500).json({ error: err });
     }
 };
-exports.getSpotlightWallpaper = function(req, res, next) {
+exports.getSpotlightWallpaper = function (req, res, next) {
     let start_index = req.query.start >= 0 ? req.query.start : 0;
     let numof_wallpaper = req.query.numof_wallpaper >= 0 ? req.query.numof_wallpaper : 0;
     const query = `
@@ -155,22 +173,22 @@ exports.getSpotlightWallpaper = function(req, res, next) {
         LIMIT ${numof_wallpaper};    
     `
     try {
-        if(numof_wallpaper) {
+        if (numof_wallpaper) {
             db.query(query, (err, dbres) => {
-                    if (err) {
-                        console.log(err.stack);
-                    }
-                    else {
-                        res.status(200).json({
-                            wpps: dbres.rows,
-                            total: dbres.rows.length ? dbres.rows.length : 0
-                        });
-                    }
+                if (err) {
+                    console.log(err.stack);
                 }
-            )  
+                else {
+                    res.status(200).json({
+                        wpps: dbres.rows,
+                        total: dbres.rows.length ? dbres.rows.length : 0
+                    });
+                }
+            }
+            )
         }
     }
-    catch(err) {
+    catch (err) {
         res.status(500).json({ error: err });
     }
 };

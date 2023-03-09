@@ -27,9 +27,10 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { WallpaperSearchComponent } from './WallpaperSearch/WallpaperSearch.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     LoginComponent,
     ProfileGalleryComponent,
@@ -42,8 +43,9 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     HeaderComponent,
     HeaderComponent,
     HomeComponent,
-    UploadWallpaperComponent
-  ],
+    UploadWallpaperComponent,
+      WallpaperSearchComponent
+   ],
   imports: [
     ReactiveFormsModule,
     FormsModule,

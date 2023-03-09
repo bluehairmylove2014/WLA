@@ -1,105 +1,99 @@
-<app-Header 
-  [islogin]="isLogin()"
-  [user_avatar]="user_account.avatar" 
-  [username]="user_account.username"
-></app-Header>
+<app-Header></app-Header>
 <div class="homecontent-wrapper" #main>
   <div class="profile">
     <div class="container">
       <div class="user-center">
-        <div class="row">
-          <div class="col-9">
-            <div>
-              <div class="user-card">
-                <div class="user-avt-holder">
-                  <img crossorigin="anonymous" [src]="user_account.avatar" class="user-avt">
-                </div>
-                <div class="user-text animate-fadein-toright-more">
-                  <div class="user-info-holder">
-                    <p class="user-name">{{user_account.display_name}}</p>
-                    <p class="user-usn">@{{user_account.username}}</p>
-                  </div>
-                  <div class="user-detail-holder">
-                    <p class="user-detail">
-                      <i class="fa-solid fa-clock opacity-75"></i>
-                      Joined {{date_service.convertDate(user_account.createat, 'MMMM, yyyy')}}
-                    </p>
-                    <p class="user-detail" *ngIf="user_account.location.city || user_account.location.country">
-                      <i class="fa-solid fa-location-dot opacity-75"></i>
-                      &nbsp;Lives in
-                      <span *ngIf="user_account.location.city">
-                        {{user_account.location.city}}
-
-                        <span *ngIf="user_account.location.country">
-                          ,
-                        </span>
-                      </span>
-                      <span *ngIf="user_account.location.country">{{user_account.location.country}}</span>
-                    </p>
-
-                    <p class="user-detail" *ngIf="user_account.follower.length > 0">
-                      <i class="fa-solid fa-heart opacity-75"></i>
-                      Followed by {{user_account.follower.length}} people
-                    </p>
-                  </div>
-                </div>
-              </div>
+        <div>
+          <div class="user-card">
+            <div class="user-avt-holder">
+              <img crossorigin="anonymous" [src]="user_account.avatar" class="user-avt" alt="avatar">
             </div>
-            <div>
-              <div class="user-center">
-                <div class="profile-detail animate-fadein">
-                  <p class="wpp-main-title opacity-75">A picture is worth a thousand words</p>
-                </div>
-                <hr class="text-white opacity-100">
-                <div class="row mt-4">
-                  <div class="profile-detail">
-                    <button type="button" class="wpps-manage-btn follow">
-                      Follow
-                    </button>
-                    <button type="button" class="wpps-manage-btn message">
-                      Message
-                    </button>
-                    <button type="button" class="wpps-manage-btn donate">
-                      Donate
-                    </button>
-                  </div>
-                </div>
+            <div class="user-text animate-fadein-toright-more">
+              <div class="user-info-holder">
+                <p class="user-name">{{user_account.display_name}}</p>
+                <p class="user-usn">@{{user_account.username}}</p>
+              </div>
+              <div class="user-detail-holder">
+                <p class="user-detail">
+                  <i class="fa-solid fa-clock opacity-75"></i>
+                  Joined {{date_service.convertDate(user_account.createat, 'MMMM, yyyy')}}
+                </p>
+                <p class="user-detail" *ngIf="user_account.location.city || user_account.location.country">
+                  <i class="fa-solid fa-location-dot opacity-75"></i>
+                  &nbsp;Lives in
+                  <span *ngIf="user_account.location.city">
+                    {{user_account.location.city}}
+
+                    <span *ngIf="user_account.location.country">
+                      ,
+                    </span>
+                  </span>
+                  <span *ngIf="user_account.location.country">{{user_account.location.country}}</span>
+                </p>
+                <p class="user-detail" *ngIf="user_account.follower.length > 0">
+                  <i class="fi fi-sr-following opacity-75"></i>
+                  Followed by {{user_account.follower.length}} people
+                </p>
               </div>
             </div>
           </div>
-          <div class="col-3 d-flex align-items-end">
-            <div class="album-holder" #album_holder>
-              <div class="statistic">
-                <div class="statistic-key">
-                  <div class="statistic-line">
-                    <p class="wpp-storage-detail">picture wallpapers</p>
-                    <span></span>
-                  </div>
-                  <div class="statistic-line">
-                    <p class="wpp-storage-detail">video wallpapers</p>
-                    <span></span>
-                  </div>
-                  <div class="statistic-line">
-                    <p class="wpp-storage-detail">Love Count</p>
-                    <span></span>
-                  </div>
-                  <div class="statistic-line">
-                    <p class="wpp-storage-detail">Total Downloads</p>
-                    <span></span>
-                  </div>
-                </div>
-                <div class="statistic-val">
-                  <p class="wpp-storage-detail">{{img_wallpapers.length}}</p>
-                  <p class="wpp-storage-detail">{{video_wallpapers.length}}</p>
-                  <p class="wpp-storage-detail">{{total_love| ShortNumber}}</p>
-                  <p class="wpp-storage-detail">{{total_download | ShortNumber}}</p>
-                </div>
-              </div>
-              <div>
-                <p class="user-album-title mb-4">STAT
-                  <img src="../../assets/graphics/statistic.png" class="stat-icon" alt="stat">
-                </p>
-              </div>
+        </div>
+        <!-- <hr class="user-center-line"> -->
+        <div class="row">
+          <div class="profile-detail">
+            <button type="button" class="wpps-manage-btn message" *ngIf="!this.auth.is_own">
+              Message
+            </button>
+            <button type="button" class="wpps-manage-btn donate" *ngIf="!this.auth.is_own">
+              Donate
+            </button>
+            <button type="button" class="wpps-manage-btn follow" *ngIf="!this.auth.is_own">
+              Follow
+            </button>
+            <button type="button" class="wpps-manage-btn follow" *ngIf="this.auth.is_own">
+              <i class="fa-solid fa-pen pe-2"></i>Edit profile
+            </button>
+          </div>
+        </div>
+        <div class="profile-detail animate-fadein mt-3">
+          <p class="wpp-main-title opacity-75">A picture is worth a thousand words</p>
+        </div>
+        <div class="statistic">
+          <div class="statistic-item">
+            <p>Images</p>
+            <div class="d-inline-block">
+              <i class="fi fi-sr-images text-white opacity-75 pe-1"></i>
+              <span>{{img_wallpapers.length}}</span>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-center">
+            <p class="text-white opacity-50">|</p>
+          </div>
+          <div class="statistic-item">
+            <p>Videos</p>
+            <div class="d-inline-block">
+              <i class="fi fi-sr-play text-white opacity-75 pe-1"></i>
+              <span>{{video_wallpapers.length}}</span>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-center">
+            <p class="text-white opacity-50">|</p>
+          </div>
+          <div class="statistic-item">
+            <p>Total love</p>
+            <div class="d-inline-block">
+              <i class="fi fi-sr-heart text-white opacity-75 pe-1"></i>
+              <span>{{total_love| ShortNumber}}</span>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-center">
+            <p class="text-white opacity-50">|</p>
+          </div>
+          <div class="statistic-item">
+            <p>Downloads</p>
+            <div class="d-inline-block">
+              <i class="fi fi-sr-cloud-download-alt text-white opacity-75 pe-1"></i>
+              <span>{{total_download | ShortNumber}}</span>
             </div>
           </div>
         </div>
@@ -110,71 +104,43 @@
     <!-- Tab button -->
     <div class="wpp-center">
       <div class="category">
-        <button 
-          type="button" 
-          id="gallery" 
-          class="category-btn" 
-          [ngClass]="{'active': isCurrentTab(galleryBtn.id)}"
-          (click)="changeTab($event)"
-          #galleryBtn
-        >
+        <button type="button" id="gallery" class="category-btn" [ngClass]="{'active': isCurrentTab(galleryBtn.id)}"
+          (click)="changeTab($event)" #galleryBtn>
           Gallery
         </button>
-        <button 
-          type="button" 
-          id="collection" 
-          class="category-btn" 
-          [ngClass]="{'active': isCurrentTab(collectionBtn.id)}"
-          #collectionBtn
-          (click)="changeTab($event)"
-        >
+        <button type="button" id="collection" class="category-btn"
+          [ngClass]="{'active': isCurrentTab(collectionBtn.id)}" #collectionBtn (click)="changeTab($event)">
           Collection
         </button>
       </div>
       <div class="filter">
-        <select class="wpp-filter-select">
-          <option value="pav">Photos and videos</option>
-          <option value="photos">Photos</option>
-          <option value="videos">Videos</option>
+        <select class="wpp-filter-select" [(ngModel)] = "typeFilterOption" (change)="reapplyFilter()">
+          <option [value]="option.value" *ngFor="let option of typeOptions">{{option.name}}</option>
         </select>
-        <select class="wpp-filter-select">
-          <option value="recency">Recency</option>
-          <option value="popularity">Popularity</option>
+        <select class="wpp-filter-select" [(ngModel)] = "rateFilterOption" (change)="reapplyFilter()">
+          <option [value]="option.value" *ngFor="let option of rateOptions">{{option.name}}</option>
         </select>
       </div>
     </div>
   </div>
   <ng-container [ngSwitch]="cur_tab">
     <!-- GALLERY -->
-    <app-ProfileGallery
-      *ngSwitchCase="'gallery'"
-    
-      [wallpapers_data]="cur_wallpaper" 
-      [collection_data]="collection" 
-      [user_id]="user_account.user_id"
-      [download_count]="total_download" 
-      (loveManagement)="updateLove($event)"
-      (downloadManagement)="updateDownload($event)"
-      (saveManagement)="updateSave($event)">
+    <app-ProfileGallery *ngSwitchCase="'gallery'" [wallpapers_data]="cur_wallpaper" [collection_data]="collection"
+      [selfCollection_data]="selfCollection" [auth_data]="auth"
+      [download_count]="total_download" (loveManagement)="updateLove($event)"
+      (downloadManagement)="updateDownload($event)" (saveManagement)="updateSave($event)">
     </app-ProfileGallery>
 
     <!-- COLLECTION -->
-    <app-ProfileCollection
-      *ngSwitchCase="'collection'"
-      [collection_data]="collection" 
-      [user_id]="user_account.user_id"
-      [download_count]="total_download" 
-      (loveManagement)="updateLove($event)"
-      (downloadManagement)="updateDownload($event)"
-      (saveManagement)="updateSave($event)"
-    >
+    <app-ProfileCollection *ngSwitchCase="'collection'" [collection_data]="collection"
+      [selfCollection_data]="selfCollection" [auth_data]="auth"
+      [download_count]="total_download" (loveManagement)="updateLove($event)"
+      (downloadManagement)="updateDownload($event)" (saveManagement)="updateSave($event)">
 
     </app-ProfileCollection>
 
     <!-- DEFAULT -->
-    <app-PageNotFound
-      *ngSwitchDefault=""
-    >
+    <app-PageNotFound *ngSwitchDefault="">
     </app-PageNotFound>
   </ng-container>
 </div>

@@ -2,7 +2,6 @@
 
 const db = require("../db");
 
-// Retrieve all Account from the database.
 exports.checkLogin = function(req, res, next) {
     try {
         const email = req.query.email;

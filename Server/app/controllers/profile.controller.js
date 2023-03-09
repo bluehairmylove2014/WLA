@@ -2,7 +2,22 @@
 
 const db = require("../db");
 
-// Retrieve all Account from the database.
+exports.getUsernameById = function(req, res, next) {
+    try {
+        db.query(`SELECT username FROM accounts WHERE user_id='${req.query.user_id}'`, 
+            (err, dbres) => {
+                if (err) {
+                    console.log(err.stack);
+                } else {
+                    res.status(200).json(dbres.rows);
+                }
+            }
+        )
+    }
+    catch(err) {
+        res.status(500).json({ error: err });
+    }
+}
 exports.getUser = function(req, res, next) {
     const query = `
         SELECT user_id, username, avatar, display_name, account_type, account_status, createat, following, follower, location

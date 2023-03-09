@@ -1,9 +1,13 @@
 /* Header style */
 .home-navbar {
-    position: relative;
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 1999;
     padding: 10px 20px;
     height: 70px;
     width: 100vw;
+    background-color: white;
 }
 .home-navlogo {
     height: 100%;

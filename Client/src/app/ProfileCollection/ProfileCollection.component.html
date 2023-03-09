@@ -5,10 +5,13 @@
     <img src="../../assets/graphics/nowallpaper.png" alt="nowallpaper">
   </div>
   <ng-template #wppholder>
-    <ngx-masonry [options]="masonryOptions" class="row">
+    <ngx-masonry [options]="masonryOptions" [ordered]="true" class="row">
       <div ngxMasonryItem *ngFor="let item of collection_data" class="grid-item">
         <div class='wpp' [attr.data-wppid]="item.wpp_id">
           <div class='wpp-hover-bg'></div>
+          <div class="loading">
+              <span class="loader"></span>
+          </div>
           <img 
             crossorigin="anonymous"
             src={{item.wpp_path}} 
@@ -41,6 +44,14 @@
             <ng-template #saved>
               <i class="fi fi-sr-bookmark wpp-interact-icon bookmarkactive"></i>
             </ng-template>
+          </button>
+          <button
+              type="button"
+              class="wpp-interact-btn owner"
+              (click)="goProfileById(item.user_id)"
+          >
+              <img crossorigin="anonymous" src={{item.artist_img}} class='owner-avt'>
+              <span>{{item.artist_name}}</span>
           </button>
         </div>
       </div>

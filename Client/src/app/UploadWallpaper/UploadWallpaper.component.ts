@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { WallpaperService } from '../Service/wallpaper.service';
-import { AuthService } from '../Service/auth.service'
 
 @Component({
   selector: 'app-UploadWallpaper',
@@ -33,11 +32,6 @@ export class UploadWallpaperComponent implements OnInit {
   ) { }
 
   // Methods
-  isNameValid(): boolean {
-    let valid = true;
-    !this.pi_name.trim().length && (valid = false);
-    return valid;
-  }
   isTagValid(): boolean {
     let valid = true;
     !this.pi_tags.trim().length && (valid = false);
@@ -47,7 +41,8 @@ export class UploadWallpaperComponent implements OnInit {
     location.reload();
   }
   onClickSubmit(): void {
-    if (this.isNameValid() && this.isTagValid()) {
+    if (this.isTagValid()) {
+      // Use service to upload image
       this.wpp_service.upload(
         this.username,
         this.pi_name,

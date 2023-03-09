@@ -1,14 +1,17 @@
 .body {
     width: 100vw;
+    padding-top: 70px!important;
 }
+
 .greating {
     width: 100%;
-    height: 70vh;
+    height: 80vh;
     background-image: url('../../assets/bgs/dark-city.png');
     background-size: cover;
     background-repeat: no-repeat;
     position: relative;
 }
+
 .intro-holder {
     position: absolute;
     color: white;
@@ -17,10 +20,12 @@
     transform: translate(-50%, -50%);
     text-align: center;
 }
+
 .intro-title {
     font-family: 'InterBold', sans-serif;
     font-size: 40px;
 }
+
 .intro-line {
     height: 2px;
     background-color: white;
@@ -28,10 +33,12 @@
     width: 400px;
     margin: 1rem auto;
 }
+
 .intro-des {
     font-family: 'OpenSans', sans-serif;
     font-size: 14px;
 }
+
 .intro-input {
     font-family: 'OpenSans', sans-serif;
     position: absolute;
@@ -44,6 +51,7 @@
     border: none;
     outline: none;
 }
+
 .intro-input-placeholder {
     font-family: 'OpenSans', sans-serif;
     position: relative;
@@ -55,10 +63,12 @@
     opacity: 0;
     transition: 0.2s ease-in-out;
 }
+
 .intro-input-placeholder.active {
-    visibility: visible!important;
-    opacity: 1!important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
+
 .intro-input-holder {
     position: relative;
     width: fit-content;
@@ -72,8 +82,9 @@
     white-space: nowrap;
     text-align: center;
 }
+
 .intro-input-btn {
-    position: absolute!important;
+    position: absolute !important;
     top: 60%;
     left: 10px;
     transform: translateY(-50%);
@@ -82,6 +93,7 @@
     outline: none;
     background-color: transparent;
 }
+
 .copyright {
     font-family: 'OpenSans', sans-serif;
     position: absolute;
@@ -99,11 +111,13 @@
     padding-top: 3rem;
     min-height: 500px;
 }
+
 /* Wallpaper interact btn */
 .wpp {
     position: relative;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
+    pointer-events:all;
 }
 
 .wpp:hover .wpp-hover-bg {
@@ -135,6 +149,22 @@
     box-shadow: -2px 2px 5px #000000;
 }
 
+.owner-avt {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.wpp-interact-btn.owner {
+    font-family: MontserratMedium, sans-serif;
+    background-color: transparent;
+    bottom: 5px;
+    left: 5px;
+    box-shadow:none;
+    color: white;
+    font-size: 13px;
+}
 .wpp-interact-btn.download {
     bottom: 10px;
     right: 20px;
@@ -149,13 +179,16 @@
     top: 10px;
     right: 70px;
 }
+
 .wpp-interact-icon {
     pointer-events: none;
     transition: all 0.2s ease-in-out;
 }
+
 .wpp-interact-icon.loveactive {
     color: red;
 }
+
 .wpp-interact-icon.bookmarkactive {
     color: yellow;
     filter: drop-shadow(0px 0px 4px #888888);
@@ -179,8 +212,106 @@
     width: 33.333%;
 }
 
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.1s ease-in-out;
+}
+.loading.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.loader {
+    animation: rotate 1s infinite;
+    height: 50px;
+    width: 50px;
+}
+
+.loader:before,
+.loader:after {
+    content: "";
+    display: block;
+    height: 20px;
+    width: 20px;
+}
+
+.loader:before {
+    animation: box1 1s infinite;
+    background-color: #fff;
+    box-shadow: 30px 0 0 #ff3d00;
+    margin-bottom: 10px;
+}
+
+.loader:after {
+    animation: box2 1s infinite;
+    background-color: #ff3d00;
+    box-shadow: 30px 0 0 #fff;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg) scale(0.8)
+    }
+
+    50% {
+        transform: rotate(360deg) scale(1.2)
+    }
+
+    100% {
+        transform: rotate(720deg) scale(0.8)
+    }
+}
+
+@keyframes box1 {
+    0% {
+        box-shadow: 30px 0 0 #ff3d00;
+    }
+
+    50% {
+        box-shadow: 0 0 0 #ff3d00;
+        margin-bottom: 0;
+        transform: translate(15px, 15px);
+    }
+
+    100% {
+        box-shadow: 30px 0 0 #ff3d00;
+        margin-bottom: 10px;
+    }
+}
+
+@keyframes box2 {
+    0% {
+        box-shadow: 30px 0 0 #fff;
+    }
+
+    50% {
+        box-shadow: 0 0 0 #fff;
+        margin-top: -20px;
+        transform: translate(15px, 15px);
+    }
+
+    100% {
+        box-shadow: 30px 0 0 #fff;
+        margin-top: 0;
+    }
+}
+
+
+/* Responsive */
+
 @media (max-width: 960px) {
     .grid-item {
-        width: 50%!important;
+        width: 50% !important;
     }
 }

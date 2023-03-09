@@ -6,8 +6,10 @@ const {
     getWallpapers,
     getAlbums,
     getCollection,
+    getUsernameById
 } = require("../controllers/profile.controller");
 
+router.get("/getUsernameById", getUsernameById);
 router.get("/getCollection", getCollection);
 router.get("/getAlbums", getAlbums);
 router.get("/getWallpapers", getWallpapers);

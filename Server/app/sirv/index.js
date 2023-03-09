@@ -106,8 +106,11 @@ class Sirv {
                 res.on("end", function () {
                     let body = Buffer.concat(chunks);
                     resolve(body);
+                    body = null;
+                    chunks = null;
                 });
             });
+            
             req.end();
         });
     }

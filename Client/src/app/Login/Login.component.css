@@ -213,6 +213,10 @@
     position: relative;
     padding: 5px;
 }
+.llbl.active {
+    left: 5px!important;
+    opacity: 0!important;
+}
 .salogin-label {
     font-family: Roboto_Mono, sans-serif;
     pointer-events: none;

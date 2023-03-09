@@ -3,8 +3,9 @@
 .homecontent-wrapper {
     position: relative;
     padding-bottom: 4rem;
+    padding-top: 70px;
     background-color: white;
-    min-height: 100vh;
+    min-height: 150vh;
     width: 100vw;
 }
 .profile {
@@ -28,20 +29,23 @@
     width: 100%;
     height: 100%;
     display: flex;
+    justify-content: center;
 }
 .user-avt-holder {
     position: relative;
     border: 2px solid black;
     margin: 40px 10px 20px 40px;
     padding: 5px;
-    border-radius: 1rem;
+    border-radius: 50%;
     float: left;
-    width: 35%;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
     z-index: 999;
     background-color: white;
 }
 .user-avt {
-    border-radius: 0.75rem;
+    border-radius: 50%;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -52,13 +56,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 65%;
-    padding: 0px 10px 0px 40px;
+    padding: 0px 0px 0px 40px;
 }
 .user-info-holder {
-    margin-top: 60px;
+    margin-top: 40px;
 }
 .user-detail-holder {
+    margin-top: 20px;
     margin-bottom: 30px;
 }
 .user-name {
@@ -102,41 +106,13 @@
     flex-wrap: wrap;
     padding: 10px 10px 0px 40px;
 }
-.statistic {
-    display: flex;
-    padding-bottom: 40px;
-    width: 100%;
-    justify-content: space-between;
-    position: relative;
-}
-.statistic-key {
-    width: 100%;
-}
-.statistic-line {
-    position: relative;
-    width: 100%;
-}
-.statistic-line > span {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    width: 100%;
-    height: 0.5px;
-    background-color: #ffffff;
-    border: none;
-    opacity: 1;
-    outline: none;
-}
+
 .wpp-storage-detail {
     z-index: 999;
     background-color: rgb(27,27,27);
     padding: 0px 10px 0px 0px;
     position: relative;
     width: fit-content!important;
-}
-.statistic-val {
-    padding-left: 10px;
 }
 .user-center {
     position: relative;
@@ -148,6 +124,8 @@
     font-size: 48px;
     color: white;
     margin-bottom: 5px;
+    border-bottom: 1.5px solid white;
+    padding: 0px 50px;
 }
 .wpp-storage-detail {
     color: white;
@@ -171,6 +149,7 @@
     border: none;
     outline: none;
     padding: 8px 12px 6px 12px;
+    margin: 0 20px;
 }
 .wpps-manage-btn.add {
     background-color: #f7d763;
@@ -202,24 +181,9 @@
 }
 .profile-detail {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     width: 100%;
-}
-.profile-detail-holder {
-    margin-right: 1.4rem;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.profile-detail-holder.ranking {
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-.profile-detail-holder.view {
-    text-align: center;
-}
+}   
 .profile-detail-icon {
     height: 60px;
     width: 60px;
@@ -275,4 +239,36 @@
 
 .wpp-filter-select:hover {
     border-color: black;
+}
+.statistic {
+    display: flex;
+    justify-content: space-evenly;
+    max-width: 60%;
+    margin: 3rem auto 0 auto;
+}
+.statistic-item {
+    font-family: MontserratMedium, sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.statistic-item > p {
+    font-size: 14px;
+}
+.user-center-line {
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 1;
+    color: white;
+    width: 50%;
+}
+@media (max-width: 1200px) {
+    .user-album-title {
+        font-size: 50px;
+    }
 }

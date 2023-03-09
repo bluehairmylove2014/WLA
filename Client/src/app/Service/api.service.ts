@@ -15,6 +15,10 @@ export class ApiService {
   ) { }
 
   // Profile
+  getUsernameById(user_id: string): Observable<any> {
+    const query = `getUsernameById?user_id=${user_id}`;
+    return this.http.get(`${this.REST_API_SERVER}/api/v1/profile/${query}`)
+  }
   getUser(username: string): Observable<any> {
     const query = `getUser?username=${username}`;
     return this.http.get(`${this.REST_API_SERVER}/api/v1/profile/${query}`)
@@ -32,17 +36,17 @@ export class ApiService {
     return this.http.get(`${this.REST_API_SERVER}/api/v1/profile/${query}`)
   }
   // Interact
-  updateLoveWallpaper(wpp_id:number, user_id: string, type: string) {
+  updateLoveWallpaper(wpp_id:number, username: string, type: string) {
     const query = `updateLoveWallpaper`;
     
-    this.http.put(`${this.REST_API_SERVER}/api/v1/wallpaper/${query}`, {wpp_id, user_id, type}).subscribe(res=> {
+    this.http.put(`${this.REST_API_SERVER}/api/v1/wallpaper/${query}`, {wpp_id, username, type}).subscribe(res=> {
 
     })
   }
-  updateSaveWallpaper(wpp_id: number, user_id: string, type: string) {
+  updateSaveWallpaper(wpp_id: number, username: string, type: string) {
     const query = `updateSaveWallpaper`;
     
-    this.http.put(`${this.REST_API_SERVER}/api/v1/wallpaper/${query}`, {wpp_id, user_id, type}).subscribe(res=> {
+    this.http.put(`${this.REST_API_SERVER}/api/v1/wallpaper/${query}`, {wpp_id, username, type}).subscribe(res=> {
 
     })
   }
@@ -58,7 +62,7 @@ export class ApiService {
     return this.http.post(`${this.REST_API_SERVER}/api/v1/login/createUser`, { email, fullname, avatar, password });
   }
   // Wallpaper
-  uploadWallpaper(data: any) {
+  uploadWallpaper(data: FormData) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
     
@@ -75,5 +79,10 @@ export class ApiService {
   // get request
   getRequest(url: string, options: any) {
     return this.http.get(url, options);
+  }
+  // Search
+  searchFor(type: string, key: string): Observable<any> {
+    const query = `searchFor?type=${type}&key=${key}`
+    return this.http.get(`${this.REST_API_SERVER}/api/v1/s/${query}`);
   }
 }

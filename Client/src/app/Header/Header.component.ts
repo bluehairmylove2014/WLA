@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, HostListener, Input, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../Service/auth.service';
+import { ApiService } from '../Service/api.service';
 // Sub component
 import { UploadWallpaperComponent } from '../UploadWallpaper/UploadWallpaper.component';
 
@@ -10,13 +11,13 @@ import { UploadWallpaperComponent } from '../UploadWallpaper/UploadWallpaper.com
   styleUrls: ['./Header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  @Input() islogin: boolean = false;
-  @Input() user_avatar: string = '../../assets/user/avt/default_avt.png'
-  @Input() username: string = '../../assets/user/avt/default_avt.png'
   @ViewChild('uploadContainer', {read: ViewContainerRef}) uploadContainerRef!: ViewContainerRef;
   @ViewChild('notiContent') notiContentRef!: ElementRef;
-
+  @ViewChild('searchbox') searchboxRef!: ElementRef;
   notifications: Notification[] = [] as Notification[];
+  islogin: boolean = false;
+  user_avatar!: string;
+  username!: string;
   // Listener
   avtdropdown_listener: () => void;
 
@@ -24,9 +25,26 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private renderer: Renderer2,
     private auth_service: AuthService,
-    private cd: ChangeDetectorRef
+    private api_service: ApiService
   ) { 
     this.avtdropdown_listener = () => {}
+  }
+
+  @HostListener('window:keypress', ['$event'])
+  onSearch(event: KeyboardEvent) {
+    if(event.key === 'Enter') {
+      let key_search = this.searchboxRef.nativeElement.value.trim();
+      if(key_search.length) {
+        this.router.navigate(['s', 'photos', key_search])
+      }
+    }
+  }
+
+  search() {
+    let key_search = this.searchboxRef.nativeElement.value.trim();
+    if(key_search.length) {
+      this.router.navigate(['s', 'photos', key_search])
+    }
   }
   logOut() {
     Number.parseInt
@@ -78,6 +96,18 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Check login
+    if(this.auth_service.isLogin()) {
+      // Get user information
+      this.username = this.auth_service.getUsername();
+      this.username.length && this.api_service.getUser(this.username).subscribe(data => {
+        data[0] && (this.user_avatar = data[0].avatar);
+      })
+      this.islogin = true;
+    }
+    else {
+      this.islogin = false;
+    }
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.

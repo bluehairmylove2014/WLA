@@ -67,8 +67,7 @@ export class LoginComponent implements OnInit {
     if(email_val.length === 0) {
       const lbl = holder.querySelector(`#${target}-label`);
       if(lbl) {
-        this.renderer.setStyle(lbl, 'left', '5px');
-        this.renderer.setStyle(lbl, 'opacity', '0');
+        this.renderer.addClass(lbl, 'active')
       }
     }
   }
@@ -89,8 +88,7 @@ export class LoginComponent implements OnInit {
     if(psw_val.length === 0) {
       const lbl = holder.querySelector(`#${target}-label`);
       if(lbl) {
-        this.renderer.setStyle(lbl, 'opacity', '1');
-        this.renderer.setStyle(lbl, 'left', '10%');
+        this.renderer.removeClass(lbl, 'active')
       }
     }
   }

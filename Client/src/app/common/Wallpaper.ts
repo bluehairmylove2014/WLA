@@ -7,5 +7,8 @@ export interface Wallpaper {
     total_views: number,
     lover: string[],
     total_download: number,
-    wpp_type: string
+    wpp_type: string,
+    wpp_tags: string,
+    wpp_des: string,
+    createat: string
 }

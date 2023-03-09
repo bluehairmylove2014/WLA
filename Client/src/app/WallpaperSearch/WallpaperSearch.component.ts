@@ -1,64 +1,42 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
-import { User } from '../common/User';
 import { Wallpaper } from '../common/Wallpaper';
 import { ApiService } from '../Service/api.service';
 import { AuthService } from '../Service/auth.service';
 import { WallpaperService } from '../Service/wallpaper.service';
 
 @Component({
-  selector: 'app-Home',
-  templateUrl: './Home.component.html',
-  styleUrls: ['./Home.component.css']
+  selector: 'app-WallpaperSearch',
+  templateUrl: './WallpaperSearch.component.html',
+  styleUrls: ['./WallpaperSearch.component.css']
 })
-export class HomeComponent implements OnInit {
-  @ViewChild('intro_input') introInputRef!: ElementRef;
-  @ViewChild('bodyContent') bodyContentRef!: ElementRef;
+export class WallpaperSearchComponent implements OnInit {
   @ViewChild(NgxMasonryComponent) masonry!: NgxMasonryComponent;
+
   // Variables
-
-  user_account: User = {
-    user_id: '',
-    email: '',
-    avatar: '',
-    username: '',
-    password: '',
-    display_name: '',
-    account_type: '',
-    account_status: '',
-    createat: '',
-    location: { city: '', country: '' },
-    follower: [],
-    following: []
-  };
-  masonryOptions: NgxMasonryOptions = {
-    itemSelector: '.grid-item',
-    columnWidth: '.grid-item',
-    initLayout: true,
-    resize: true,
-  };
-  wallpapers_data: Wallpaper[] = [] as Wallpaper[];
-  collection_data: Wallpaper[] = [] as Wallpaper[];
-
-  last_index: number = 0;
-  number_of_preview: number = 15;
-  isGettingData: boolean = false;
-  isEnd: boolean = false;
+  keysearch!: string;
+  typesearch!: string;
+  param_sub!: any;
+  total_data: any[] = [];
+  result_data: any[] = [];
+  user_account!: any;
+  collection!: any;
+  masonryOptions!: NgxMasonryOptions;
 
   constructor(
-    private auth_service: AuthService,
+    private atv_route: ActivatedRoute,
+    private router: Router,
     private api_service: ApiService,
-    private wpp_service: WallpaperService,
+    private auth_service: AuthService,
     private renderer: Renderer2,
-    private router: Router
+    private wpp_service: WallpaperService
   ) { }
-  
-  @HostListener('window:scroll', ['$event'])
+
+  @HostListener("window:scroll", ["$event"])
   onWindowScroll() {
-    if(this.isEnd) return; // No more wallpaper to load
     // Get element
-    const target = this.bodyContentRef.nativeElement;
+    const target = document.querySelector('.homecontent-wrapper');
     if (!target) return; // Class not found, exit
 
     let scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
@@ -67,19 +45,17 @@ export class HomeComponent implements OnInit {
     let pos = scrollPos + windowHeight;
     
     // pos/docHeight will give you the distance between scroll bottom and and bottom of screen in percentage.
-    if (pos >= docHeight && !this.isGettingData) {
-      
-      this.isGettingData = true;
-      // Get addition wallpaper data
-      this.api_service.getSpotlightWallpaper(this.last_index, this.number_of_preview).subscribe((data: any) => {
-        (data.wpps && data.wpps.length) && (this.wallpapers_data = [...this.wallpapers_data, ...data.wpps]);
-        if(data.total)
-            this.last_index += data.total
-        else
-          this.isEnd = true;
-        setTimeout(() => {
-          this.isGettingData = false;
-        }, 300);
+    if (pos >= docHeight) {
+      const oldLength = this.result_data.length;
+      const totalLength = this.total_data.length;
+      const newLength = ((oldLength + 15) >= totalLength) ?
+        totalLength : oldLength + 15;
+
+        this.total_data.slice(
+        this.result_data.length,
+        newLength
+      ).forEach(wp => {
+        this.result_data.push(wp);
       })
     }
   }
@@ -91,36 +67,25 @@ export class HomeComponent implements OnInit {
       this.masonry.layout();
     }
   }
-  isLogin(): boolean {
-    return this.auth_service.isLogin();
+  changeTab(btn_target: any) {
+    this.router.navigate(['s', btn_target.target.id, this.keysearch])
   }
-  inputOnFocus(): void {
-    const placeholder = this.introInputRef.nativeElement.querySelector('p');
-    const input = this.introInputRef.nativeElement.querySelector('input');
-    if(input && placeholder && !input.value.trim()) {
-      this.renderer.removeClass(placeholder, 'active');
-    }
-  }
-  inputOnBlur(): void {
-    const placeholder = this.introInputRef.nativeElement.querySelector('p');
-    const input = this.introInputRef.nativeElement.querySelector('input');
-    if(input && placeholder && !input.value.trim()) {
-      this.renderer.addClass(placeholder, 'active');
-    }
+  isCurrentTab(id: string): boolean {
+    return this.typesearch === id ? true : false;
   }
   isLoved(wpp_id:number):boolean {
-    let result = false;
-    this.wallpapers_data && this.wallpapers_data.forEach((wpp: Wallpaper) => {
-      if(wpp.wpp_id === wpp_id && wpp.lover.includes(this.user_account.username)) {
-        result = true;
+    let ilove = false;
+    this.result_data && this.result_data.forEach((wpp: Wallpaper) => {
+      if(wpp.wpp_id === wpp_id && wpp.lover.includes(this.user_account?.username)) {
+        ilove = true;
       }
     })
-    return result;
+    return ilove;
   }
   isSaved(wpp_id:number):boolean {
     let result = false;
     
-    this.collection_data && this.collection_data.forEach((wpp: Wallpaper) => {
+    this.collection && this.collection.forEach((wpp: Wallpaper) => {
       if(wpp.wpp_id === wpp_id) {
         result = true;
       }
@@ -151,10 +116,10 @@ export class HomeComponent implements OnInit {
     }
   }
   updateLove(event: any): void {
-    this.wallpapers_data.forEach(wpp => {
+    this.result_data.forEach((wpp: Wallpaper) => {
       if(wpp.wpp_id === event.targetId) {
         if(event.type === 'unlove') {
-          wpp.lover = wpp.lover.filter(uid => uid !== this.user_account.username);
+          wpp.lover = wpp.lover.filter((uid: string) => uid !== this.user_account.username);
         }
         else if(event.type === 'love') {
           wpp.lover.push(this.user_account.username);
@@ -162,10 +127,10 @@ export class HomeComponent implements OnInit {
         return;
       }
     })
-    this.collection_data.forEach(wpp => {
+    this.collection.forEach((wpp: Wallpaper) => {
       if(wpp.wpp_id === event.targetId) {
         if(event.type === 'unlove') {
-          wpp.lover = wpp.lover.filter(uid => uid !== this.user_account.username);
+          wpp.lover = wpp.lover.filter((uid: string) => uid !== this.user_account.username);
         }
         else if(event.type === 'love') {
           wpp.lover.push(this.user_account.username);
@@ -175,7 +140,7 @@ export class HomeComponent implements OnInit {
     })
   }
   loveWallpaper(event:any):void {
-    if(!this.isLogin()) {
+    if(!this.auth_service.isLogin()) {
       this.router.navigate(['login'])
       return;
     }
@@ -201,7 +166,7 @@ export class HomeComponent implements OnInit {
     }
   }  
   saveWallpaper(event:any):void {
-    if(!this.isLogin()) {
+    if(!this.auth_service.isLogin()) {
       this.router.navigate(['login'])
       return;
     }
@@ -235,38 +200,58 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  // Hooks
   ngOnInit() {
+    this.masonryOptions = {
+      itemSelector: '.grid-item',
+      columnWidth: '.grid-item',
+      initLayout: true,
+      resize: true,
+    };
+
+    this.param_sub = this.atv_route.params.subscribe(param => {
+      this.typesearch = param['type'] ? param['type'] : 'Photos';
+      this.keysearch = param['keysearch'] ? param['keysearch'] : '';
+
+      // Get wallpapers match keysearch
+      this.api_service.searchFor(this.typesearch, this.keysearch)
+        .subscribe(res => {
+          if(res) {
+            this.total_data = [...res];
+            this.result_data = res.slice(
+              0, 
+              (res.length >= 15) ? 15 : res.length
+            );
+          }
+          else {
+            alert('Error get result, please try to reload page. Thanks!');
+          }
+        })
+    })
+
     let username = this.auth_service.getUsername();
-    if (this.isLogin()) {
+    if (this.auth_service.isLogin()) {
       // Get user data by username
       this.api_service.getUser(username).subscribe((user_data: any) => {
         if(user_data[0]) {
           this.user_account = user_data[0]
           // Get collection data
           this.api_service.getCollection(user_data[0].user_id).subscribe((collection:any) => {
-            this.collection_data = collection;
+            this.collection = collection;
           });
         }
       })
     }
-    // Get wallpaper data
-    this.api_service.getSpotlightWallpaper(this.last_index, this.number_of_preview).subscribe((data: any) => {
-      data.wpps && (this.wallpapers_data = data.wpps);
-      data.total && (this.last_index = data.total);
-    })
   }
   ngAfterViewInit(): void {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    
     this.reloadLayout();
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
-    window.removeEventListener('scroll', this.onWindowScroll);
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    // // //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    // if(changes['wallpapers_data']) {
-    //   this.reloadLayout();
-    // }
+    if(this.param_sub) {
+      this.param_sub.unsubscribe()
+    }
   }
 }
