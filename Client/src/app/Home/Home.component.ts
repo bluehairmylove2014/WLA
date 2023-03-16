@@ -30,7 +30,8 @@ export class HomeComponent implements OnInit {
     createat: '',
     location: { city: '', country: '' },
     follower: [],
-    following: []
+    following: [],
+    bio: ''
   };
   masonryOptions: NgxMasonryOptions = {
     itemSelector: '.grid-item',

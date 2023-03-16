@@ -22,6 +22,7 @@
     "@flaticon/flaticon-uicons": "^2.0.1",
     "bootstrap": "^5.2.3",
     "cli": "^1.0.1",
+    "cropperjs": "^1.5.13",
     "crypto-browserify": "^3.12.0",
     "firebase": "^9.17.2",
     "jsonwebtoken": "^9.0.0",

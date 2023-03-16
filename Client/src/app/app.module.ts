@@ -6,6 +6,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 // Component
 import { HomeComponent } from './Home/Home.component';
@@ -18,16 +23,11 @@ import { ProfileCollectionComponent } from './ProfileCollection/ProfileCollectio
 import { FooterComponent } from './Footer/Footer.component';
 import { UploadWallpaperComponent } from './UploadWallpaper/UploadWallpaper.component';
 import { HeaderComponent } from './Header/Header.component';
+import { WallpaperSearchComponent } from './WallpaperSearch/WallpaperSearch.component';
 
 // Pipe
 import { ShortNumberPipe } from './Pipe/ShortNumber.pipe';
 import { DatePipe } from '@angular/common';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
-import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { WallpaperSearchComponent } from './WallpaperSearch/WallpaperSearch.component';
 
 @NgModule({
   declarations: [	
@@ -58,7 +58,7 @@ import { WallpaperSearchComponent } from './WallpaperSearch/WallpaperSearch.comp
     provideFirebaseApp(() => initializeApp(environment)),
     provideAuth(() => getAuth()),
     AngularFireModule.initializeApp(environment),
-    AngularFireAuthModule,
+    AngularFireAuthModule
   ],
   providers: [
     DatePipe

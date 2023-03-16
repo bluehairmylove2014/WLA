@@ -63,15 +63,47 @@ class Sirv {
             },
             body: fileBuffer
         };
-
         request(upload_options, function (error, response, body) {
-            if (error) throw new Error(error);
+            if (error) {
+                console.error(error.message);
+                return {
+                    path: null,
+                    type: null
+                };
+            }
             console.log(body);
         });
         return {
             path: `https://aldortio.sirv.com${path}`,
             type: file.mimetype
         };
+    }
+    delete = (filepath) => {
+        // Check if the token has expired
+        while (Math.floor(Date.now() / 1000) >= this.tokenExpirationTimestamp) {
+            setTimeout(() => {
+                // Refresh the token here
+                this.connect();
+                console.log('refresh');
+            }, 300)
+        }
+        filepath = filepath.replace(' ', '%20');
+        filepath = filepath.replace('/', '%2F');
+        let upload_options = {
+            method: 'POST',
+            uri: `https://api.sirv.com/v2/files/delete?filename=${filepath}`,
+            headers: {
+                authorization: `Bearer ${this.access_token}`
+            }
+        };
+        request.post(upload_options, (error, response, body) => {
+            if (error) {
+              console.error(error);
+              return;
+            }
+            
+            console.log('File deleted:', filepath);
+        });
     }
     download = (filename) => {
         return new Promise((resolve, reject) => {
@@ -110,7 +142,7 @@ class Sirv {
                     chunks = null;
                 });
             });
-            
+
             req.end();
         });
     }

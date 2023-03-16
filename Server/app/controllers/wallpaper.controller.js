@@ -6,47 +6,46 @@ var fs = require("fs");
 
 exports.upload = function (req, res, next) {
     const wpp = req.body;
-
     try {
         // Convert input image file to buffer
-        const file = req.file;
+        let file = req.file;
         // Read file buffer
         const fileBuffer = fs.readFileSync(file.path);
         // Upload to sirv
         const targetPath = `/swallpapers/wallpapers/${file.originalname}`;
         const file_detail = sirv.upload(file, fileBuffer, targetPath);
-        file = null;
 
         // Get user detail
         let query = `SELECT user_id, display_name, avatar FROM accounts WHERE username = '${wpp.username}'`
-        let user_detail;
+        let user_detail = null;
         db.query(query, (err, dbres) => {
             if (err) {
                 console.log(err.stack);
             } else {
                 user_detail = dbres.rows[0];
-                query = `
-                    INSERT INTO wallpapers 
-                    (user_id, artist_name, artist_img, wpp_path, total_views, lover, total_download, wpp_type)
+                query = `INSERT INTO wallpapers (user_id, artist_name, artist_img, wpp_path, total_views, lover, total_download, wpp_type, wpp_tags, wpp_des)
                     VALUES
                     (
                         '${user_detail.user_id}', 
-                        '${user_detail.display_name}' , 
+                        '${user_detail.display_name}', 
                         '${user_detail.avatar}', 
                         '${file_detail.path}', 
                         0, 
                         ARRAY[]::INT[], 
                         0, 
-                        '${file_detail.type}'
+                        '${file_detail.type}',
+                        '${wpp.wpp_tags}',
+                        '${wpp.wpp_des}'
                     );
-                `
+                `;
                 db.query(query, (err, dbres) => {
                     if (err) {
                         console.log(err.stack);
                     } else {
-                        res.status(200).json(dbres.rows);
+                        res.status(200).json(dbres);
                     }
                 })
+                file = null;
             }
         });
     }
@@ -168,7 +167,7 @@ exports.getSpotlightWallpaper = function (req, res, next) {
     const query = `
         SELECT *
         FROM wallpapers
-        ORDER BY total_download DESC, wpp_id ASC
+        ORDER BY total_download DESC, wpp_id DESC
         OFFSET ${start_index}
         LIMIT ${numof_wallpaper};    
     `

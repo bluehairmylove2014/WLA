@@ -27,8 +27,7 @@ export class UploadWallpaperComponent implements OnInit {
 
   constructor(
     private renderer: Renderer2,
-    private wpp_service: WallpaperService,
-    private cd: ChangeDetectorRef
+    private wpp_service: WallpaperService
   ) { }
 
   // Methods

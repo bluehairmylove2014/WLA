@@ -11,6 +11,7 @@ export interface User {
     account_status: string,
     createat: string,
     location: UserLocation,
+    bio: string,
     follower: string[],
     following: string[]
 }

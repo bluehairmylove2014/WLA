@@ -11,8 +11,8 @@ CREATE TABLE accounts (
   username TEXT NOT NULL,
   password TEXT NOT NULL,
   email TEXT NOT NULL,
-  avatar TEXT UNIQUE NOT NULL,
-  display_name VARCHAR(50) UNIQUE NOT NULL,
+  avatar TEXT NOT NULL,
+  display_name VARCHAR(50) NOT NULL,
   account_type VARCHAR(10) NOT NULL,
   account_status VARCHAR(10) NOT NULL,
   createat TIMESTAMP DEFAULT NOW() NOT NULL
@@ -21,6 +21,7 @@ CREATE TABLE accounts (
 -- Tạo bảng user_detail
 CREATE TABLE user_detail (
   user_id TEXT REFERENCES accounts(user_id),
+  bio VARCHAR(80) DEFAULT 'A picture is worth a thousand words',
   following TEXT[],
   follower TEXT[],
   location JSONB
@@ -30,15 +31,15 @@ CREATE TABLE user_detail (
 CREATE TABLE wallpapers (
   user_id TEXT REFERENCES accounts(user_id),
   wpp_id SERIAL PRIMARY KEY,
-  artist_name VARCHAR(50) REFERENCES accounts(display_name),
-  artist_img TEXT REFERENCES accounts(avatar),
+  artist_name VARCHAR(50),
+  artist_img TEXT,
   wpp_path TEXT NOT NULL,
   wpp_tags TEXT NOT NULL,
   wpp_des TEXT DEFAULT '',
   total_views int NOT NULL,
   lover TEXT[] NOT NULL,
   total_download int NOT NULL,
-  wpp_type VARCHAR(10) NOT NULL,
+  wpp_type VARCHAR(20) NOT NULL,
   createat TIMESTAMP DEFAULT NOW() NOT NULL
 );
 
@@ -65,9 +66,9 @@ VALUES ('user@1', 'dm410', '123456', 'dm410@gmail.com', 'https://aldortio.sirv.c
 
 -- Thêm dữ liệu giả vào bảng user_detail
 INSERT INTO user_detail (user_id, following, follower, location) VALUES
-  ('user@1', ARRAY['user@2', 'user@3'], ARRAY['user@3'], '{"city": "", "country": "Viet Nam"}'::JSONB),
-  ('user@2', ARRAY['user@3'], ARRAY['user@1', 'user@3'], '{"city": "Ho Chi Minh", "country": "Viet Nam"}'::JSONB),
-  ('user@3', ARRAY[]::TEXT[], ARRAY['user@1', 'user@2'], '{"city": "Hanoi", "country": "Viet Nam"}'::JSONB);
+  ('user@1', ARRAY[]::TEXT[], ARRAY[]::TEXT[], '{"city": "", "country": "Viet Nam"}'::JSONB),
+  ('user@2', ARRAY[]::TEXT[], ARRAY[]::TEXT[], '{"city": "Ho Chi Minh", "country": "Viet Nam"}'::JSONB),
+  ('user@3', ARRAY[]::TEXT[], ARRAY[]::TEXT[], '{"city": "Hanoi", "country": "Viet Nam"}'::JSONB);
 -- Thêm nội dung giả
 INSERT INTO wallpapers (user_id, artist_name, artist_img, wpp_path, total_views, lover, total_download, wpp_type, wpp_tags, wpp_des, createat)
 VALUES 
@@ -181,6 +182,7 @@ RETURNS TABLE (
     account_type VARCHAR(10),
     account_status VARCHAR(10),
     createat TIMESTAMP,
+	bio VARCHAR(80),
 	following TEXT[],
   	follower TEXT[],
   	location JSONB
@@ -199,6 +201,7 @@ BEGIN
 			accounts.account_type,
 			accounts.account_status,
 			accounts.createat,
+		    user_detail.bio,
 			user_detail.following,
 			user_detail.follower,
 			user_detail.location
@@ -213,12 +216,13 @@ LANGUAGE plpgsql;
 
 -- Xem bảng đã được tạo
 SELECT * FROM accounts;
+SELECT * FROM user_detail ORDER BY user_id asc ;
 SELECT MAX(user_id) as LAST_ID FROM accounts;
 -- Call
-SELECT username, avatar, display_name, account_type, account_status, createat, following, follower, location
-FROM get_accounts_by_username('phucdat4102');
+SELECT *
+FROM get_accounts_by_username('dm410');
 -- Xem bảng đã được tạo
-SELECT * FROM user_detail;
+ 
 -- SELECT * FROM albums;
 -- Xem bảng đã được tạo;
 SELECT * FROM wallpapers where user_id='user@1' ORDER BY createat desc ;
@@ -229,3 +233,6 @@ FROM wallpapers
 ORDER BY total_download DESC, wpp_id ASC
 OFFSET 30
 LIMIT 15; 
+
+-- UPDATE accounts SET display_name='Phan Dương Minh', username='kingoftheworld' WHERE user_id = 'user@1';
+SELECT * FROM wallpapers WHERE wpp_type ILIKE 'image%' AND (lower(wpp_tags) ILIKE '%genshin%' OR lower(wpp_tags) ILIKE '%impact%')

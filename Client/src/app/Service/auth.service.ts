@@ -121,7 +121,7 @@ export class AuthService {
     )
     return false;
   }
-  logout() {
+  logout():void {
     localStorage.removeItem(this.idtoken_keyword);
     localStorage.removeItem(this.expires_keyword);
     localStorage.removeItem(this.username_keyword);
@@ -144,7 +144,7 @@ export class AuthService {
 
       })
   }
-  isLogin() {
+  isLogin():boolean {
     const str = localStorage.getItem(this.expires_keyword) || "";
     if (str == "") return false;
     const expiresAt = JSON.parse(str);
@@ -152,6 +152,9 @@ export class AuthService {
   }
   isOwn(username: string): boolean {
     return username === localStorage.getItem(this.username_keyword) ? true : false;
+  }
+  setUsername(new_usn: string):void {
+    localStorage.setItem(this.username_keyword, new_usn);
   }
   getUsername(): string {
     let username = localStorage.getItem(this.username_keyword);

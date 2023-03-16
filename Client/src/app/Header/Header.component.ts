@@ -94,14 +94,23 @@ export class HeaderComponent implements OnInit {
       }
     }
   }
-
+  generateRandomVersion(): string {
+    const length = Math.floor(Math.random() * 10) + 5; // độ dài từ 5 đến 14 ký tự
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
   ngOnInit() {
     // Check login
     if(this.auth_service.isLogin()) {
       // Get user information
       this.username = this.auth_service.getUsername();
       this.username.length && this.api_service.getUser(this.username).subscribe(data => {
-        data[0] && (this.user_avatar = data[0].avatar);
+        data[0] && (this.user_avatar = (data[0].avatar + `?v=${this.generateRandomVersion()}`));
       })
       this.islogin = true;
     }

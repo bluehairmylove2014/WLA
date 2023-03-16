@@ -35,6 +35,15 @@ export class ApiService {
     const query = `getCollection?user_id=${user_id}`;
     return this.http.get(`${this.REST_API_SERVER}/api/v1/profile/${query}`)
   }
+  changeInfor(user_id: string, list_change:any): Observable<any> {
+    return this.http.put(`${this.REST_API_SERVER}/api/v1/profile/changeInfor`, {user_id, list_change})
+  }
+  uploadAvatar(data: FormData) {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    
+    return this.http.post(`${this.REST_API_SERVER}/api/v1/profile/uploadAvatar`, data, { headers });
+  }
   // Interact
   updateLoveWallpaper(wpp_id:number, username: string, type: string) {
     const query = `updateLoveWallpaper`;
@@ -49,6 +58,10 @@ export class ApiService {
     this.http.put(`${this.REST_API_SERVER}/api/v1/wallpaper/${query}`, {wpp_id, username, type}).subscribe(res=> {
 
     })
+  }
+  updateFollow(user_id: string, target_id: string, type: number) {
+    const query = `updateFollow`;
+    return this.http.put(`${this.REST_API_SERVER}/api/v1/profile/${query}`, {user_id, target_id, type});
   }
   // Login
   checkLogin(email:string, psw:string) {

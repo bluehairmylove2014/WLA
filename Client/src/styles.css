@@ -13,7 +13,10 @@ body {
 
 /* Font */
 .text-blue {
-    color: rgb(34, 34, 231);
+    color: rgb(34, 34, 231)!important;
+}
+.text-red {
+    color: red!important;
 }
 /* Font config */
 @font-face {

@@ -47,16 +47,24 @@
             <button type="button" class="wpps-manage-btn donate" *ngIf="!this.auth.is_own">
               Donate
             </button>
-            <button type="button" class="wpps-manage-btn follow" *ngIf="!this.auth.is_own">
-              Follow
-            </button>
-            <button type="button" class="wpps-manage-btn follow" *ngIf="this.auth.is_own">
+            <ng-container *ngIf="!this.auth.is_own">
+              <button type="button" class="wpps-manage-btn follow"
+                *ngIf="user_account.follower.includes(own_id), else follow" (click)="onUnfollow()">
+                Unfollow
+              </button>
+              <ng-template #follow>
+                <button type="button" class="wpps-manage-btn follow" (click)="onFollow()">
+                  Follow
+                </button>
+              </ng-template>
+            </ng-container>
+            <button type="button" class="wpps-manage-btn follow" *ngIf="this.auth.is_own" (click)="showEditProfile()">
               <i class="fa-solid fa-pen pe-2"></i>Edit profile
             </button>
           </div>
         </div>
         <div class="profile-detail animate-fadein mt-3">
-          <p class="wpp-main-title opacity-75">A picture is worth a thousand words</p>
+          <p class="wpp-main-title opacity-75">{{user_account.bio}}</p>
         </div>
         <div class="statistic">
           <div class="statistic-item">
@@ -114,10 +122,10 @@
         </button>
       </div>
       <div class="filter">
-        <select class="wpp-filter-select" [(ngModel)] = "typeFilterOption" (change)="reapplyFilter()">
+        <select class="wpp-filter-select" [(ngModel)]="typeFilterOption" (change)="reapplyFilter()">
           <option [value]="option.value" *ngFor="let option of typeOptions">{{option.name}}</option>
         </select>
-        <select class="wpp-filter-select" [(ngModel)] = "rateFilterOption" (change)="reapplyFilter()">
+        <select class="wpp-filter-select" [(ngModel)]="rateFilterOption" (change)="reapplyFilter()">
           <option [value]="option.value" *ngFor="let option of rateOptions">{{option.name}}</option>
         </select>
       </div>
@@ -126,16 +134,16 @@
   <ng-container [ngSwitch]="cur_tab">
     <!-- GALLERY -->
     <app-ProfileGallery *ngSwitchCase="'gallery'" [wallpapers_data]="cur_wallpaper" [collection_data]="collection"
-      [selfCollection_data]="selfCollection" [auth_data]="auth"
-      [download_count]="total_download" (loveManagement)="updateLove($event)"
-      (downloadManagement)="updateDownload($event)" (saveManagement)="updateSave($event)">
+      [selfCollection_data]="selfCollection" [auth_data]="auth" [download_count]="total_download"
+      (loveManagement)="updateLove($event)" (downloadManagement)="updateDownload($event)"
+      (saveManagement)="updateSave($event)">
     </app-ProfileGallery>
 
     <!-- COLLECTION -->
     <app-ProfileCollection *ngSwitchCase="'collection'" [collection_data]="collection"
-      [selfCollection_data]="selfCollection" [auth_data]="auth"
-      [download_count]="total_download" (loveManagement)="updateLove($event)"
-      (downloadManagement)="updateDownload($event)" (saveManagement)="updateSave($event)">
+      [selfCollection_data]="selfCollection" [auth_data]="auth" [download_count]="total_download"
+      (loveManagement)="updateLove($event)" (downloadManagement)="updateDownload($event)"
+      (saveManagement)="updateSave($event)">
 
     </app-ProfileCollection>
 
@@ -143,5 +151,218 @@
     <app-PageNotFound *ngSwitchDefault="">
     </app-PageNotFound>
   </ng-container>
+</div>
+<div class="edit-wrapper" #editHolder>
+  <div class="noti-wrapper" #notiWrapper>
+    <div class="noti-holder">
+      <div class="provide-infor-inner">
+        <div class="text-center">
+          <img src="../../assets/graphics/checked.png" class="check-icon">
+        </div>
+        <p class="provide-infor-title mt-2">Change information<br>successfully</p>
+        <div class="text-center mt-2">
+          <button type="button" class="noti-continue-btn" (click)="onClickContinue()">
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="edit-holder">
+    <div class="edit-nav">
+      <button type="button" class="edit-back-btn pb-4" (click)="hideEditProfile()">
+        <i class="fi fi-rr-angle-small-left pe-2"></i>
+        <p>Back to profile</p>
+      </button>
+      <div class="nav-greating mt-2">
+        <img [src]="user_account.avatar" alt="avatar">
+        <div>
+          <p>Welcome back!</p>
+          <p>{{user_account.display_name}}</p>
+        </div>
+      </div>
+      <hr>
+      <button type="button" id="Information" class="edit-navbtn-holder"
+        [ngClass]="{'active': cur_editTab === inforTab.id}" (click)="changeEditTab(inforTab.id)" #inforTab>
+        <div class="title">
+          <i class="fi fi-rr-info pe-2"></i>
+          <p>Information</p>
+        </div>
+        <i class="fi fi-br-menu-burger"></i>
+      </button>
+      <button type="button" id="Payment" class="edit-navbtn-holder"
+        [ngClass]="{'active': cur_editTab === paymentTab.id}" (click)="changeEditTab(paymentTab.id)" #paymentTab>
+        <div class="title">
+          <i class="fi fi-rr-credit-card pe-2"></i>
+          <p>Payment</p>
+        </div>
+        <i class="fi fi-br-menu-burger"></i>
+      </button>
+      <button type="button" id="Security" class="edit-navbtn-holder"
+        [ngClass]="{'active': cur_editTab === secureTab.id}" (click)="changeEditTab(secureTab.id)" #secureTab>
+        <div class="title">
+          <i class="fi fi-rs-shield-check pe-2"></i>
+          <p>Security</p>
+        </div>
+        <i class="fi fi-br-menu-burger"></i>
+      </button>
+    </div>
+    <div class="edit-main full-height">
+      <p>{{cur_editTab}}</p>
+      <hr>
+      <!-- tab -->
+      <ng-container [ngSwitch]="cur_editTab">
+        <!-- information tab -->
+        <div class="w-100 h-100" *ngSwitchCase="'Information'">
+          <div class="ud row active" #ud>
+            <div class="col-7">
+              <div class="utitle">
+                <p>User information</p>
+                <p>Here you can update information about yourself.<br>The changes will be displayed for other users
+                  within 5 minutes</p>
+              </div>
+
+              <form [formGroup]="userDetailForm" (ngSubmit)="changeInformation()">
+                <div class="half-split-collumn pe-3">
+                  <label for="fullnameInput" class="ulabel">Full name</label>
+                  <input id="fullnameInput" type="text" formControlName="fullname" class="uinput"
+                    [value]="user_account.display_name">
+                </div>
+                <div class="half-split-collumn ps-3">
+                  <label for="usernameInput" class="ulabel">Username</label>
+                  <input id="usernameInput" type="text" formControlName="username" class="uinput"
+                    [value]="user_account.username">
+                </div>
+                <label for="bioInput" class="ulabel">Bio ( <i>Up to 80 characters</i> )</label>
+                <input id="bioInput" type="text" formControlName="bio" class="uinput" [value]="user_account.bio">
+
+                <div class="half-split-collumn pe-3">
+                  <label for="cityInput" class="ulabel">City</label>
+                  <input id="cityInput" type="text" formControlName="city" class="uinput"
+                    [value]="user_account.location.city">
+                </div>
+                <div class="half-split-collumn ps-3">
+                  <label for="countryInput" class="ulabel">Country</label>
+                  <input id="countryInput" type="text" formControlName="country" class="uinput"
+                    [value]="user_account.location.country">
+                </div>
+
+                <p class="ulabel">Social link</p>
+                <div class="row">
+                  <div class="col-4">
+                    <select class="uselect">
+                      <option value="" selected disabled>Add a social link</option>
+                      <option value="fb">Facebook</option>
+                      <option value="in">Instagram</option>
+                      <option value="tik">Tiktok</option>
+                      <option value="ytb">Youtube</option>
+                      <option value="twt">Twitter</option>
+                    </select>
+                  </div>
+                  <div class="col-8 ps-5">
+                    <input class="uinput social-link" type="text">
+                  </div>
+                </div>
+                <p class="change-error" #changeError></p>
+                <div class="submit-btn-holder">
+                  <button type="submit" class="ud-submit-btn">Comfirm changes</button>
+                </div>
+              </form>
+            </div>
+            <div class="col-5">
+              <div class="ptitle">
+                <p>Profile photo</p>
+              </div>
+              <div class="pmain">
+                <div class="img-holder">
+                  <button type="button" class="chooseImgBtn" (click)="editAvatar()">
+                    <p><i class="fi fi-rr-edit"></i> Edit</p>
+                  </button>
+                  <img [src]="user_account.avatar" alt="avatar">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="upload-main-wrapper" #uploadmain>
+            <div class="upload-main">
+              <div *ngIf="!imageUrl" class="drag-drop-field" (dragenter)="onDragEnter($event)"
+                (dragleave)="onDragLeave($event)" (dragover)="onDragOver($event)" (drop)="onDrop($event)"
+                #dragdropfield>
+                <div class="drag-drop-img">
+                  <label for="fileInput" class="drag-drop-label">
+                    <img class="add-img" src="../../assets/graphics/add_img.png">
+                    <p class="add-img-title">
+                      Drag and drop images<br>or <span class="text-blue">browse</span> to choose a file
+                    </p>
+                  </label>
+                  <input id="fileInput" type="file" accept="image/jpeg, image/png" (change)="previewWallpaper()"
+                    class="drag-drop-input" />
+                </div>
+              </div>
+              <div *ngIf="imageUrl" class="preview-img-holder">
+                <img [src]="imageUrl" class="preview-img" #previewImg>
+              </div>
+              <div class="noti-holder" #notiHolder>
+                <div class="provide-infor-inner">
+                  <div class="text-center">
+                    <img src="../../assets/graphics/checked.png" class="check-icon">
+                  </div>
+                  <p class="provide-infor-title mt-2">Change avatar successfully<br>Please wait for change!</p>
+                  <div class="text-center mt-2">
+                    <button type="button" class="submit-btn" (click)="onClickContinueUploadAvatar()">
+                      Continue
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="upload-onbottom">
+                <hr class="separate-line">
+                <div class="btn-wrapper" #btn_wrapper>
+                  <button type="button" class="browse-btn" (click)="browseWallpaper()" #browse_btn>
+                    Browse Another!
+                  </button>
+                  <div class="btn-holder right">
+                    <button type="button" class="cancel-btn" (click)="onCancelUpload()">
+                      Cancel
+                    </button>
+                    <button type="button" class="upload-btn" (click)="onClickUpload()" #upload_btn>
+                      Upload Now!
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <!-- payment tab -->
+        <div class="sorry-holder" *ngSwitchCase="'Payment'">
+          <img class="sorry-icon" src="../../assets/graphics/sorry.png" alt="sorry">
+          <p class="sorry-title">We're sorry, but this feature is <span class="text-red">not</span> currently supported.
+          </p>
+        </div>
+        <!-- security tab -->
+        <div class="sorry-holder" *ngSwitchCase="'Security'">
+          <img class="sorry-icon" src="../../assets/graphics/sorry.png" alt="sorry">
+          <p class="sorry-title">We're sorry, but this feature is <span class="text-red">not</span> currently supported.
+          </p>
+        </div>
+      </ng-container>
+    </div>
+  </div>
 </div>
 <app-Footer></app-Footer>
